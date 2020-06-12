@@ -1,11 +1,9 @@
-import '../home.dart';
+import 'package:customerappgrihasti/views/splashScreen.dart';
 import 'package:flutter/material.dart';
-
-import 'globalVariables.dart';
 
 Map<String, Widget Function(BuildContext)> Router() {
 	var router = {
-		'/' : (_) => landing,
+		'/' : (_) => Splash(),
 	};
 
 	return router;

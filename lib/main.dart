@@ -1,3 +1,4 @@
+import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/Services/localAuth.dart';
 import 'package:customerappgrihasti/Services/router.dart';
 import 'package:customerappgrihasti/Services/secureStorage.dart';
@@ -40,12 +41,12 @@ class _GrihastiAppState extends State<GrihastiApp> {
       ],
       theme: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.red,
+        primaryColor: Color(0xFFCC1A18),
         accentColor: Colors.redAccent
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Colors.red,
+        primaryColor: Color(0xFFCC1A18),
         accentColor: Colors.redAccent
       ),
     );
