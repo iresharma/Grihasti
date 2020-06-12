@@ -1,3 +1,4 @@
+import 'package:customerappgrihasti/Services/secureStorage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -11,10 +12,13 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return Scaffold(
 		body: Center(
-			child: Text(
-				'App',
-				style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-			),
+			child: FlatButton(
+				child: Text(
+					'App',
+					style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+				),
+				onPressed: () => writeData({"logged": "false"}),
+			)
 		),
 	);
   }

@@ -115,7 +115,7 @@ class _IntroScrollerState extends State<IntroScroller> {
 				height: 300,
 				width: 300,
 				child: FlareActor(
-					'assets/animation/delivery scooter.flr',
+					'assets/animation/delivery_scooter.flr',
 					alignment: Alignment.center,
 					fit: BoxFit.contain,
 					sizeFromArtboard: true,

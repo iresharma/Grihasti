@@ -20,4 +20,4 @@ double devwidth = 0;
 Color primaryMain = Color(0xFFCC1A18);
 Color primarySec = Colors.redAccent;
 Color secondaryMain = Colors.white;
-Colors secondarySec;
+Color secondarySec = Colors.yellow;
