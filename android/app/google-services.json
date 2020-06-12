@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "699714495726",
+    "firebase_url": "https://grihasti-nirmal.firebaseio.com",
+    "project_id": "grihasti-nirmal",
+    "storage_bucket": "grihasti-nirmal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699714495726:android:e5217984ad9326fad3bfff",
+        "android_client_info": {
+          "package_name": "com.nirmal.customerappgrihasti"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "699714495726-1r4g9bdv9vpg9ecdjs06sjahik3hlc5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nirmal.customerappgrihasti",
+            "certificate_hash": "5829c577bbc07b2f64c37b4b36219e5ae0a3832f"
+          }
+        },
+        {
+          "client_id": "699714495726-u55tpn6p3dl2sn6av9fgeauuqc9ge22i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAgF7R6zIzQT6_Qh0nKmBtGimpucc-ZrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "699714495726-u55tpn6p3dl2sn6av9fgeauuqc9ge22i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>699714495726-10k4bs2d2co5depci2jk9adj5e7g3gjk.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.699714495726-10k4bs2d2co5depci2jk9adj5e7g3gjk</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>699714495726-1r4g9bdv9vpg9ecdjs06sjahik3hlc5i.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB3PD0HctmhWKYGxMRl-Zx2utkgEyZdZmI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>699714495726</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.nirmal.customerappgrihasti</string>
+	<key>PROJECT_ID</key>
+	<string>grihasti-nirmal</string>
+	<key>STORAGE_BUCKET</key>
+	<string>grihasti-nirmal.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:699714495726:ios:a704bf7b49ba6a9ad3bfff</string>
+	<key>DATABASE_URL</key>
+	<string>https://grihasti-nirmal.firebaseio.com</string>
+</dict>
+</plist>
