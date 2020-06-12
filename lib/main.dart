@@ -1,8 +1,16 @@
+import 'package:customerappgrihasti/Services/localAuth.dart';
+import 'package:customerappgrihasti/Services/router.dart';
+import 'package:customerappgrihasti/Services/secureStorage.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
+import 'Services/dynamicLinks.dart';
 import 'Services/freebaseCloudMessaging.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
+
+FirebaseAnalytics analytics = FirebaseAnalytics();
+String launch = 'Normal';
 
 void main() => runApp(GrihastiApp());
 
@@ -12,22 +20,34 @@ class GrihastiApp extends StatefulWidget {
 }
 
 class _GrihastiAppState extends State<GrihastiApp> {
+
+  void startup() async {
+    initFCM();
+    await initLA();
+    await loadData();
+    await handleDynamicLink();
+  }
+
   @override
   Widget build(BuildContext context) {
-    initFCM();
-//    Firestore.instance.collection('test').document().setData({
-//      'data': 'test data'
-//    });
-      var _razorPay = new Razorpay();
+    startup();
     return MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: Text(
-              'Hey',
-              style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-            ),
-          ),
-        )
+      title: 'Grihasti',
+      initialRoute: '/',
+      routes: Router(),
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics)
+      ],
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.red,
+        accentColor: Colors.redAccent
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.red,
+        accentColor: Colors.redAccent
+      ),
     );
   }
 }

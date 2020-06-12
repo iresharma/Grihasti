@@ -30,13 +30,17 @@ dependencies:
   cloud_firestore: 0.12.9+5
   cloud_functions: ^0.5.0
   firebase_dynamic_links: ^0.5.1
-  flutter_launcher_icons: ^0.7.5
   flutter_icons: ^1.1.0
   razorpay_flutter: ^1.2.0
+  local_auth: ^0.6.2+3
+  intro_slider: ^2.3.1
+  flutter_secure_storage: ^3.3.3
+  permission_handler: ^5.0.0+hotfix.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.7.5
 
 
 # For information on the generic Dart part of this file, see the
