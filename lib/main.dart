@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'Services/dynamicLinks.dart';
 import 'Services/freebaseCloudMessaging.dart';
 
-FirebaseAnalytics analytics = FirebaseAnalytics();
+FirebaseAnalytics analytics;
 String launch = 'Normal';
 
 void main() => runApp(GrihastiApp());
@@ -27,6 +27,8 @@ class _GrihastiAppState extends State<GrihastiApp> {
     await initLA();
     await loadData();
     await handleDynamicLink();
+    analytics = FirebaseAnalytics();
+    analytics.logAppOpen();
   }
 
   @override
@@ -36,9 +38,6 @@ class _GrihastiAppState extends State<GrihastiApp> {
       title: 'Grihasti',
       initialRoute: '/',
       routes: Router(),
-      navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: analytics)
-      ],
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: Color(0xFFCC1A18),

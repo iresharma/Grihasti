@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 
 Map<String, dynamic> User = {
-	"name": '',
-	"uid": '',
-	"photoUrl": '',
+	"Name": '',
+	"Uid": '',
+	"PhotoUrl": '',
 	"Coins": 0,
-	"tel": '',
-	"Address": []
+	"Tel": '',
+	"Address": [],
+	'Email': ''
 };
 
 Widget landing;

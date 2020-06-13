@@ -184,7 +184,6 @@ class _IntroScrollerState extends State<IntroScroller> {
 		onDonePress: this.onDonePress,
 		colorDoneBtn: Color(0x33000000),
 		highlightColorDoneBtn: Color(0xff000000),
-		shouldHideStatusBar: true,
 		backgroundColorAllSlides: Colors.grey,
 	);
   }

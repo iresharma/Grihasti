@@ -8,9 +8,9 @@ final storage = new FlutterSecureStorage();
 Future<Null> loadData() async {
 	User = await storage.readAll();
 	landing = User['logged'] == "false" || User['logged'] == null ? IntroScroller() : App();
-	print(User);
 }
 
 Future<Null> writeData(Map<String, String> data) async {
 	data.forEach((key, values) async => await storage.write(key: key, value: values));
+	print(await storage.readAll());
 }

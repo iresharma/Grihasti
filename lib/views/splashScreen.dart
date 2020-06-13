@@ -5,6 +5,7 @@ import 'package:customerappgrihasti/components/colorCircleLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+
 class Splash extends StatefulWidget {
   @override
   _SplashState createState() => _SplashState();
