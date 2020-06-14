@@ -8,13 +8,13 @@ import 'package:customerappgrihasti/components/colorCircleLoader.dart';
 import 'package:customerappgrihasti/components/loaderfade.dart';
 import 'package:customerappgrihasti/main.dart';
 import 'package:customerappgrihasti/views/app.dart';
+import 'package:customerappgrihasti/views/user/register.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:crypto/crypto.dart';
-import 'dart:convert';
+import 'package:steel_crypt/steel_crypt.dart';
 
 
 class Login extends StatefulWidget {
@@ -180,7 +180,7 @@ class _LoginState extends State<Login> {
 																},
 																decoration: InputDecoration(
 																	icon: Icon(FlutterIcons.passport_mco),
-																	hintText: 'Your email address',
+																	hintText: 'Your password',
 																	suffixIcon: IconButton(
 																		icon: Icon(FlutterIcons.eye_ant),
 																		onPressed: () {
@@ -252,7 +252,10 @@ class _LoginState extends State<Login> {
 																fontSize: 13
 															),
 														),
-														onPressed: () => print('Regiter'),
+														onPressed: () => Navigator.of(context).pushNamed(
+															'/register',
+															arguments: RegS('', '')
+														),
 													),
 												],
 											),
@@ -268,9 +271,9 @@ class _LoginState extends State<Login> {
 
   void login(BuildContext context) async {
 		if(_formKey.currentState.validate()) {
-			var passEn = utf8.encode(pass);
-			var passHash = sha256.convert(passEn);
-			Firestore.instance.collection('customer').where('Email', isEqualTo: User['Email']).snapshots().listen((onValue) {
+			Firestore.instance.collection('customer').where('Email', isEqualTo: User['Email']).getDocuments().then((onValue) {
+				var hasher = HashCrypt('sha256');
+				var passHash = hasher.hash(pass);
 				if(onValue.documents.length != 0) {
 					onValue.documents.forEach((user) async {
 						if(user.data['passHash'].toString() == passHash.toString()) {
@@ -278,20 +281,19 @@ class _LoginState extends State<Login> {
 								animate = true;
 							});
 							User['Name'] = user.data['Name'];
-							User['Uid'] = user.data['Uid'];
+							User['Uid'] = user.documentID;
 							User['PhotoUrl'] = user.data['PhotoUrl'];
 							User['Tel'] = user.data['Tel'].toString();
 							if(user.data['Noti'] != Noti) {
-								Firestore.instance.collection('customer').document(user.data['Uid']).setData({
-									"Noti" : Noti
+								Firestore.instance.collection('customer').document(user.documentID).updateData({
+									'Token': Noti
 								});
 							}
-//							User['Address'] = [];
 							writeData({
 								'Uid' : user.data['Uid'].toString(),
 								'Name' : user.data['name'],
 								'PhotoUrl': user.data['PhtotUrl'],
-								'Tel': user.data['Tel'],
+								'Tel': user.data['Tel'].toString(),
 								'logged' : "true"
 							});
 							await analytics.logLogin();
@@ -331,7 +333,10 @@ class _LoginState extends State<Login> {
 										child: Text(
 											'Register'
 										),
-										onPressed: () => print('register'),
+										onPressed: () => Navigator.of(context).pushNamed(
+											'/register',
+											arguments: RegS(pass, User['Email'])
+										),
 									)
 								],
 							),

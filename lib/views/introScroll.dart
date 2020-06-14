@@ -1,5 +1,5 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
-import 'package:customerappgrihasti/views/login.dart';
+import 'package:customerappgrihasti/views/user/login.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
