@@ -124,7 +124,7 @@ class _RegisterpageState extends State<Registerpage> {
 						mainAxisSize: MainAxisSize.max,
 						children: <Widget>[
 							Expanded(
-								flex: 6,
+								flex: 7,
 								child: SingleChildScrollView(
 									child: Form(
 										key: _form,
@@ -256,7 +256,7 @@ class _RegisterpageState extends State<Registerpage> {
 								),
 							),
 							Expanded(
-								flex: 2,
+								flex: 3,
 								child: Container(
 									height: MediaQuery.of(context).size.height/5,
 									decoration: BoxDecoration(

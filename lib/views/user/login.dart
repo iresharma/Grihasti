@@ -11,6 +11,7 @@ import 'package:customerappgrihasti/views/app.dart';
 import 'package:customerappgrihasti/views/user/register.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -40,6 +41,158 @@ class _LoginState extends State<Login> {
 		showPass = false;
 		validateE = false;
 		validateP = false;
+	}
+
+
+	void login(BuildContext context) async {
+		if(_formKey.currentState.validate()) {
+			Firestore.instance.collection('customer').where('Email', isEqualTo: User['Email']).getDocuments().then((onValue) {
+				var hasher = HashCrypt('sha256');
+				var passHash = hasher.hash(pass);
+				if(onValue.documents.length != 0) {
+					onValue.documents.forEach((user) async {
+						if(user.data['passHash'].toString() == passHash.toString()) {
+							setState(() {
+								animate = true;
+							});
+							User['Name'] = user.data['Name'];
+							User['Uid'] = user.documentID;
+							User['PhotoUrl'] = user.data['PhotoUrl'];
+							User['Tel'] = user.data['Tel'].toString();
+							if(user.data['Noti'] != Noti) {
+								Firestore.instance.collection('customer').document(user.documentID).updateData({
+									'Token': Noti
+								});
+							}
+							writeData({
+								'Uid' : user.data['Uid'].toString(),
+								'Name' : user.data['name'],
+								'PhotoUrl': user.data['PhtotUrl'],
+								'Tel': user.data['Tel'].toString(),
+								'logged' : "true"
+							});
+							await analytics.logLogin();
+							Navigator.of(context).pushReplacement(
+								new MaterialPageRoute(
+									builder: (_) => App()
+								)
+							);
+						}
+						else {
+							Scaffold.of(context).showSnackBar(SnackBar(
+								content: Container(
+									height: 15,
+									child: Text(
+										'Incorrext password',
+										style: TextStyle(
+											color: Colors.red
+										),
+									),
+								),
+								duration: Duration(seconds: 2),
+							));
+						}
+					});
+				}
+				else {
+					Scaffold.of(context).showSnackBar(SnackBar(
+						content: Container(
+							height: 15,
+							child: Row(
+								mainAxisAlignment: MainAxisAlignment.spaceBetween,
+								children: <Widget>[
+									Text(
+										'User not found'
+									),
+									FlatButton(
+										child: Text(
+											'Register'
+										),
+										onPressed: () => Navigator.of(context).pushNamed(
+											'/register',
+											arguments: RegS(pass, User['Email'])
+										),
+									)
+								],
+							),
+						),
+						duration: Duration(seconds: 2),
+					));
+				}
+			});
+		}
+	}
+
+	void forg(context) async {
+		if(User['Email'] != '' && User['Email'] != null) {
+			Firestore.instance.collection('customer').where('Email', isEqualTo: User['Email']).getDocuments().then((onValue) {
+				if(onValue.documents.length != 0) {
+					onValue.documents.forEach((doc) async {
+						DynamicLinkParameters parameters = new DynamicLinkParameters(
+							uriPrefix: 'https://nirmal.page.link/forgotPasss/' + doc.documentID,
+							link: Uri.parse('https://grihasti.com/forgot/' + doc.documentID),
+							androidParameters: AndroidParameters(
+								packageName: 'com.nirmal.customerappgrihasti',
+								minimumVersion: 0
+							),
+							iosParameters: IosParameters(
+								bundleId: 'com.nirmal.customerappgrihasti',
+								minimumVersion: '1.0.0',
+								appStoreId: '962194608'
+							),
+							socialMetaTagParameters: SocialMetaTagParameters(
+								title: 'Grihasti app reset password',
+								description: 'Click on the link to reset password for tour account with ' + doc.data['Name'].toString()
+							)
+						);
+						final Uri forgetLink = await parameters.buildUrl();
+						print(forgetLink);
+					});
+				}
+				else {
+					Scaffold.of(context).showSnackBar(SnackBar(
+						content: Container(
+							height: 15,
+							child: Row(
+								mainAxisAlignment: MainAxisAlignment
+									.spaceBetween,
+								children: <Widget>[
+									Text(
+										'User not found'
+									),
+									FlatButton(
+										child: Text(
+											'Register'
+										),
+										onPressed: () =>
+											Navigator.of(context).pushNamed(
+												'/register',
+												arguments: RegS(
+													pass, User['Email'])
+											),
+									)
+								],
+							),
+						),
+						duration: Duration(seconds: 2),
+					));
+				}
+			});
+		}
+		else {
+			Scaffold.of(context).showSnackBar(SnackBar(
+				content: Container(
+					height: 15,
+					child: Text(
+						'Enter email',
+						style: TextStyle(
+							color: Colors.red
+						),
+					),
+				),
+				duration: Duration(seconds: 2),
+			));
+		}
 	}
 
   	@override
@@ -201,7 +354,7 @@ class _LoginState extends State<Login> {
 																			fontSize: 10
 																		),
 																	),
-																	onPressed: () => print('Forgot passowrd'),
+																	onPressed: () => forg(context),
 																),
 															)
 														],
@@ -269,82 +422,5 @@ class _LoginState extends State<Login> {
 		);
   	}
 
-  void login(BuildContext context) async {
-		if(_formKey.currentState.validate()) {
-			Firestore.instance.collection('customer').where('Email', isEqualTo: User['Email']).getDocuments().then((onValue) {
-				var hasher = HashCrypt('sha256');
-				var passHash = hasher.hash(pass);
-				if(onValue.documents.length != 0) {
-					onValue.documents.forEach((user) async {
-						if(user.data['passHash'].toString() == passHash.toString()) {
-							setState(() {
-								animate = true;
-							});
-							User['Name'] = user.data['Name'];
-							User['Uid'] = user.documentID;
-							User['PhotoUrl'] = user.data['PhotoUrl'];
-							User['Tel'] = user.data['Tel'].toString();
-							if(user.data['Noti'] != Noti) {
-								Firestore.instance.collection('customer').document(user.documentID).updateData({
-									'Token': Noti
-								});
-							}
-							writeData({
-								'Uid' : user.data['Uid'].toString(),
-								'Name' : user.data['name'],
-								'PhotoUrl': user.data['PhtotUrl'],
-								'Tel': user.data['Tel'].toString(),
-								'logged' : "true"
-							});
-							await analytics.logLogin();
-							Navigator.of(context).pushReplacement(
-								new MaterialPageRoute(
-									builder: (_) => App()
-								)
-							);
-						}
-						else {
-							Scaffold.of(context).showSnackBar(SnackBar(
-								content: Container(
-									height: 15,
-									child: Text(
-										'Incorrext password',
-										style: TextStyle(
-											color: Colors.red
-										),
-									),
-								),
-								duration: Duration(seconds: 2),
-							));
-						}
-					});
-				}
-				else {
-					Scaffold.of(context).showSnackBar(SnackBar(
-						content: Container(
-							height: 15,
-							child: Row(
-								mainAxisAlignment: MainAxisAlignment.spaceBetween,
-								children: <Widget>[
-									Text(
-										'User not found'
-									),
-									FlatButton(
-										child: Text(
-											'Register'
-										),
-										onPressed: () => Navigator.of(context).pushNamed(
-											'/register',
-											arguments: RegS(pass, User['Email'])
-										),
-									)
-								],
-							),
-						),
-						duration: Duration(seconds: 2),
-					));
-				}
-			});
-		}
-  }
+
 }

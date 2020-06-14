@@ -1,10 +1,13 @@
+import 'package:customerappgrihasti/views/user/forgotPass.dart';
+import 'package:customerappgrihasti/views/user/login.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../main.dart';
 
 Future handleDynamicLink() async {
 
-	//handle opening of app through deep link
 	PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
 
 	_handleDeepLink(data);
@@ -21,10 +24,12 @@ Future handleDynamicLink() async {
 
 }
 
-void _handleDeepLink(data) async {
+Future<Route> _handleDeepLink(data) async {
 	final Uri deeplink = data?.link;
 	if(deeplink != null) {
 		print('link $deeplink');
-		launch = 'through link';
+		if(RegExp('https:\/\/grihasti.com\/forgot\/').hasMatch(deeplink.toString())) {
+			return new MaterialPageRoute(builder: (_) => ForgotPass(deeplink.toString().split('/')[4]));
+		}
 	}
 }
