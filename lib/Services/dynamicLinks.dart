@@ -5,17 +5,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
+import 'globalVariables.dart';
 
 Future handleDynamicLink() async {
 
 	PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
 
-	_handleDeepLink(data);
+	await _handleDeepLink(data);
 
 	//handle reappearing app through deep link
 	FirebaseDynamicLinks.instance.onLink(
 		onSuccess: (PendingDynamicLinkData data) async {
-			_handleDeepLink(data);
+			await _handleDeepLink(data);
 		},
 		onError: (OnLinkErrorException e) async {
 			print('Error $e');
@@ -24,12 +25,12 @@ Future handleDynamicLink() async {
 
 }
 
-Future<Route> _handleDeepLink(data) async {
+Future<void> _handleDeepLink(data) async {
 	final Uri deeplink = data?.link;
 	if(deeplink != null) {
-		print('link $deeplink');
+		print(RegExp('https:\/\/grihasti.com\/forgot\/').hasMatch(deeplink.toString()));
 		if(RegExp('https:\/\/grihasti.com\/forgot\/').hasMatch(deeplink.toString())) {
-			return new MaterialPageRoute(builder: (_) => ForgotPass(deeplink.toString().split('/')[4]));
+			landing = ForgotPass(deeplink.toString().split('/')[4]);
 		}
 	}
 }

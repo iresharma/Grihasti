@@ -11,7 +11,6 @@ import 'Services/dynamicLinks.dart';
 import 'Services/freebaseCloudMessaging.dart';
 
 FirebaseAnalytics analytics;
-String launch = 'Normal';
 
 void main() => runApp(GrihastiApp());
 
@@ -44,7 +43,7 @@ class _GrihastiAppState extends State<GrihastiApp> {
         accentColor: Colors.redAccent
       ),
       darkTheme: ThemeData(
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         primaryColor: Color(0xFFCC1A18),
         accentColor: Colors.redAccent
       ),

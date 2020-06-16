@@ -4,18 +4,17 @@ import 'package:customerappgrihasti/Services/freebaseCloudMessaging.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/Services/secureStorage.dart';
 import 'package:customerappgrihasti/components/btnWithIcon.dart';
-import 'package:customerappgrihasti/components/colorCircleLoader.dart';
 import 'package:customerappgrihasti/components/loaderfade.dart';
 import 'package:customerappgrihasti/main.dart';
-import 'package:customerappgrihasti/views/app.dart';
+import 'package:customerappgrihasti/views/Screens/handler.dart';
 import 'package:customerappgrihasti/views/user/register.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:steel_crypt/steel_crypt.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class Login extends StatefulWidget {
@@ -74,7 +73,7 @@ class _LoginState extends State<Login> {
 							await analytics.logLogin();
 							Navigator.of(context).pushReplacement(
 								new MaterialPageRoute(
-									builder: (_) => App()
+									builder: (_) => MainApp()
 								)
 							);
 						}
@@ -129,11 +128,11 @@ class _LoginState extends State<Login> {
 				if(onValue.documents.length != 0) {
 					onValue.documents.forEach((doc) async {
 						DynamicLinkParameters parameters = new DynamicLinkParameters(
-							uriPrefix: 'https://nirmal.page.link/forgotPasss/' + doc.documentID,
+							uriPrefix: 'https://nirmal.page.link/forgotPass' + doc.documentID,
 							link: Uri.parse('https://grihasti.com/forgot/' + doc.documentID),
 							androidParameters: AndroidParameters(
 								packageName: 'com.nirmal.customerappgrihasti',
-								minimumVersion: 0
+								minimumVersion: 1
 							),
 							iosParameters: IosParameters(
 								bundleId: 'com.nirmal.customerappgrihasti',
@@ -146,7 +145,7 @@ class _LoginState extends State<Login> {
 							)
 						);
 						final Uri forgetLink = await parameters.buildUrl();
-						print(forgetLink);
+						await launch(forgetLink.toString());
 					});
 				}
 				else {

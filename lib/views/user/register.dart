@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:steel_crypt/steel_crypt.dart';
 
-import '../app.dart';
+import '../Screens/handler.dart';
 
 class RegS {
 	final String pass;
@@ -66,7 +66,7 @@ class _RegisterpageState extends State<Registerpage> {
 					});
 					Navigator.of(context).pushReplacement(
 						new MaterialPageRoute(
-							builder: (_) => App()
+							builder: (_) => MainApp()
 						)
 					);
 				}
