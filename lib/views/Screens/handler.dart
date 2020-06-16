@@ -1,6 +1,7 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/Services/secureStorage.dart';
 import 'package:customerappgrihasti/views/Screens/Category/categoryList.dart';
+import 'package:customerappgrihasti/views/Screens/Proflie/profile_page.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -123,10 +124,7 @@ class _MainAppState extends State<MainApp> {
 							),
 						),
 						Center(
-							child: Text(
-								'4',
-								style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-							),
+							child: ProfilePage(),
 						)
 					],
 					controller: _pageController,

@@ -66,7 +66,9 @@ class _CatlistState extends State<Catlist> {
 					);
 				}
 				else {
-					return CircularProgressIndicator();
+					return Center(
+						child: CircularProgressIndicator()
+					);
 				}
 			},
 		),
