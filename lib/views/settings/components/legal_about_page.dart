@@ -55,14 +55,6 @@ class _LegalAboutPageState extends State<LegalAboutPage> {
                       title: Text('License'),
                       trailing: Icon(Icons.chevron_right),
                     ),
-                    ListTile(
-                      title: Text('Seller Policy'),
-                      trailing: Icon(Icons.chevron_right),
-                    ),
-                    ListTile(
-                      title: Text('Return Policy'),
-                      trailing: Icon(Icons.chevron_right),
-                    ),
                   ],
                 ),
               ),

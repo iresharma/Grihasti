@@ -2,6 +2,7 @@ import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/Services/secureStorage.dart';
 import 'package:customerappgrihasti/views/Screens/Category/categoryList.dart';
 import 'package:customerappgrihasti/views/Screens/Proflie/profile_page.dart';
+import 'package:customerappgrihasti/views/Screens/Poducts/products.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,7 +54,9 @@ class _MainAppState extends State<MainApp> {
 						child: TextField(
 							decoration: InputDecoration(
 								hintText: 'Search ..',
-								prefixIcon: Icon(FlutterIcons.search1_ant)
+								prefixIcon: Icon(FlutterIcons.search1_ant),
+								focusColor: secondaryMain,
+								fillColor: secondaryMain
 							)
 						),
 					)
@@ -67,7 +70,10 @@ class _MainAppState extends State<MainApp> {
 								),
 							),
 							IconButton(
-								icon: Icon(FlutterIcons.search1_ant),
+								icon: Icon(
+									FlutterIcons.search1_ant,
+									color: Colors.white,
+								),
 								onPressed: () {
 									setState(() {
 										isSearch = true;
@@ -96,17 +102,7 @@ class _MainAppState extends State<MainApp> {
 			children: <Widget>[
 				PageView(
 					children: <Widget>[
-						Center(
-							child: FlatButton(
-								child: Text(
-									'1',
-									style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-								),
-								onPressed: () => writeData({
-									'logged': "false"
-								}),
-							),
-						),
+						ProductPage(),
 						Center(
 							child: Container(
 								child: Catlist(),

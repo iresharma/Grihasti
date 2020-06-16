@@ -1,6 +1,7 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
-import 'package:customerappgrihasti/views/Screens/Proflie/settings/settings_page.dart';
+import 'package:customerappgrihasti/views/settings/settings_page.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -108,6 +109,20 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 Divider(),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: FlatButton(
+                      child: Text(
+                          'Developed with ♥️ by iresharma and team'
+                      ),
+                      onPressed: () => launch('https://iresharma.me'),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

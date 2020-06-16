@@ -116,199 +116,201 @@ class _RegisterpageState extends State<Registerpage> {
 				),
 			),
 			backgroundColor: Color(0xefffffff),
-			body: Stack(
-				fit: StackFit.expand,
-				children: <Widget>[
-					Column(
-						mainAxisAlignment: MainAxisAlignment.spaceBetween,
-						mainAxisSize: MainAxisSize.max,
-						children: <Widget>[
-							Expanded(
-								flex: 7,
-								child: SingleChildScrollView(
-									child: Form(
-										key: _form,
-										child: Padding(
-											padding: EdgeInsets.symmetric(
-												vertical: 40,
-												horizontal: 30
-											),
-											child: Column(
-												mainAxisAlignment: MainAxisAlignment.spaceAround,
-												crossAxisAlignment: CrossAxisAlignment.center,
-												children: <Widget>[
-													Text(
-														'REGISTER',
-														style: TextStyle(
-															color: Colors.grey,
-															fontWeight: FontWeight.w600,
-															fontSize: 30
+			body: SingleChildScrollView(
+				child: Stack(
+					fit: StackFit.expand,
+					children: <Widget>[
+						Column(
+							mainAxisAlignment: MainAxisAlignment.spaceBetween,
+							mainAxisSize: MainAxisSize.max,
+							children: <Widget>[
+								Expanded(
+									flex: 7,
+									child: SingleChildScrollView(
+										child: Form(
+											key: _form,
+											child: Padding(
+												padding: EdgeInsets.symmetric(
+													vertical: 40,
+													horizontal: 30
+												),
+												child: Column(
+													mainAxisAlignment: MainAxisAlignment.spaceAround,
+													crossAxisAlignment: CrossAxisAlignment.center,
+													children: <Widget>[
+														Text(
+															'REGISTER',
+															style: TextStyle(
+																color: Colors.grey,
+																fontWeight: FontWeight.w600,
+																fontSize: 30
+															),
 														),
-													),
-													SizedBox(height: 60,),
-													TextFormField(
-														validator: (value) {
-															if(value.isEmpty) {
-																return 'Enter some value';
-															}
-															User['Name'] = value;
-															return null;
-														},
-														keyboardType: TextInputType.text,
-														keyboardAppearance: mode,
-														decoration: InputDecoration(
-															icon: Icon(FlutterIcons.user_astronaut_faw5s),
-															hintText: 'Your name',
+														SizedBox(height: 60,),
+														TextFormField(
+															validator: (value) {
+																if(value.isEmpty) {
+																	return 'Enter some value';
+																}
+																User['Name'] = value;
+																return null;
+															},
+															keyboardType: TextInputType.text,
+															keyboardAppearance: mode,
+															decoration: InputDecoration(
+																icon: Icon(FlutterIcons.user_astronaut_faw5s),
+																hintText: 'Your name',
+															),
 														),
-													),
-													SizedBox(height: 20,),
-													TextFormField(
-														validator: (value) {
-															if(value.isEmpty) {
-																return 'Enter some value';
-															}
-															User['Email'] = value;
-															return null;
-														},
-														keyboardType: TextInputType.emailAddress,
-														initialValue: args.email,
-														keyboardAppearance: mode,
-														decoration: InputDecoration(
-															icon: Icon(FlutterIcons.mail_fea),
-															hintText: 'Your email address',
+														SizedBox(height: 20,),
+														TextFormField(
+															validator: (value) {
+																if(value.isEmpty) {
+																	return 'Enter some value';
+																}
+																User['Email'] = value;
+																return null;
+															},
+															keyboardType: TextInputType.emailAddress,
+															initialValue: args.email,
+															keyboardAppearance: mode,
+															decoration: InputDecoration(
+																icon: Icon(FlutterIcons.mail_fea),
+																hintText: 'Your email address',
+															),
 														),
-													),
-													SizedBox(height: 20,),
-													TextFormField(
-														validator: (value) {
-															if(value.isEmpty) {
-																return 'Enter some value';
-															}
-															password = value;
-															return null;
-														},
-														keyboardType: TextInputType.text,
-														obscureText: isPass,
-														keyboardAppearance: mode,
-														decoration: InputDecoration(
-															icon: Icon(FlutterIcons.lock1_ant),
-															hintText: 'Password',
-															labelText: 'Password',
-															suffixIcon: IconButton(
-																icon: isPass ? Icon(FlutterIcons.eye_ant) : Icon(FlutterIcons.eye_off_fea),
-																onPressed: () {
-																	setState(() {
-																		isPass = !isPass;
-																	});
-																},
-															)
+														SizedBox(height: 20,),
+														TextFormField(
+															validator: (value) {
+																if(value.isEmpty) {
+																	return 'Enter some value';
+																}
+																password = value;
+																return null;
+															},
+															keyboardType: TextInputType.text,
+															obscureText: isPass,
+															keyboardAppearance: mode,
+															decoration: InputDecoration(
+																icon: Icon(FlutterIcons.lock1_ant),
+																hintText: 'Password',
+																labelText: 'Password',
+																suffixIcon: IconButton(
+																	icon: isPass ? Icon(FlutterIcons.eye_ant) : Icon(FlutterIcons.eye_off_fea),
+																	onPressed: () {
+																		setState(() {
+																			isPass = !isPass;
+																		});
+																	},
+																)
+															),
+															initialValue: args.pass,
 														),
-														initialValue: args.pass,
-													),
-													SizedBox(height: 20,),
-													TextFormField(
-														validator: (value) {
-															if(value.isEmpty) {
-																return 'Enter some value';
-															}
-															if(value != password) {
-																return 'Should match password';
-															}
-															return null;
-														},
-														keyboardType: TextInputType.text,
-														obscureText: isPass,
-														keyboardAppearance: mode,
-														decoration: InputDecoration(
-															icon: Icon(FlutterIcons.lock1_ant),
-															hintText: 'Confirm password',
-															suffixIcon: IconButton(
-																icon: isPass ? Icon(FlutterIcons.eye_ant) : Icon(FlutterIcons.eye_off_fea),
-																onPressed: () {
-																	setState(() {
-																		isPass = !isPass;
-																	});
-																},
-															)
+														SizedBox(height: 20,),
+														TextFormField(
+															validator: (value) {
+																if(value.isEmpty) {
+																	return 'Enter some value';
+																}
+																if(value != password) {
+																	return 'Should match password';
+																}
+																return null;
+															},
+															keyboardType: TextInputType.text,
+															obscureText: isPass,
+															keyboardAppearance: mode,
+															decoration: InputDecoration(
+																icon: Icon(FlutterIcons.lock1_ant),
+																hintText: 'Confirm password',
+																suffixIcon: IconButton(
+																	icon: isPass ? Icon(FlutterIcons.eye_ant) : Icon(FlutterIcons.eye_off_fea),
+																	onPressed: () {
+																		setState(() {
+																			isPass = !isPass;
+																		});
+																	},
+																)
+															),
+															initialValue: args.pass,
 														),
-														initialValue: args.pass,
-													),
-													SizedBox(height: 20,),
-													TextFormField(
-														validator: (value) {
-															if(value.isEmpty) {
-																return 'Enter some value';
-															}
-															User['tel'] = value;
-															return null;
-														},
-														keyboardType: TextInputType.phone,
-														keyboardAppearance: mode,
-														decoration: InputDecoration(
-															icon: Icon(FlutterIcons.phone_fea),
-															hintText: 'Your phone number',
+														SizedBox(height: 20,),
+														TextFormField(
+															validator: (value) {
+																if(value.isEmpty) {
+																	return 'Enter some value';
+																}
+																User['tel'] = value;
+																return null;
+															},
+															keyboardType: TextInputType.phone,
+															keyboardAppearance: mode,
+															decoration: InputDecoration(
+																icon: Icon(FlutterIcons.phone_fea),
+																hintText: 'Your phone number',
+															),
 														),
-													),
-												],
+													],
+												),
 											),
 										),
 									),
 								),
-							),
-							Expanded(
-								flex: 3,
-								child: Container(
-									height: MediaQuery.of(context).size.height/5,
-									decoration: BoxDecoration(
-										borderRadius: BorderRadius.only(
-											topLeft: Radius.circular(20),
-											topRight: Radius.circular(20)
-										),
-										color: Colors.white,
-									),
-									child: Column(
-										children: <Widget>[
-											SimpleRoundIconButton(
-												buttonText: Text(
-													'SignUp with Email',
-													style: TextStyle(
-														color: primaryMain
-													),
-												),
-												backgroundColor: secondarySec,
-												icon: Icon(FlutterIcons.email_box_mco),
-												iconAlignment: Alignment.centerRight,
-												iconColor: primaryMain,
-												onPressed: () => register(context),
+								Expanded(
+									flex: 3,
+									child: Container(
+										height: MediaQuery.of(context).size.height/5,
+										decoration: BoxDecoration(
+											borderRadius: BorderRadius.only(
+												topLeft: Radius.circular(20),
+												topRight: Radius.circular(20)
 											),
-											SimpleRoundIconButton(
-												buttonText: Text(
-													'SignUp with google',
-													style: TextStyle(
-														color: Colors.white
+											color: Colors.white,
+										),
+										child: Column(
+											children: <Widget>[
+												SimpleRoundIconButton(
+													buttonText: Text(
+														'SignUp with Email',
+														style: TextStyle(
+															color: primaryMain
+														),
 													),
+													backgroundColor: secondarySec,
+													icon: Icon(FlutterIcons.email_box_mco),
+													iconAlignment: Alignment.centerRight,
+													iconColor: primaryMain,
+													onPressed: () => register(context),
 												),
-												backgroundColor: Colors.blueAccent,
-												iconColor: Colors.blueAccent,
-												iconAlignment: Alignment.centerRight,
-												icon: Icon(FlutterIcons.google_ant),
-												onPressed: () => handleSignIn(),
-											)
-										],
+												SimpleRoundIconButton(
+													buttonText: Text(
+														'SignUp with google',
+														style: TextStyle(
+															color: Colors.white
+														),
+													),
+													backgroundColor: Colors.blueAccent,
+													iconColor: Colors.blueAccent,
+													iconAlignment: Alignment.centerRight,
+													icon: Icon(FlutterIcons.google_ant),
+													onPressed: () => handleSignIn(),
+												)
+											],
+										),
 									),
+								)
+							],
+						),
+						if(isLoading)...{
+							Container(
+								height: MediaQuery.of(context).size.height,
+								child: Center(
+									child: CircularProgressIndicator(),
 								),
 							)
-						],
-					),
-					if(isLoading)...{
-						Container(
-							height: MediaQuery.of(context).size.height,
-							child: Center(
-								child: CircularProgressIndicator(),
-							),
-						)
-					}
-				],
+						}
+					],
+				),
 			),
 		),
 	);
