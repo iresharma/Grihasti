@@ -28,15 +28,17 @@ class _CategoryBoxState extends State<CategoryBox> {
 		child: Row(
 			mainAxisAlignment: MainAxisAlignment.spaceBetween,
 			children: <Widget>[
-				Align(
-					alignment: Alignment(-1, 0),
-					child: Text(
-						widget.categoryName,
-						style: TextStyle(
-							fontSize: 22,
-							color: Colors.white,
-							fontWeight: FontWeight.bold),
-					)
+				Flexible(
+					child: Align(
+						alignment: Alignment(-1, 0),
+						child: Text(
+							widget.categoryName,
+							style: TextStyle(
+								fontSize: 22,
+								color: Colors.white,
+								fontWeight: FontWeight.bold),
+						)
+					),
 				),
 				Container(
 					decoration: BoxDecoration(

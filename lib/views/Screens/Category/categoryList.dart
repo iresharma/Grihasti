@@ -45,24 +45,45 @@ class _CatlistState extends State<Catlist> {
   Widget build(BuildContext context) {
     return Scaffold(
 		body: StreamBuilder(
-			stream: Firestore.instance.collection('customer').snapshots(),
+			stream: Firestore.instance.collection('categories').snapshots(),
 			builder: (context, snapshot) {
 				if(snapshot.hasData) {
-					return ListView.builder(
-						itemCount: snapshot.data.documents.length,
-						itemBuilder: (context, index) {
-							return Padding(
-								padding: EdgeInsets.symmetric(
-									horizontal: 10,
-									vertical: 5
+					return Column(
+						children: <Widget>[
+							Padding(
+								padding: EdgeInsets.only(top: 20, left: 20),
+								child: Align(
+									alignment: Alignment.topLeft,
+									child: Text(
+										'Categories',
+										style: TextStyle(
+											fontWeight: FontWeight.w300,
+											fontSize: 40
+										),
+									),
 								),
-								child: CategoryBox(
-									begin: gradient[index%6][0],
-									end: gradient[index%6][1],
-									categoryName: snapshot.data.documents[index].data['Name'],
+							),
+							Container(
+								margin: EdgeInsets.only(top: 10),
+								height: MediaQuery.of(context).size.height - 250,
+								child: ListView.builder(
+									itemCount: snapshot.data.documents.length,
+									itemBuilder: (context, index) {
+										return Padding(
+											padding: EdgeInsets.symmetric(
+												horizontal: 10,
+												vertical: 5
+											),
+											child: CategoryBox(
+												begin: gradient[index%6][0],
+												end: gradient[index%6][1],
+												categoryName: snapshot.data.documents[index].data['name'],
+											),
+										);
+									},
 								),
-							);
-						},
+							)
+						],
 					);
 				}
 				else {

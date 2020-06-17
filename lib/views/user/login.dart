@@ -204,6 +204,7 @@ class _LoginState extends State<Login> {
 					SingleChildScrollView(
 						child: Column(
 							mainAxisAlignment: MainAxisAlignment.start,
+							mainAxisSize: MainAxisSize.max,
 							children: <Widget>[
 								AnimatedContainer(
 									width: MediaQuery.of(context).size.width,
@@ -239,181 +240,185 @@ class _LoginState extends State<Login> {
 												),
 												textAlign: TextAlign.right,
 											),
-											animate ? Column(
-												children: <Widget>[
-													SizedBox(height: 60,),
-													ColorLoader5(),
-													Text(
-														'Logging in',
-														style: TextStyle(
-															fontSize: 15,
-															color: secondaryMain
-														),
-													)
-												],
-											) : SizedBox(height: 5,)
+											if(animate)... {
+												Column(
+													children: <Widget>[
+														SizedBox(height: 60,),
+														ColorLoader5(),
+														Text(
+															'Logging in',
+															style: TextStyle(
+																fontSize: 15,
+																color: secondaryMain
+															),
+														)
+													],
+												)
+											}
 										],
 									),
 								),
-								animate ? Container() : Container(
-									padding: EdgeInsets.symmetric(
-										horizontal: 30
-									),
-									height: MediaQuery.of(context).size.height * 0.67,
-									decoration: BoxDecoration(
-										color: Colors.transparent
-									),
-									child: Padding(
+								if(!animate)...{
+									Container(
 										padding: EdgeInsets.symmetric(
-											vertical: 30
+											horizontal: 30
 										),
-										child: Form(
-											key: _formKey,
-											child: Column(
-												mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-												children: <Widget>[
-													Text(
-														'LOGIN',
-														style: TextStyle(
-															color: Colors.grey,
-															fontWeight: FontWeight.w600,
-															fontSize: 30
+										height: MediaQuery.of(context).size.height * 0.8,
+										decoration: BoxDecoration(
+											color: Colors.transparent
+										),
+										child: Padding(
+											padding: EdgeInsets.symmetric(
+												vertical: 30
+											),
+											child: Form(
+												key: _formKey,
+												child: Column(
+													mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+													children: <Widget>[
+														Text(
+															'LOGIN',
+															style: TextStyle(
+																color: Colors.grey,
+																fontWeight: FontWeight.w600,
+																fontSize: 30
+															),
 														),
-													),
-													TextFormField(
-														validator: (value) {
-															if(value.isEmpty) {
-																return 'Please Enter text';
-															}
+														TextFormField(
+															validator: (value) {
+																if(value.isEmpty) {
+																	return 'Please Enter text';
+																}
 //															else if(RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
 //																return 'Input valid email address';
 //															}
-															else {
-																User['Email'] = value;
-															}
-															return null;
-														},
-														keyboardType: TextInputType.emailAddress,
-														keyboardAppearance: mode,
-														decoration: InputDecoration(
-															icon: Icon(FlutterIcons.email_box_mco),
-															hintText: 'Your email address'
-														),
-														autovalidate: validateE,
-														onChanged: (val) {
-															setState(() {
-																validateE = true;
-															});
-														},
-													),
-													Column(
-														mainAxisAlignment: MainAxisAlignment.center,
-														children: <Widget>[
-															TextFormField(
-																validator: (value) {
-																	if(value.isEmpty) {
-																		return 'Please Enter text';
-																	}
-																	else if(value.length < 6) {
-																		return 'Password must 6 characters long';
-																	}
-																	else {
-																		pass = value;
-																	}
-																	return null;
-																},
-																keyboardType: TextInputType.visiblePassword,
-																obscureText: !showPass,
-																keyboardAppearance: mode,
-																onChanged: (val) {
-																	setState(() {
-																		validateP = true;
-																	});
-																},
-																decoration: InputDecoration(
-																	icon: Icon(FlutterIcons.passport_mco),
-																	hintText: 'Your password',
-																	suffixIcon: IconButton(
-																		icon: Icon(FlutterIcons.eye_ant),
-																		onPressed: () {
-																			setState(() {
-																				showPass = !showPass;
-																			});
-																		},
-																	)
-																),
-																autovalidate: validateP,
+																else {
+																	User['Email'] = value;
+																}
+																return null;
+															},
+															keyboardType: TextInputType.emailAddress,
+															keyboardAppearance: mode,
+															decoration: InputDecoration(
+																icon: Icon(FlutterIcons.email_box_mco),
+																hintText: 'Your email address'
 															),
-															Align(
-																alignment: Alignment.centerRight,
-																child: FlatButton(
-																	child: Text(
-																		'Forgot passowrd ?',
-																		style: TextStyle(
-																			fontSize: 10
-																		),
-																	),
-																	onPressed: () => forg(context),
-																),
-															)
-														],
-													),
-													Container(
-														margin: EdgeInsets.symmetric(vertical: 0),
-														child: Column(
+															autovalidate: validateE,
+															onChanged: (val) {
+																setState(() {
+																	validateE = true;
+																});
+															},
+														),
+														Column(
 															mainAxisAlignment: MainAxisAlignment.center,
 															children: <Widget>[
-																SimpleRoundIconButton(
-																	buttonText: Text(
-																		'Login',
-																		style: TextStyle(
-																			fontSize: 20,
-																			color: Colors.white
-																		),
-																	),
-																	backgroundColor: primaryMain,
-																	icon: Icon(FlutterIcons.login_ant),
-																	onPressed: () => login(context),
-																	iconAlignment: Alignment.centerRight,
-																),
-																SimpleRoundIconButton(
-																	buttonText: Text(
-																		'Use google',
-																		style: TextStyle(
-																			fontSize: 18,
-																			color: Colors.white
-																		),
-																	),
-																	backgroundColor: Colors.blueAccent,
-																	icon: Icon(FlutterIcons.google_ant),
-																	onPressed: () {
-																		setState(() {
-																		  animate = true;
-																		});
-																		handleSignIn();
+																TextFormField(
+																	validator: (value) {
+																		if(value.isEmpty) {
+																			return 'Please Enter text';
+																		}
+																		else if(value.length < 6) {
+																			return 'Password must 6 characters long';
+																		}
+																		else {
+																			pass = value;
+																		}
+																		return null;
 																	},
-																	iconAlignment: Alignment.centerRight,
+																	keyboardType: TextInputType.visiblePassword,
+																	obscureText: !showPass,
+																	keyboardAppearance: mode,
+																	onChanged: (val) {
+																		setState(() {
+																			validateP = true;
+																		});
+																	},
+																	decoration: InputDecoration(
+																		icon: Icon(FlutterIcons.passport_mco),
+																		hintText: 'Your password',
+																		suffixIcon: IconButton(
+																			icon: Icon(FlutterIcons.eye_ant),
+																			onPressed: () {
+																				setState(() {
+																					showPass = !showPass;
+																				});
+																			},
+																		)
+																	),
+																	autovalidate: validateP,
+																),
+																Align(
+																	alignment: Alignment.centerRight,
+																	child: FlatButton(
+																		child: Text(
+																			'Forgot passowrd ?',
+																			style: TextStyle(
+																				fontSize: 10
+																			),
+																		),
+																		onPressed: () => forg(context),
+																	),
 																)
 															],
 														),
-													),
-													FlatButton(
-														child: Text(
-															'Don\'t have an account, Register?',
-															style: TextStyle(
-																fontSize: 13
+														Container(
+															margin: EdgeInsets.symmetric(vertical: 0),
+															child: Column(
+																mainAxisAlignment: MainAxisAlignment.center,
+																children: <Widget>[
+																	SimpleRoundIconButton(
+																		buttonText: Text(
+																			'Login',
+																			style: TextStyle(
+																				fontSize: 20,
+																				color: Colors.white
+																			),
+																		),
+																		backgroundColor: primaryMain,
+																		icon: Icon(FlutterIcons.login_ant),
+																		onPressed: () => login(context),
+																		iconAlignment: Alignment.centerRight,
+																	),
+																	SimpleRoundIconButton(
+																		buttonText: Text(
+																			'Use google',
+																			style: TextStyle(
+																				fontSize: 18,
+																				color: Colors.white
+																			),
+																		),
+																		backgroundColor: Colors.blueAccent,
+																		icon: Icon(FlutterIcons.google_ant),
+																		onPressed: () {
+																			setState(() {
+																				animate = true;
+																			});
+																			handleSignIn();
+																		},
+																		iconAlignment: Alignment.centerRight,
+																	)
+																],
 															),
 														),
-														onPressed: () => Navigator.of(context).pushNamed(
-															'/register',
-															arguments: RegS('', '')
+														FlatButton(
+															child: Text(
+																'Don\'t have an account, Register?',
+																style: TextStyle(
+																	fontSize: 13
+																),
+															),
+															onPressed: () => Navigator.of(context).pushNamed(
+																'/register',
+																arguments: RegS('', '')
+															),
 														),
-													),
-												],
+													],
+												),
 											),
 										),
-									),
-								),
+									)
+								}
 							],
 						),
 					),

@@ -95,7 +95,6 @@ class _RegisterpageState extends State<Registerpage> {
     return Builder(
 		builder: (_) => Scaffold(
 			appBar: AppBar(
-				backgroundColor: Colors.white,
 				elevation: 0,
 				iconTheme: IconThemeData(
 					color: Colors.black
@@ -111,206 +110,181 @@ class _RegisterpageState extends State<Registerpage> {
 					style: TextStyle(
 						fontSize: 30,
 						fontWeight: FontWeight.w500,
-						color: primaryMain
+						color: secondaryMain
 					),
 				),
 			),
 			backgroundColor: Color(0xefffffff),
-			body: SingleChildScrollView(
-				child: Stack(
-					fit: StackFit.expand,
-					children: <Widget>[
-						Column(
-							mainAxisAlignment: MainAxisAlignment.spaceBetween,
-							mainAxisSize: MainAxisSize.max,
-							children: <Widget>[
-								Expanded(
-									flex: 7,
-									child: SingleChildScrollView(
-										child: Form(
-											key: _form,
-											child: Padding(
-												padding: EdgeInsets.symmetric(
-													vertical: 40,
-													horizontal: 30
-												),
-												child: Column(
-													mainAxisAlignment: MainAxisAlignment.spaceAround,
-													crossAxisAlignment: CrossAxisAlignment.center,
-													children: <Widget>[
-														Text(
-															'REGISTER',
-															style: TextStyle(
-																color: Colors.grey,
-																fontWeight: FontWeight.w600,
-																fontSize: 30
-															),
-														),
-														SizedBox(height: 60,),
-														TextFormField(
-															validator: (value) {
-																if(value.isEmpty) {
-																	return 'Enter some value';
-																}
-																User['Name'] = value;
-																return null;
-															},
-															keyboardType: TextInputType.text,
-															keyboardAppearance: mode,
-															decoration: InputDecoration(
-																icon: Icon(FlutterIcons.user_astronaut_faw5s),
-																hintText: 'Your name',
-															),
-														),
-														SizedBox(height: 20,),
-														TextFormField(
-															validator: (value) {
-																if(value.isEmpty) {
-																	return 'Enter some value';
-																}
-																User['Email'] = value;
-																return null;
-															},
-															keyboardType: TextInputType.emailAddress,
-															initialValue: args.email,
-															keyboardAppearance: mode,
-															decoration: InputDecoration(
-																icon: Icon(FlutterIcons.mail_fea),
-																hintText: 'Your email address',
-															),
-														),
-														SizedBox(height: 20,),
-														TextFormField(
-															validator: (value) {
-																if(value.isEmpty) {
-																	return 'Enter some value';
-																}
-																password = value;
-																return null;
-															},
-															keyboardType: TextInputType.text,
-															obscureText: isPass,
-															keyboardAppearance: mode,
-															decoration: InputDecoration(
-																icon: Icon(FlutterIcons.lock1_ant),
-																hintText: 'Password',
-																labelText: 'Password',
-																suffixIcon: IconButton(
-																	icon: isPass ? Icon(FlutterIcons.eye_ant) : Icon(FlutterIcons.eye_off_fea),
-																	onPressed: () {
-																		setState(() {
-																			isPass = !isPass;
-																		});
-																	},
-																)
-															),
-															initialValue: args.pass,
-														),
-														SizedBox(height: 20,),
-														TextFormField(
-															validator: (value) {
-																if(value.isEmpty) {
-																	return 'Enter some value';
-																}
-																if(value != password) {
-																	return 'Should match password';
-																}
-																return null;
-															},
-															keyboardType: TextInputType.text,
-															obscureText: isPass,
-															keyboardAppearance: mode,
-															decoration: InputDecoration(
-																icon: Icon(FlutterIcons.lock1_ant),
-																hintText: 'Confirm password',
-																suffixIcon: IconButton(
-																	icon: isPass ? Icon(FlutterIcons.eye_ant) : Icon(FlutterIcons.eye_off_fea),
-																	onPressed: () {
-																		setState(() {
-																			isPass = !isPass;
-																		});
-																	},
-																)
-															),
-															initialValue: args.pass,
-														),
-														SizedBox(height: 20,),
-														TextFormField(
-															validator: (value) {
-																if(value.isEmpty) {
-																	return 'Enter some value';
-																}
-																User['tel'] = value;
-																return null;
-															},
-															keyboardType: TextInputType.phone,
-															keyboardAppearance: mode,
-															decoration: InputDecoration(
-																icon: Icon(FlutterIcons.phone_fea),
-																hintText: 'Your phone number',
-															),
-														),
-													],
-												),
-											),
-										),
-									),
-								),
-								Expanded(
-									flex: 3,
-									child: Container(
-										height: MediaQuery.of(context).size.height/5,
-										decoration: BoxDecoration(
-											borderRadius: BorderRadius.only(
-												topLeft: Radius.circular(20),
-												topRight: Radius.circular(20)
-											),
-											color: Colors.white,
-										),
-										child: Column(
-											children: <Widget>[
-												SimpleRoundIconButton(
-													buttonText: Text(
-														'SignUp with Email',
-														style: TextStyle(
-															color: primaryMain
-														),
-													),
-													backgroundColor: secondarySec,
-													icon: Icon(FlutterIcons.email_box_mco),
-													iconAlignment: Alignment.centerRight,
-													iconColor: primaryMain,
-													onPressed: () => register(context),
-												),
-												SimpleRoundIconButton(
-													buttonText: Text(
-														'SignUp with google',
-														style: TextStyle(
-															color: Colors.white
-														),
-													),
-													backgroundColor: Colors.blueAccent,
-													iconColor: Colors.blueAccent,
-													iconAlignment: Alignment.centerRight,
-													icon: Icon(FlutterIcons.google_ant),
-													onPressed: () => handleSignIn(),
-												)
-											],
-										),
-									),
-								)
-							],
-						),
-						if(isLoading)...{
-							Container(
+			body: Stack(
+				fit: StackFit.expand,
+				children: <Widget>[
+					SingleChildScrollView(
+						child: Form(
+							key: _form,
+							child: Container(
 								height: MediaQuery.of(context).size.height,
-								child: Center(
-									child: CircularProgressIndicator(),
+								child: Padding(
+									padding: EdgeInsets.symmetric(
+										vertical: 10,
+										horizontal: 30
+									),
+									child: Column(
+										mainAxisAlignment: MainAxisAlignment.spaceAround,
+										crossAxisAlignment: CrossAxisAlignment.center,
+										children: <Widget>[
+											Text(
+												'REGISTER',
+												style: TextStyle(
+													color: Colors.grey,
+													fontWeight: FontWeight.w600,
+													fontSize: 30
+												),
+											),
+											SizedBox(height: 60,),
+											TextFormField(
+												validator: (value) {
+													if(value.isEmpty) {
+														return 'Enter some value';
+													}
+													User['Name'] = value;
+													return null;
+												},
+												keyboardType: TextInputType.text,
+												keyboardAppearance: mode,
+												decoration: InputDecoration(
+													icon: Icon(FlutterIcons.user_astronaut_faw5s),
+													hintText: 'Your name',
+												),
+											),
+											SizedBox(height: 20,),
+											TextFormField(
+												validator: (value) {
+													if(value.isEmpty) {
+														return 'Enter some value';
+													}
+													User['Email'] = value;
+													return null;
+												},
+												keyboardType: TextInputType.emailAddress,
+												initialValue: args.email,
+												keyboardAppearance: mode,
+												decoration: InputDecoration(
+													icon: Icon(FlutterIcons.mail_fea),
+													hintText: 'Your email address',
+												),
+											),
+											SizedBox(height: 20,),
+											TextFormField(
+												validator: (value) {
+													if(value.isEmpty) {
+														return 'Enter some value';
+													}
+													password = value;
+													return null;
+												},
+												keyboardType: TextInputType.text,
+												obscureText: isPass,
+												keyboardAppearance: mode,
+												decoration: InputDecoration(
+													icon: Icon(FlutterIcons.lock1_ant),
+													hintText: 'Password',
+													suffixIcon: IconButton(
+														icon: isPass ? Icon(FlutterIcons.eye_ant) : Icon(FlutterIcons.eye_off_fea),
+														onPressed: () {
+															setState(() {
+																isPass = !isPass;
+															});
+														},
+													)
+												),
+												initialValue: args.pass,
+											),
+											SizedBox(height: 20,),
+											TextFormField(
+												validator: (value) {
+													if(value.isEmpty) {
+														return 'Enter some value';
+													}
+													if(value != password) {
+														return 'Should match password';
+													}
+													return null;
+												},
+												keyboardType: TextInputType.text,
+												obscureText: isPass,
+												keyboardAppearance: mode,
+												decoration: InputDecoration(
+													icon: Icon(FlutterIcons.lock1_ant),
+													hintText: 'Confirm password',
+													suffixIcon: IconButton(
+														icon: isPass ? Icon(FlutterIcons.eye_ant) : Icon(FlutterIcons.eye_off_fea),
+														onPressed: () {
+															setState(() {
+																isPass = !isPass;
+															});
+														},
+													)
+												),
+												initialValue: args.pass,
+											),
+											SizedBox(height: 20,),
+											TextFormField(
+												validator: (value) {
+													if(value.isEmpty) {
+														return 'Enter some value';
+													}
+													User['tel'] = value;
+													return null;
+												},
+												keyboardType: TextInputType.phone,
+												keyboardAppearance: mode,
+												decoration: InputDecoration(
+													icon: Icon(FlutterIcons.phone_fea),
+													hintText: 'Your phone number',
+												),
+											),
+
+											SimpleRoundIconButton(
+												buttonText: Text(
+													'Email and password',
+													style: TextStyle(
+														fontSize: 15,
+														color: primaryMain
+													),
+												),
+												backgroundColor: secondarySec,
+												icon: Icon(FlutterIcons.login_ent),
+												onPressed: () => register(context),
+												iconAlignment: Alignment.centerRight,
+											),
+											SimpleRoundIconButton(
+												buttonText: Text(
+													'Use google',
+													style: TextStyle(
+														fontSize: 18,
+														color: Colors.white
+													),
+												),
+												backgroundColor: Colors.blueAccent,
+												icon: Icon(FlutterIcons.google_ant),
+												onPressed: () => handleSignIn(),
+												iconAlignment: Alignment.centerRight,
+											)
+										],
+									),
 								),
-							)
-						}
-					],
-				),
+							),
+						),
+					),
+					if(isLoading)...{
+						Container(
+							height: MediaQuery.of(context).size.height,
+							child: Center(
+								child: CircularProgressIndicator(),
+							),
+						)
+					}
+				],
 			),
 		),
 	);
