@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
+import 'package:customerappgrihasti/views/category.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -78,6 +79,11 @@ class _CatlistState extends State<Catlist> {
 												begin: gradient[index%6][0],
 												end: gradient[index%6][1],
 												categoryName: snapshot.data.documents[index].data['name'],
+												route: new MaterialPageRoute(
+													builder: (_) => Categor(
+														cate: snapshot.data.documents[index].data['name']
+													)
+												),
 											),
 										);
 									},

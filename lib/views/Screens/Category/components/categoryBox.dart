@@ -5,8 +5,9 @@ class CategoryBox extends StatefulWidget {
 	final Color begin;
 	final Color end;
 	final String categoryName;
+	final MaterialPageRoute route;
 
-  const CategoryBox({Key key, this.begin, this.end, this.categoryName}) : super(key: key);
+  const CategoryBox({Key key, this.begin, this.end, this.categoryName, this.route}) : super(key: key);
 
   @override
   _CategoryBoxState createState() => _CategoryBoxState();
@@ -40,16 +41,19 @@ class _CategoryBoxState extends State<CategoryBox> {
 						)
 					),
 				),
-				Container(
-					decoration: BoxDecoration(
-						color: Colors.white,
-						borderRadius: BorderRadius.all(Radius.circular(24))),
-					padding:
-					const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-					child: Text(
-						'View more',
-						style: TextStyle(color: widget.end, fontWeight: FontWeight.bold),
+				GestureDetector(
+					child: Container(
+						decoration: BoxDecoration(
+							color: Colors.white,
+							borderRadius: BorderRadius.all(Radius.circular(24))),
+						padding:
+						const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+						child: Text(
+							'View more',
+							style: TextStyle(color: widget.end, fontWeight: FontWeight.bold),
+						),
 					),
+					onTap: () => Navigator.of(context).push(widget.route),
 				)
 			],
 		),
