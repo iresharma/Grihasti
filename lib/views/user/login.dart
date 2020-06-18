@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/Services/auth.dart';
 import 'package:customerappgrihasti/Services/freebaseCloudMessaging.dart';
@@ -221,7 +222,7 @@ class _LoginState extends State<Login> {
 										mainAxisAlignment: MainAxisAlignment.center,
 										crossAxisAlignment: CrossAxisAlignment.center,
 										children: <Widget>[
-											Text(
+											AutoSizeText(
 												'GRIHASTI',
 												style: TextStyle(
 													color: secondaryMain,

@@ -121,7 +121,7 @@ class _ProductPageState extends State<ProductPage> {
 									),
 									Divider(),
 									StreamBuilder(
-										stream: Firestore.instance.collection('customer').snapshots(),
+										stream: Firestore.instance.collection('product').snapshots(),
 										builder: (context, snapshot) {
 											if(!snapshot.hasData) {
 												return Center(
@@ -137,13 +137,20 @@ class _ProductPageState extends State<ProductPage> {
 														scrollDirection: Axis.horizontal,
 														shrinkWrap: true,
 														itemBuilder: (context, index) {
+															print(snapshot.data.documents[index].data['Desc']);
 															return Column(
 																children: <Widget>[
 																	ProductSquareBox(
-																		productId: snapshot.data.documents[index].data['name'],
+																		productId: snapshot.data.documents[index].documentID,
+																		desc: snapshot.data.documents[index].data['Desc'],
+																		Name: snapshot.data.documents[index].data['Name'],
+																		price: snapshot.data.documents[index].data['Price'],
 																	),
 																	ProductSquareBox(
-																		productId: snapshot.data.documents[index + 2].data['name'],
+																		Name: snapshot.data.documents[index + 2].data['Name'],
+																		desc: snapshot.data.documents[index + 2].data['Desc'],
+																		price: snapshot.data.documents[index + 2].data['Price'],
+																		productId: snapshot.data.documents[index + 2].documentID,
 																	)
 																],
 															);

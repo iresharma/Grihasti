@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:customerappgrihasti/components/colorLoader.dart';
+import 'package:customerappgrihasti/views/Screens/Poducts/components/productSquareBox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -64,7 +66,7 @@ class _CategorState extends State<Categor> {
 												elevation: 2,
 												child: Container(
 													padding: EdgeInsets.all(5),
-													height: 400,
+													height: 460,
 													width: MediaQuery.of(context).size.width,
 													child: Column(
 														crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +83,47 @@ class _CategorState extends State<Categor> {
 																	Icon(FlutterIcons.chevron_right_fea)
 																],
 															),
-															Divider()
+															Divider(),
+															StreamBuilder(
+																stream: Firestore.instance.collection('product').snapshots(),
+																builder: (context, snapshot) {
+																	if(!snapshot.hasData) {
+																		return Center(
+																			child: ColorLoader4(),
+																		);
+																	}
+																	else {
+																		return Container(
+																			width: MediaQuery.of(context).size.width,
+																			height: 400,
+																			child: ListView.builder(
+																				itemCount: (snapshot.data.documents.length/2).round(),
+																				scrollDirection: Axis.horizontal,
+																				shrinkWrap: true,
+																				itemBuilder: (context, index) {
+																					print(snapshot.data.documents[index].data['Desc']);
+																					return Column(
+																						children: <Widget>[
+																							ProductSquareBox(
+																								productId: snapshot.data.documents[index].documentID,
+																								desc: snapshot.data.documents[index].data['Desc'],
+																								Name: snapshot.data.documents[index].data['Name'],
+																								price: snapshot.data.documents[index].data['Price'],
+																							),
+																							ProductSquareBox(
+																								Name: snapshot.data.documents[index + 2].data['Name'],
+																								desc: snapshot.data.documents[index + 2].data['Desc'],
+																								price: snapshot.data.documents[index + 2].data['Price'],
+																								productId: snapshot.data.documents[index + 2].documentID,
+																							)
+																						],
+																					);
+																				},
+																			),
+																		);
+																	}
+																},
+															)
 														],
 													),
 												),
