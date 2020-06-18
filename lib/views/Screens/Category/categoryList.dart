@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
-import 'package:customerappgrihasti/views/category.dart';
+import 'package:customerappgrihasti/views/Screens/Category/category.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

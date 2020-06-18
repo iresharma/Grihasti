@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
+import 'package:customerappgrihasti/components/colorLoader.dart';
+import 'package:customerappgrihasti/views/Screens/Poducts/components/productSquareBox.dart';
 import 'package:customerappgrihasti/views/Screens/Poducts/components/productofferbox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -94,14 +96,13 @@ class _ProductPageState extends State<ProductPage> {
 				),
 				Padding(
 					padding: EdgeInsets.only(
-						bottom: 20,
 						left: 15
 					),
 					child: Card(
 						elevation: 2,
 						child: Container(
 							padding: EdgeInsets.all(5),
-							height: 400,
+							height: 460,
 							width: MediaQuery.of(context).size.width,
 							child: Column(
 								crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +119,40 @@ class _ProductPageState extends State<ProductPage> {
 											Icon(FlutterIcons.chevron_right_fea)
 										],
 									),
-									Divider()
+									Divider(),
+									StreamBuilder(
+										stream: Firestore.instance.collection('customer').snapshots(),
+										builder: (context, snapshot) {
+											if(!snapshot.hasData) {
+												return Center(
+													child: ColorLoader4(),
+												);
+											}
+											else {
+												return Container(
+													width: MediaQuery.of(context).size.width,
+													height: 400,
+													child: ListView.builder(
+														itemCount: (snapshot.data.documents.length/2).round(),
+														scrollDirection: Axis.horizontal,
+														shrinkWrap: true,
+														itemBuilder: (context, index) {
+															return Column(
+																children: <Widget>[
+																	ProductSquareBox(
+																		productId: snapshot.data.documents[index].data['name'],
+																	),
+																	ProductSquareBox(
+																		productId: snapshot.data.documents[index + 2].data['name'],
+																	)
+																],
+															);
+														},
+													),
+												);
+											}
+										},
+									)
 								],
 							),
 						),
