@@ -99,10 +99,197 @@ class _ProductPageState extends State<ProductPage> {
 						left: 15
 					),
 					child: Card(
-						elevation: 2,
+						elevation: 0,
 						child: Container(
 							padding: EdgeInsets.all(5),
-							height: 460,
+							height: 540,
+							width: MediaQuery.of(context).size.width,
+							child: Column(
+								crossAxisAlignment: CrossAxisAlignment.start,
+								children: <Widget>[
+									Row(
+										children: <Widget>[
+											Text(
+												'Top products',
+												style: TextStyle(
+													fontSize: 25,
+													fontWeight: FontWeight.w300
+												),
+											),
+											Icon(FlutterIcons.chevron_right_fea)
+										],
+									),
+									Divider(),
+									StreamBuilder(
+										stream: Firestore.instance.collection('product').snapshots(),
+										builder: (context, snapshot) {
+											if(!snapshot.hasData) {
+												return Center(
+													child: ColorLoader4(),
+												);
+											}
+											else {
+												return Container(
+													width: MediaQuery.of(context).size.width,
+													height: 480,
+													child: ListView.builder(
+														itemCount: (snapshot.data.documents.length/2).round(),
+														scrollDirection: Axis.horizontal,
+														shrinkWrap: true,
+														itemBuilder: (context, index) {
+															return Column(
+																children: <Widget>[
+																	ProductSquareBox(
+																		productId: snapshot.data.documents[index].documentID,
+																		desc: snapshot.data.documents[index].data['Desc'],
+																		Name: snapshot.data.documents[index].data['Name'],
+																		price: snapshot.data.documents[index].data['Price'],
+																	),
+																	ProductSquareBox(
+																		Name: snapshot.data.documents[index + 2].data['Name'],
+																		desc: snapshot.data.documents[index + 2].data['Desc'],
+																		price: snapshot.data.documents[index + 2].data['Price'],
+																		productId: snapshot.data.documents[index + 2].documentID,
+																	)
+																],
+															);
+														},
+													),
+												);
+											}
+										},
+									)
+								],
+							),
+						),
+					),
+				),
+				Padding(
+					padding: EdgeInsets.only(
+						left: 15
+					),
+					child: Card(
+						elevation: 0,
+						child: Container(
+							padding: EdgeInsets.all(5),
+							height: 540,
+							width: MediaQuery.of(context).size.width,
+							child: Column(
+								crossAxisAlignment: CrossAxisAlignment.start,
+								children: <Widget>[
+									Row(
+										children: <Widget>[
+											Text(
+												'Previous ordered',
+												style: TextStyle(
+													fontSize: 25,
+													fontWeight: FontWeight.w300
+												),
+											),
+											Icon(FlutterIcons.chevron_right_fea)
+										],
+									),
+									Divider(),
+									StreamBuilder(
+										stream: Firestore.instance.collection('product').snapshots(),
+										builder: (context, snapshot) {
+											if(!snapshot.hasData) {
+												return Center(
+													child: ColorLoader4(),
+												);
+											}
+											else {
+												return Container(
+													width: MediaQuery.of(context).size.width,
+													height: 480,
+													child: ListView.builder(
+														itemCount: (snapshot.data.documents.length/2).round(),
+														scrollDirection: Axis.horizontal,
+														shrinkWrap: true,
+														itemBuilder: (context, index) {
+															return Column(
+																children: <Widget>[
+																	ProductSquareBox(
+																		productId: snapshot.data.documents[index].documentID,
+																		desc: snapshot.data.documents[index].data['Desc'],
+																		Name: snapshot.data.documents[index].data['Name'],
+																		price: snapshot.data.documents[index].data['Price'],
+																	),
+																	ProductSquareBox(
+																		Name: snapshot.data.documents[index + 2].data['Name'],
+																		desc: snapshot.data.documents[index + 2].data['Desc'],
+																		price: snapshot.data.documents[index + 2].data['Price'],
+																		productId: snapshot.data.documents[index + 2].documentID,
+																	)
+																],
+															);
+														},
+													),
+												);
+											}
+										},
+									)
+								],
+							),
+						),
+					),
+				),
+				Padding(
+					padding: EdgeInsets.symmetric(
+						vertical: 20
+					),
+					child: StreamBuilder(
+						stream: Firestore.instance.collection('customer').snapshots(),
+						builder: (context, snapshot) {
+							if(!snapshot.hasData) {
+								return Center(
+									child: ColorLoader(),
+								);
+							}
+							else {
+								return CarouselSlider.builder(
+									itemCount: snapshot.data.documents.length,
+									itemBuilder: (context, index) {
+										return ProductPageOfferBox(
+											begin: gradient[index%6][0],
+											end: gradient[index%6][1],
+											icon: Icon(
+												FlutterIcons.user_astronaut_faw5s,
+												size: 50,
+											),
+											finePrint: snapshot.data.documents[index].data['Email'],
+											offerText: snapshot.data.documents[index].data['Name'],
+										);
+									},
+									options: CarouselOptions(
+										height: 200,
+										aspectRatio: 16/9,
+										viewportFraction: 0.8,
+										initialPage: 0,
+										enableInfiniteScroll: true,
+										reverse: false,
+										autoPlay: true,
+										autoPlayInterval: Duration(seconds: 2),
+										autoPlayAnimationDuration: Duration(milliseconds: 700),
+										autoPlayCurve: Curves.fastOutSlowIn,
+										enlargeCenterPage: true,
+										onPageChanged: (int, x) => print('chnge$int'),
+										scrollDirection: Axis.horizontal,
+									)
+								);
+							}
+						},
+					),
+				),
+				Padding(
+					padding: EdgeInsets.only(
+						left: 15
+					),
+					child: Card(
+						elevation: 0,
+						child: Container(
+							padding: EdgeInsets.all(5),
+							height: 540,
 							width: MediaQuery.of(context).size.width,
 							child: Column(
 								crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,13 +318,12 @@ class _ProductPageState extends State<ProductPage> {
 											else {
 												return Container(
 													width: MediaQuery.of(context).size.width,
-													height: 400,
+													height: 480,
 													child: ListView.builder(
 														itemCount: (snapshot.data.documents.length/2).round(),
 														scrollDirection: Axis.horizontal,
 														shrinkWrap: true,
 														itemBuilder: (context, index) {
-															print(snapshot.data.documents[index].data['Desc']);
 															return Column(
 																children: <Widget>[
 																	ProductSquareBox(
@@ -167,6 +353,6 @@ class _ProductPageState extends State<ProductPage> {
 				)
 			],
 		),
-	);
+	  );
   }
 }

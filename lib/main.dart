@@ -35,7 +35,7 @@ class _GrihastiAppState extends State<GrihastiApp> {
   Widget build(BuildContext context) {
     startup();
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       title: 'Grihasti',
       initialRoute: '/',
       routes: Router(),

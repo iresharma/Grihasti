@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/Services/secureStorage.dart';
 import 'package:customerappgrihasti/views/Screens/Category/categoryList.dart';
@@ -22,6 +23,7 @@ class _MainAppState extends State<MainApp> {
 	String title;
 	bool isProfile;
 	PageController _pageController = new PageController();
+	int cart;
 
 	var selectedIndex;
 	 @override
@@ -32,6 +34,7 @@ class _MainAppState extends State<MainApp> {
     widthAn = 0;
     title = 'Home';
     isProfile = false;
+    cart = 0;
   }
 
   @override
@@ -40,6 +43,23 @@ class _MainAppState extends State<MainApp> {
 	 	print(User);
     return Scaffold(
 		key: _sacffold,
+		floatingActionButton: FloatingActionButton(
+			heroTag: Text(cart.toString()),
+			child: Badge(
+				child: Icon(FlutterIcons.cart_mco, size: 35,),
+				badgeColor: Colors.greenAccent,
+				badgeContent: Text(cart.toString()),
+				toAnimate: false,
+			),
+//			child: Icon(FlutterIcons.cart_mco),
+			tooltip: 'Cart items: $cart',
+//			onPressed: () => Navigator.of(context).pushNamed('/cart'),
+			onPressed: () {
+				setState(() {
+				  cart++;
+				});
+			},
+		),
 		appBar: isProfile ? null : AppBar(
 			shape: RoundedRectangleBorder(
 				borderRadius: BorderRadius.only(

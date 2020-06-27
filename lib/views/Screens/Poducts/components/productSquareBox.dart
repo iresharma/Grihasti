@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/views/Screens/Poducts/productPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class ProductSquareBox extends StatefulWidget {
 
@@ -22,8 +24,12 @@ class _ProductSquareBoxState extends State<ProductSquareBox> {
   Widget build(BuildContext context) {
     return GestureDetector(
 		child: Card(
+			elevation: 1,
+			shape: RoundedRectangleBorder(
+				borderRadius: BorderRadius.circular(10),
+			),
 			child: Container(
-				height: 180,
+				height: 220,
 				width: 180,
 				child: Column(
 					children: <Widget>[
@@ -88,6 +94,23 @@ class _ProductSquareBoxState extends State<ProductSquareBox> {
 										fontWeight: FontWeight.w700,
 										fontSize: 15
 									),
+								),
+							),
+						),
+						Padding(
+							padding: EdgeInsets.all(6),
+							child: FlatButton(
+								onPressed: () => print('Added'),
+								child: Row(
+									mainAxisAlignment: MainAxisAlignment.spaceBetween,
+									children: <Widget>[
+										Icon(FlutterIcons.cart_plus_mco),
+										Text('Add to cart')
+									],
+								),
+								color: Colors.greenAccent,
+								shape: RoundedRectangleBorder(
+									borderRadius: BorderRadius.circular(10)
 								),
 							),
 						)
