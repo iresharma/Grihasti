@@ -3,6 +3,7 @@ import 'package:customerappgrihasti/Services/secureStorage.dart';
 import 'package:customerappgrihasti/views/Screens/Category/categoryList.dart';
 import 'package:customerappgrihasti/views/Screens/Proflie/profile_page.dart';
 import 'package:customerappgrihasti/views/Screens/Poducts/products.dart';
+import 'package:customerappgrihasti/views/Screens/offers/offers.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,6 +36,8 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
+	 	print('handler');
+	 	print(User);
     return Scaffold(
 		key: _sacffold,
 		appBar: isProfile ? null : AppBar(
@@ -95,7 +98,23 @@ class _MainAppState extends State<MainApp> {
 			),
 		),
 		drawer: Drawer(
-			child: Text('hello'),
+			child: Center(
+				child: Column(
+					children: <Widget>[
+						Text(User['Name']),
+						Text(User['Email']),
+						FlatButton(
+							child: Text('Signout'),
+							onPressed: () {
+								storage.deleteAll();
+								writeData({
+									'logged': 'false',
+								});
+							},
+						)
+					],
+				),
+			),
 		),
 		body: Stack(
 			fit: StackFit.expand,
@@ -109,15 +128,7 @@ class _MainAppState extends State<MainApp> {
 							),
 						),
 						Center(
-							child: FlatButton(
-								child: Text(
-									'3',
-									style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-								),
-								onPressed: () => writeData({
-									'logged': 'false'
-								}),
-							),
+							child: Offers(),
 						),
 						Center(
 							child: ProfilePage(),

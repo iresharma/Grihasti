@@ -391,11 +391,16 @@ class _LoginState extends State<Login> {
 																		),
 																		backgroundColor: Colors.blueAccent,
 																		icon: Icon(FlutterIcons.google_ant),
-																		onPressed: () {
+																		onPressed: () async {
 																			setState(() {
 																				animate = true;
 																			});
-																			handleSignIn();
+																			await handleSignIn();
+																			Navigator.of(context).pushReplacement(
+																				new MaterialPageRoute(
+																					builder: (_) => MainApp()
+																				)
+																			);
 																		},
 																		iconAlignment: Alignment.centerRight,
 																	)

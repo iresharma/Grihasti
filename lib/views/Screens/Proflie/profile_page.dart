@@ -18,12 +18,12 @@ class ProfilePage extends StatelessWidget {
               children: <Widget>[
                 CircleAvatar(
                   maxRadius: 48,
-                  backgroundImage: AssetImage('assets/images/avataaars.png'),
+                  backgroundImage:User['PhotoUrl'] == '' ? AssetImage('assets/images/avataaars.png') : NetworkImage(User['PhotoUrl']),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Rose Helbert',
+                    User['Name'],
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),

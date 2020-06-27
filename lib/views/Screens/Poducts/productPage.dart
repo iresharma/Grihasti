@@ -36,8 +36,11 @@ class _ProductPAgeState extends State<ProductPAge> {
 						future: Firestore.instance.collection('product').document(widget.productId).get(),
 						builder: (context, snapshot) {
 							if(!snapshot.hasData) {
-								return Center(
-									child: CircularProgressIndicator(),
+								return Container(
+									height: MediaQuery.of(context).size.height,
+									child: Center(
+										child: CircularProgressIndicator(),
+									),
 								);
 							}
 							else {

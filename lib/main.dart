@@ -25,6 +25,7 @@ class _GrihastiAppState extends State<GrihastiApp> {
     initFCM();
     await initLA();
     await loadData();
+    await getUser();
     await handleDynamicLink();
     analytics = FirebaseAnalytics();
     analytics.logAppOpen();
