@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/Services/secureStorage.dart';
 import 'package:customerappgrihasti/views/Screens/Category/categoryList.dart';
@@ -8,6 +7,7 @@ import 'package:customerappgrihasti/views/Screens/offers/offers.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_badged/flutter_badge.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class MainApp extends StatefulWidget {
@@ -43,23 +43,6 @@ class _MainAppState extends State<MainApp> {
 	 	print(User);
     return Scaffold(
 		key: _sacffold,
-		floatingActionButton: FloatingActionButton(
-			heroTag: Text(cart.toString()),
-			child: Badge(
-				child: Icon(FlutterIcons.cart_mco, size: 35,),
-				badgeColor: Colors.greenAccent,
-				badgeContent: Text(cart.toString()),
-				toAnimate: false,
-			),
-//			child: Icon(FlutterIcons.cart_mco),
-			tooltip: 'Cart items: $cart',
-//			onPressed: () => Navigator.of(context).pushNamed('/cart'),
-			onPressed: () {
-				setState(() {
-				  cart++;
-				});
-			},
-		),
 		appBar: isProfile ? null : AppBar(
 			shape: RoundedRectangleBorder(
 				borderRadius: BorderRadius.only(
@@ -68,6 +51,7 @@ class _MainAppState extends State<MainApp> {
 				),
 			),
 			elevation: 10,
+			title: Text('GRIHASTI'),
 			actions: <Widget>[
 				Padding(
 					padding: EdgeInsets.only(right: 10),
@@ -85,13 +69,6 @@ class _MainAppState extends State<MainApp> {
 					)
 						: Row(
 						children: <Widget>[
-							Text(
-								title,
-								style: TextStyle(
-									fontSize: 25,
-									fontWeight: FontWeight.w800
-								),
-							),
 							IconButton(
 								icon: Icon(
 									FlutterIcons.search1_ant,
@@ -107,6 +84,19 @@ class _MainAppState extends State<MainApp> {
 										});
 									});
 								},
+							),
+							IconButton(
+								icon: FlutterBadge(
+									itemCount: cart,
+									icon: Icon(
+										FlutterIcons.cart_mco,
+										color: Colors.white,
+									),
+									badgeColor: Colors.greenAccent,
+									borderRadius: 20,
+									badgeTextColor: primaryMain,
+								),
+								onPressed: () => print('Cart'),
 							)
 						],
 					),
@@ -158,19 +148,16 @@ class _MainAppState extends State<MainApp> {
 					onPageChanged: (index) {
 						if(index == 0) {
 							setState(() {
-								title = 'Products';
 								isProfile = false;
 							});
 						}
 						else if(index == 1) {
 							setState(() {
-								title = 'Category';
 								isProfile = false;
 							});
 						}
 						else if(index == 2) {
 							setState(() {
-								title = 'Offers';
 								isProfile = false;
 							});
 						}
@@ -218,12 +205,12 @@ class _MainAppState extends State<MainApp> {
 			selectedIndex: selectedIndex,
 			items: [
 				FFNavigationBarItem(
-					iconData: FlutterIcons.ios_menu_ion,
-					label: 'Products',
+					iconData: FlutterIcons.home_outline_mco,
+					label: 'Home',
 				),
 				FFNavigationBarItem(
-					iconData: Icons.category,
-					label: 'Category',
+					iconData: FlutterIcons.$500px_ent,
+					label: 'Categories',
 				),
 				FFNavigationBarItem(
 					iconData: FlutterIcons.local_offer_mdi,

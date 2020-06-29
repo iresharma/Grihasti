@@ -66,7 +66,7 @@ class _CategorState extends State<Categor> {
 												elevation: 2,
 												child: Container(
 													padding: EdgeInsets.all(5),
-													height: 460,
+													height: 540,
 													width: MediaQuery.of(context).size.width,
 													child: Column(
 														crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +95,7 @@ class _CategorState extends State<Categor> {
 																	else {
 																		return Container(
 																			width: MediaQuery.of(context).size.width,
-																			height: 400,
+																			height: 480,
 																			child: ListView.builder(
 																				itemCount: (snapshot.data.documents.length/2).round(),
 																				scrollDirection: Axis.horizontal,
