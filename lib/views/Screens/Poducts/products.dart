@@ -102,7 +102,7 @@ class _ProductPageState extends State<ProductPage> {
 						elevation: 0,
 						child: Container(
 							padding: EdgeInsets.all(5),
-							height: 540,
+							height: 600,
 							width: MediaQuery.of(context).size.width,
 							child: Column(
 								crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,29 +131,33 @@ class _ProductPageState extends State<ProductPage> {
 											else {
 												return Container(
 													width: MediaQuery.of(context).size.width,
-													height: 480,
-													child: ListView.builder(
-														itemCount: (snapshot.data.documents.length/2).round(),
-														scrollDirection: Axis.horizontal,
-														shrinkWrap: true,
-														itemBuilder: (context, index) {
-															return Column(
-																children: <Widget>[
-																	ProductSquareBox(
-																		productId: snapshot.data.documents[index].documentID,
-																		desc: snapshot.data.documents[index].data['Desc'],
-																		Name: snapshot.data.documents[index].data['Name'],
-																		price: snapshot.data.documents[index].data['Price'],
-																	),
-																	ProductSquareBox(
-																		Name: snapshot.data.documents[index + 2].data['Name'],
-																		desc: snapshot.data.documents[index + 2].data['Desc'],
-																		price: snapshot.data.documents[index + 2].data['Price'],
-																		productId: snapshot.data.documents[index + 2].documentID,
-																	)
-																],
-															);
-														},
+													height: 540,
+													child: Scrollbar(
+														child: ListView.builder(
+															itemCount: (snapshot.data.documents.length/2).round(),
+															scrollDirection: Axis.horizontal,
+															shrinkWrap: true,
+															itemBuilder: (context, index) {
+																return Column(
+																	children: <Widget>[
+																		if(index%2 == 0)...{
+																			ProductSquareBox(
+																				Name: snapshot.data.documents[index].data['Name'],
+																				desc: snapshot.data.documents[index].data['Desc'],
+																				price: snapshot.data.documents[index].data['Price'],
+																				productId: snapshot.data.documents[index].documentID,
+																			),
+																			ProductSquareBox(
+																				Name: snapshot.data.documents[index + 1].data['Name'],
+																				desc: snapshot.data.documents[index + 1].data['Desc'],
+																				price: snapshot.data.documents[index + 1].data['Price'],
+																				productId: snapshot.data.documents[index + 1].documentID,
+																			),
+																		}
+																	],
+																);
+															},
+														),
 													),
 												);
 											}
@@ -172,7 +176,7 @@ class _ProductPageState extends State<ProductPage> {
 						elevation: 0,
 						child: Container(
 							padding: EdgeInsets.all(5),
-							height: 540,
+							height: 600,
 							width: MediaQuery.of(context).size.width,
 							child: Column(
 								crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,7 +205,7 @@ class _ProductPageState extends State<ProductPage> {
 											else {
 												return Container(
 													width: MediaQuery.of(context).size.width,
-													height: 480,
+													height: 540,
 													child: ListView.builder(
 														itemCount: (snapshot.data.documents.length/2).round(),
 														scrollDirection: Axis.horizontal,
@@ -209,18 +213,20 @@ class _ProductPageState extends State<ProductPage> {
 														itemBuilder: (context, index) {
 															return Column(
 																children: <Widget>[
-																	ProductSquareBox(
-																		productId: snapshot.data.documents[index].documentID,
-																		desc: snapshot.data.documents[index].data['Desc'],
-																		Name: snapshot.data.documents[index].data['Name'],
-																		price: snapshot.data.documents[index].data['Price'],
-																	),
-																	ProductSquareBox(
-																		Name: snapshot.data.documents[index + 2].data['Name'],
-																		desc: snapshot.data.documents[index + 2].data['Desc'],
-																		price: snapshot.data.documents[index + 2].data['Price'],
-																		productId: snapshot.data.documents[index + 2].documentID,
-																	)
+																	if(index%2 == 0)...{
+																		ProductSquareBox(
+																			Name: snapshot.data.documents[index].data['Name'],
+																			desc: snapshot.data.documents[index].data['Desc'],
+																			price: snapshot.data.documents[index].data['Price'],
+																			productId: snapshot.data.documents[index].documentID,
+																		),
+																		ProductSquareBox(
+																			Name: snapshot.data.documents[index + 1].data['Name'],
+																			desc: snapshot.data.documents[index + 1].data['Desc'],
+																			price: snapshot.data.documents[index + 1].data['Price'],
+																			productId: snapshot.data.documents[index + 1].documentID,
+																		),
+																	}
 																],
 															);
 														},
@@ -289,7 +295,7 @@ class _ProductPageState extends State<ProductPage> {
 						elevation: 0,
 						child: Container(
 							padding: EdgeInsets.all(5),
-							height: 540,
+							height: 600,
 							width: MediaQuery.of(context).size.width,
 							child: Column(
 								crossAxisAlignment: CrossAxisAlignment.start,
@@ -318,7 +324,7 @@ class _ProductPageState extends State<ProductPage> {
 											else {
 												return Container(
 													width: MediaQuery.of(context).size.width,
-													height: 480,
+													height: 540,
 													child: ListView.builder(
 														itemCount: (snapshot.data.documents.length/2).round(),
 														scrollDirection: Axis.horizontal,
@@ -326,18 +332,20 @@ class _ProductPageState extends State<ProductPage> {
 														itemBuilder: (context, index) {
 															return Column(
 																children: <Widget>[
-																	ProductSquareBox(
-																		productId: snapshot.data.documents[index].documentID,
-																		desc: snapshot.data.documents[index].data['Desc'],
-																		Name: snapshot.data.documents[index].data['Name'],
-																		price: snapshot.data.documents[index].data['Price'],
-																	),
-																	ProductSquareBox(
-																		Name: snapshot.data.documents[index + 2].data['Name'],
-																		desc: snapshot.data.documents[index + 2].data['Desc'],
-																		price: snapshot.data.documents[index + 2].data['Price'],
-																		productId: snapshot.data.documents[index + 2].documentID,
-																	)
+																	if(index%2 == 0)...{
+																		ProductSquareBox(
+																			Name: snapshot.data.documents[index].data['Name'],
+																			desc: snapshot.data.documents[index].data['Desc'],
+																			price: snapshot.data.documents[index].data['Price'],
+																			productId: snapshot.data.documents[index].documentID,
+																		),
+																		ProductSquareBox(
+																			Name: snapshot.data.documents[index + 1].data['Name'],
+																			desc: snapshot.data.documents[index + 1].data['Desc'],
+																			price: snapshot.data.documents[index + 1].data['Price'],
+																			productId: snapshot.data.documents[index + 1].documentID,
+																		),
+																	}
 																],
 															);
 														},

@@ -3,7 +3,9 @@ import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/views/Screens/Poducts/productPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_counter/flutter_counter.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:stepper_counter_swipe/stepper_counter_swipe.dart';
 
 class ProductSquareBox extends StatefulWidget {
 
@@ -20,6 +22,18 @@ class ProductSquareBox extends StatefulWidget {
 }
 
 class _ProductSquareBoxState extends State<ProductSquareBox> {
+
+	bool cart;
+	double _defaultValue;
+
+	@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    cart = false;
+	_defaultValue = 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -29,9 +43,10 @@ class _ProductSquareBoxState extends State<ProductSquareBox> {
 				borderRadius: BorderRadius.circular(10),
 			),
 			child: Container(
-				height: 220,
+				height: 250,
 				width: 180,
 				child: Column(
+					mainAxisAlignment: MainAxisAlignment.center,
 					children: <Widget>[
 						SizedBox(
 							height: 100,
@@ -99,12 +114,27 @@ class _ProductSquareBoxState extends State<ProductSquareBox> {
 						),
 						Padding(
 							padding: EdgeInsets.all(6),
-							child: FlatButton(
-								onPressed: () => print('Added'),
+							child: cart ? StepperSwipe(
+								initialValue:1,
+								speedTransitionLimitCount: 3, //Trigger count for fast counting
+								onChanged: (int value) => print('new value $value'),
+								firstIncrementDuration: Duration(milliseconds: 250), //Unit time before fast counting
+								secondIncrementDuration: Duration(milliseconds: 100), //Unit time during fast counting
+								direction: Axis.horizontal,
+								dragButtonColor: primaryMain,
+								withNaturalNumbers: false,
+								iconsColor: Colors.black38,
+								withPlusMinus: true,
+							) : FlatButton(
+								onPressed: () {
+									setState(() {
+									  cart = true;
+									});
+								},
 								child: Row(
 									mainAxisAlignment: MainAxisAlignment.spaceBetween,
 									children: <Widget>[
-										Icon(FlutterIcons.cart_plus_mco),
+									 	Icon(FlutterIcons.cart_plus_mco),
 										Text('Add to cart')
 									],
 								),

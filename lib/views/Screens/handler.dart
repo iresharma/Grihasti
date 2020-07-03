@@ -138,9 +138,6 @@ class _MainAppState extends State<MainApp> {
 							),
 						),
 						Center(
-							child: Offers(),
-						),
-						Center(
 							child: ProfilePage(),
 						)
 					],
@@ -152,11 +149,6 @@ class _MainAppState extends State<MainApp> {
 							});
 						}
 						else if(index == 1) {
-							setState(() {
-								isProfile = false;
-							});
-						}
-						else if(index == 2) {
 							setState(() {
 								isProfile = false;
 							});
@@ -211,10 +203,6 @@ class _MainAppState extends State<MainApp> {
 				FFNavigationBarItem(
 					iconData: FlutterIcons.$500px_ent,
 					label: 'Categories',
-				),
-				FFNavigationBarItem(
-					iconData: FlutterIcons.local_offer_mdi,
-					label: 'Offers',
 				),
 				FFNavigationBarItem(
 					iconData: FlutterIcons.user_astronaut_faw5s,

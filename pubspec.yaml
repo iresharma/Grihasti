@@ -44,6 +44,8 @@ dependencies:
   carousel_slider: ^2.1.0
   auto_size_text: ^2.1.0
   flutter_badged: ^1.0.1
+  flutter_counter: ^1.0.3
+  stepper_counter_swipe: ^0.0.5
 
 dev_dependencies:
   flutter_test:

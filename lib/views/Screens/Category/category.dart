@@ -53,7 +53,7 @@ class _CategorState extends State<Categor> {
 								),
 							),
 							Container(
-								height: MediaQuery.of(context).size.height - 150,
+								height: MediaQuery.of(context).size.height - 152.7,
 								child: ListView.builder(
 									itemCount: snapshot.data.documents[0].data['subCategories'].length,
 									itemBuilder: (context, index) {
@@ -66,7 +66,7 @@ class _CategorState extends State<Categor> {
 												elevation: 2,
 												child: Container(
 													padding: EdgeInsets.all(5),
-													height: 540,
+													height: 600,
 													width: MediaQuery.of(context).size.width,
 													child: Column(
 														crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +95,7 @@ class _CategorState extends State<Categor> {
 																	else {
 																		return Container(
 																			width: MediaQuery.of(context).size.width,
-																			height: 480,
+																			height: 540,
 																			child: ListView.builder(
 																				itemCount: (snapshot.data.documents.length/2).round(),
 																				scrollDirection: Axis.horizontal,

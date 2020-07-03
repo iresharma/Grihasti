@@ -272,6 +272,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  flutter_counter:
+    dependency: "direct main"
+    description:
+      name: flutter_counter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   flutter_icons:
     dependency: "direct main"
     description:
@@ -539,6 +546,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.2+1"
+  stepper_counter_swipe:
+    dependency: "direct main"
+    description:
+      name: stepper_counter_swipe
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
   stream_channel:
     dependency: transitive
     description:
