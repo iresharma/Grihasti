@@ -1,3 +1,4 @@
+import 'package:customerappgrihasti/views/Screens/cart.dart';
 import 'package:customerappgrihasti/views/splashScreen.dart';
 import 'package:customerappgrihasti/views/user/forgotPass.dart';
 import 'package:customerappgrihasti/views/user/login.dart';
@@ -9,6 +10,7 @@ Map<String, Widget Function(BuildContext)> Router() {
 		'/' : (_) => Splash(),
 		'/register': (_) => Registerpage(),
 		'/login': (_) => Login(),
+		'/cart': (_) => Cart()
 	};
 
 	return router;

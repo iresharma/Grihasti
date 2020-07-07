@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
 import 'package:customerappgrihasti/components/colorLoader.dart';
 import 'package:customerappgrihasti/views/Screens/Poducts/components/productSquareBox.dart';
@@ -147,6 +148,10 @@ class _ProductPageState extends State<ProductPage> {
 																				price: snapshot.data.documents[index].data['Price'],
 																				productId: snapshot.data.documents[index].documentID,
 																			),
+																			Divider(
+																				thickness: 2,
+																				color: Colors.black,
+																			),
 																			ProductSquareBox(
 																				Name: snapshot.data.documents[index + 1].data['Name'],
 																				desc: snapshot.data.documents[index + 1].data['Desc'],
@@ -219,6 +224,10 @@ class _ProductPageState extends State<ProductPage> {
 																			desc: snapshot.data.documents[index].data['Desc'],
 																			price: snapshot.data.documents[index].data['Price'],
 																			productId: snapshot.data.documents[index].documentID,
+																		),
+																		Divider(
+																			thickness: 2,
+																			color: Colors.black,
 																		),
 																		ProductSquareBox(
 																			Name: snapshot.data.documents[index + 1].data['Name'],
@@ -338,6 +347,10 @@ class _ProductPageState extends State<ProductPage> {
 																			desc: snapshot.data.documents[index].data['Desc'],
 																			price: snapshot.data.documents[index].data['Price'],
 																			productId: snapshot.data.documents[index].documentID,
+																		),
+																		Divider(
+																			thickness: 2,
+																			color: Colors.black,
 																		),
 																		ProductSquareBox(
 																			Name: snapshot.data.documents[index + 1].data['Name'],

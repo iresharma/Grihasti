@@ -38,3 +38,6 @@ Future<void> getUser() async {
 		print('loaded $User');
 	}
 }
+
+
+List<Map<String, dynamic>> cartItem = [];

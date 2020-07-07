@@ -42,20 +42,35 @@ class _SplashState extends State<Splash> {
 				  mainAxisAlignment: MainAxisAlignment.center,
 				  mainAxisSize: MainAxisSize.max,
 				  children: <Widget>[
-					  AutoSizeText(
-						  'GRIHASTI',
-						  style: TextStyle(
-							  color: secondaryMain,
-							  fontSize: 80.0,
-							  fontWeight: FontWeight.w700,
-							  fontFamily: 'Monospace'
-						  )
+					  Row(
+						  crossAxisAlignment: CrossAxisAlignment.start,
+						  mainAxisAlignment: MainAxisAlignment.center,
+						  children: <Widget>[
+							  Text(
+								  'G',
+								  style: TextStyle(
+									  color: secondaryMain,
+									  fontSize: MediaQuery.of(context).size.width * 0.3,
+									  fontWeight: FontWeight.w400,
+									  fontFamily: 'Calli2'
+								  )
+							  ),
+							  Text(
+								  'rihasti',
+								  style: TextStyle(
+									  color: secondaryMain,
+									  fontSize: MediaQuery.of(context).size.width * 0.2,
+									  fontWeight: FontWeight.w400,
+									  fontFamily: 'Calli'
+								  )
+							  )
+						  ],
 					  ),
 					  Text(
-						  'AAPKA SAMAN, AAPKI DUKAN',
+						  'आपका सामान, आपकी दुकान',
 						  style: TextStyle(
 							  color: secondarySec,
-							  fontSize: 15.0,
+							  fontSize: 25.0,
 							  fontStyle: FontStyle.italic,
 							  fontFamily: 'Raleway',
 						  ),

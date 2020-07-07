@@ -25,14 +25,37 @@ class _ProductSquareBoxState extends State<ProductSquareBox> {
 
 	bool cart;
 	double _defaultValue;
+	int current;
+	int count;
 
 	@override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    cart = false;
-	_defaultValue = 1;
-  }
+	void initState() {
+		// TODO: implement initState
+		super.initState();
+		cart = false;
+		_defaultValue = 1;
+		current = 0;
+		count = 1;
+		cartItem.forEach((re) => {
+			if(re['id'] == widget.productId) {
+				count++
+			}
+		});
+	}
+
+	void setter(){
+		for(int i = 0; i < cartItem.length-1; i++) {
+			var check = cartItem[i];
+			for(int j = i+1; j < cartItem.length; j++) {
+				if (check['id'] == cartItem[j]['id']) {
+					setState(() {
+						check['count']++;
+						cartItem.removeAt(j);
+					});
+				}
+			}
+		}
+	}
 
   @override
   Widget build(BuildContext context) {
@@ -114,21 +137,70 @@ class _ProductSquareBoxState extends State<ProductSquareBox> {
 						),
 						Padding(
 							padding: EdgeInsets.all(6),
-							child: cart ? StepperSwipe(
-								initialValue:1,
-								speedTransitionLimitCount: 3, //Trigger count for fast counting
-								onChanged: (int value) => print('new value $value'),
-								firstIncrementDuration: Duration(milliseconds: 250), //Unit time before fast counting
-								secondIncrementDuration: Duration(milliseconds: 100), //Unit time during fast counting
-								direction: Axis.horizontal,
-								dragButtonColor: primaryMain,
-								withNaturalNumbers: false,
-								iconsColor: Colors.black38,
-								withPlusMinus: true,
+							child: cart ? Container(
+								child: Row(
+									mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+									children: <Widget>[
+										IconButton(
+											icon: Icon(FlutterIcons.plus_fea),
+											splashColor: primaryMain,
+											color: secondarySec,
+											onPressed: () {
+												setState(() {
+													count = 0;
+													cartItem.add({
+														'Name': widget.Name,
+														'Price': widget.price.toString(),
+														'id': widget.productId,
+														'count': 1
+													});
+													setter();
+													cartItem.forEach((re) => {
+														if(re['id'] == widget.productId) {
+															count = re['count']
+														}
+													});
+												});
+											},
+										),
+										Text(count.toString()),
+										IconButton(
+											icon: Icon(FlutterIcons.minus_fea),
+											splashColor: primaryMain,
+											color: secondarySec,
+											focusColor: primaryMain,
+											onPressed: () {
+												setState(() {
+													for(int i = 0; i < cartItem.length; i++) {
+														if(cartItem[i]['id'] == widget.productId) {
+															cartItem[i]['count']--;
+															if(cartItem[i]['count'] == 0) {
+																cartItem.removeAt(i);
+															}
+															break;
+														}
+													}
+													count--;
+													if(count == 0) {
+														setState(() {
+														  cart = false;
+														});
+													}
+												});
+											},
+										),
+									],
+								),
 							) : FlatButton(
 								onPressed: () {
 									setState(() {
 									  cart = true;
+									  cartItem.add({
+										  'Name': widget.Name,
+										  'Price': widget.price.toString(),
+										  'id': widget.productId,
+										  'count': 1
+									  });
 									});
 								},
 								child: Row(

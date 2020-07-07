@@ -85,18 +85,21 @@ class _MainAppState extends State<MainApp> {
 									});
 								},
 							),
-							IconButton(
-								icon: FlutterBadge(
-									itemCount: cart,
-									icon: Icon(
-										FlutterIcons.cart_mco,
-										color: Colors.white,
+							Hero(
+								child: IconButton(
+									icon: FlutterBadge(
+										itemCount: cartItem.length,
+										icon: Icon(
+											FlutterIcons.cart_mco,
+											color: Colors.white,
+										),
+										badgeColor: Colors.greenAccent,
+										borderRadius: 20,
+										badgeTextColor: primaryMain,
 									),
-									badgeColor: Colors.greenAccent,
-									borderRadius: 20,
-									badgeTextColor: primaryMain,
+									onPressed: () => Navigator.of(context).pushNamed('/cart'),
 								),
-								onPressed: () => print('Cart'),
+								tag: 'cart button'
 							)
 						],
 					),
@@ -153,7 +156,7 @@ class _MainAppState extends State<MainApp> {
 								isProfile = false;
 							});
 						}
-						else if(index == 3) {
+						else if(index == 2) {
 							setState(() {
 								isProfile = true;
 							});
