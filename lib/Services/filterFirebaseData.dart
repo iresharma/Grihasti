@@ -3,7 +3,9 @@ import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/Products.dart';
 
 void topProducts() async {
+	print('====================Called==================');
 	List<DocumentSnapshot> stream = await Firestore.instance.collection('product').getDocuments().then((value) => value.documents);
+	Top = [];
 	stream.forEach((element) {
 		Top.add(
 			Products(

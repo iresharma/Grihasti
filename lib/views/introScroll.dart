@@ -1,5 +1,6 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/Services/secureStorage.dart';
+import 'package:customerappgrihasti/views/HomeScreen.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
@@ -18,17 +19,7 @@ class _IntroScrollerState extends State<IntroScroller> {
 		// Do what you want
 		Navigator.pushReplacement(
 			context,
-			MaterialPageRoute(builder: (context) => Scaffold(
-				body: Center(
-					child: FlatButton(
-						child: Text('Sign Out'),
-						onPressed: () => writeData({
-							'key': 'logged',
-							'value': 'false'
-						}),
-					),
-				),
-			)),
+			MaterialPageRoute(builder: (context) => HomeScreen())
 		);
 	}
 
@@ -121,16 +112,12 @@ class _IntroScrollerState extends State<IntroScroller> {
 				),
 			),
 			marginDescription: EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 70.0),
-			centerWidget: SizedBox(
-				height: 300,
-				width: 300,
-				child: FlareActor(
-					'assets/animation/delivery_scooter.flr',
-					alignment: Alignment.center,
-					fit: BoxFit.contain,
-					sizeFromArtboard: true,
-					animation: "run",
-				),
+			centerWidget: FlareActor(
+				'assets/animation/delivery_scooter.flr',
+				alignment: Alignment.center,
+				fit: BoxFit.contain,
+				sizeFromArtboard: true,
+				animation: "run",
 			),
 			colorBegin: secondaryMain,
 			colorEnd: secondaryMain,

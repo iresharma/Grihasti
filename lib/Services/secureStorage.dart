@@ -1,4 +1,5 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
+import 'package:customerappgrihasti/views/HomeScreen.dart';
 import 'package:customerappgrihasti/views/introScroll.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,17 +8,7 @@ final storage = new FlutterSecureStorage();
 
 Future<Null> loadData() async {
 	User = await storage.readAll();
-	landing = User['logged'] == "false" || User['logged'] == null ? IntroScroller() : Scaffold(
-		body: Center(
-			child: FlatButton(
-				child: Text('Sign Out'),
-				onPressed: () => writeData({
-					'key': 'logged',
-					'value': 'false'
-				}),
-			),
-		),
-	);
+	landing = User['logged'] == "false" || User['logged'] == null ? IntroScroller() : HomeScreen();
 }
 
 Future<Null> writeData(Map<String, String> data) async {

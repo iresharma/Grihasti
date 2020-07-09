@@ -18,7 +18,7 @@ Widget landing;
 
 List<Map<String, BiometricType>> available = [];
 
-Color primaryMain = Color(0xFFCC1A18);
+Color primaryMain = Color(0xFFFF3F47);
 Color primarySec = Colors.redAccent;
 Color secondaryMain = Colors.white;
 Color secondarySec = Colors.yellow;

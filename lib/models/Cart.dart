@@ -46,5 +46,17 @@ class CartItem extends ChangeNotifier {
 
 	int get len => cartItem.length;
 
-	int count(String id) => cartItem.where((element) => element.id == id).toList()[0].count;
+	int count(String id) {
+		bool z = true;
+		// ignore: missing_return
+		cartItem.forEach((element) {
+			if(element.id == id) {
+				z = false;
+				return element.count;
+			}
+		});
+		if(z) {
+			return 0;
+		}
+	}
 }
