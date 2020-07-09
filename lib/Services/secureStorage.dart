@@ -9,7 +9,13 @@ Future<Null> loadData() async {
 	User = await storage.readAll();
 	landing = User['logged'] == "false" || User['logged'] == null ? IntroScroller() : Scaffold(
 		body: Center(
-			child: Text('works'),
+			child: FlatButton(
+				child: Text('Sign Out'),
+				onPressed: () => writeData({
+					'key': 'logged',
+					'value': 'false'
+				}),
+			),
 		),
 	);
 }
