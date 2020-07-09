@@ -15,40 +15,40 @@ FirebaseAnalytics analytics;
 void main() => runApp(GrihastiApp());
 
 class GrihastiApp extends StatefulWidget {
-  @override
-  _GrihastiAppState createState() => _GrihastiAppState();
+	@override
+	_GrihastiAppState createState() => _GrihastiAppState();
 }
 
 class _GrihastiAppState extends State<GrihastiApp> {
 
-  void startup() async {
-    initFCM();
-    await initLA();
-    await loadData();
-    await getUser();
-    await handleDynamicLink();
-    analytics = FirebaseAnalytics();
-    analytics.logAppOpen();
-  }
+	void startup() async {
+		initFCM();
+		await initLA();
+		await loadData();
+		await getUser();
+		await handleDynamicLink();
+		analytics = FirebaseAnalytics();
+		analytics.logAppOpen();
+	}
 
-  @override
-  Widget build(BuildContext context) {
-    startup();
-    return MaterialApp(
-      debugShowCheckedModeBanner: true,
-      title: 'Grihasti',
-      initialRoute: '/',
-      routes: Router(),
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Color(0xFFCC1A18),
-        accentColor: Colors.redAccent
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Color(0xFFCC1A18),
-        accentColor: Colors.redAccent
-      ),
-    );
-  }
+	@override
+	Widget build(BuildContext context) {
+		startup();
+		return MaterialApp(
+			debugShowCheckedModeBanner: true,
+			title: 'Grihasti',
+			initialRoute: '/',
+			routes: Router(),
+			theme: ThemeData(
+				brightness: Brightness.light,
+				primaryColor: Color(0xFFCC1A18),
+				accentColor: Colors.redAccent
+			),
+			darkTheme: ThemeData(
+				brightness: Brightness.light,
+				primaryColor: Color(0xFFCC1A18),
+				accentColor: Colors.redAccent
+			),
+		);
+	}
 }

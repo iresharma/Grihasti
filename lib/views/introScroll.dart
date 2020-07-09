@@ -1,5 +1,4 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
-import 'package:customerappgrihasti/views/user/login.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
@@ -18,7 +17,11 @@ class _IntroScrollerState extends State<IntroScroller> {
 		// Do what you want
 		Navigator.pushReplacement(
 			context,
-			MaterialPageRoute(builder: (context) => Login()),
+			MaterialPageRoute(builder: (context) => Scaffold(
+				body: Center(
+					child: Text('works'),
+				),
+			)),
 		);
 	}
 
