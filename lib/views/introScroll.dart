@@ -1,4 +1,5 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
+import 'package:customerappgrihasti/Services/secureStorage.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
@@ -19,7 +20,13 @@ class _IntroScrollerState extends State<IntroScroller> {
 			context,
 			MaterialPageRoute(builder: (context) => Scaffold(
 				body: Center(
-					child: Text('works'),
+					child: FlatButton(
+						child: Text('Sign Out'),
+						onPressed: () => writeData({
+							'key': 'logged',
+							'value': 'false'
+						}),
+					),
 				),
 			)),
 		);
