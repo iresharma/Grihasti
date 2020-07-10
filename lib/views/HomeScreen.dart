@@ -1,10 +1,13 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/components/OfferBox.dart';
+import 'package:customerappgrihasti/components/ProductCard.dart';
 import 'package:customerappgrihasti/components/feelingBox.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_badged/flutter_badge.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
 							Text(
 								'G',
 								style: TextStyle(
-									color: Colors.black45,
+									color: Colors.black54,
 									fontSize: MediaQuery.of(context).size.width * 0.15,
 									fontWeight: FontWeight.w400,
 									fontFamily: 'Calli2',
@@ -46,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
 							Text(
 								'rihasti',
 								style: TextStyle(
-									color: Colors.black45,
+									color: Colors.black54,
 									fontSize: MediaQuery.of(context).size.width * 0.13,
 									fontWeight: FontWeight.w400,
 									fontFamily: 'Calli'
@@ -121,122 +124,130 @@ class _HomeScreenState extends State<HomeScreen> {
 						],
 					),
 				),
-				SingleChildScrollView(
-					child: Column(
-						children: <Widget>[
-							Container(
-								width: MediaQuery.of(context).size.width,
-								height: 120,
-								padding: EdgeInsets.all(0),
-								decoration: BoxDecoration(
-									color: Colors.grey.shade100
-								),
-								child: ListView.builder(
-									scrollDirection: Axis.horizontal,
-									itemCount: 5,
-									itemBuilder: (context, index) {
-										return OfferBox(
-											'500 off.',
-											index,
-											'Some more information, probably long',
-										);
-									},
-								),
-							),
-							FeelingBox(
-								text: 'Happiness to be delivered soon',
-								asset: 'assets/svg/Orders.svg',
-								redirect: 'Check your orders',
-							),
-							Container(
-								margin: EdgeInsets.only(
-									top: 30,
-									bottom: 10
-								),
-								padding: EdgeInsets.all(5),
-								height: 50,
-								decoration: BoxDecoration(
-									color: Colors.grey.shade200
-								),
-								width: MediaQuery.of(context).size.width,
-								child: ListView(
-									scrollDirection: Axis.horizontal,
+				Container(
+					color: Colors.grey.shade100,
+					height: MediaQuery.of(context).size.height -252,
+					child: ListView.builder(
+						primary: true,
+						itemCount: Top.length + 1,
+						itemBuilder: (context, index) {
+							if(index == 0) {
+								return Column(
 									children: <Widget>[
-										Align(
-											alignment: Alignment.center,
-											child: FlatButton(
-												child: Text(
-													'Top products',
-													style: TextStyle(
-														fontWeight: FontWeight.w800,
-														fontSize: 20,
-														color: primaryMain
-													),
-												),
-												onPressed: () => print('change'),
-											)
-										),
-										SizedBox(width: 10,),
-										Align(
-											alignment: Alignment.center,
-											child: FlatButton(
-												child: Text(
-													'Categories',
-													style: TextStyle(
-														fontWeight: FontWeight.w400,
-														fontSize: 20,
-													),
-												),
-												onPressed: () => print('change'),
+										Container(
+											width: MediaQuery.of(context).size.width,
+											height: 120,
+											padding: EdgeInsets.all(0),
+											child: ListView.builder(
+												scrollDirection: Axis.horizontal,
+												itemCount: 5,
+												itemBuilder: (context, index) {
+													return OfferBox(
+														'500 off.',
+														index,
+														'Some more information, probably long',
+													);
+												},
 											),
 										),
-										SizedBox(width: 10,),
-										Align(
-											alignment: Alignment.center,
-											child: FlatButton(
-												child: Text(
-													'Offers',
-													style: TextStyle(
-														fontWeight: FontWeight.w400,
-														fontSize: 20
-													),
-												),
-												onPressed: () => print('he'),
-											)
+										FeelingBox(
+											text: 'Happiness to be delivered soon',
+											asset: 'assets/svg/Orders.svg',
+											redirect: 'Check your orders',
 										),
-										SizedBox(width: 10,),
-										Align(
-											alignment: Alignment.center,
-											child: FlatButton(
-												child: Text(
-													'Hot Deals',
-													style: TextStyle(
-														fontWeight: FontWeight.w400,
-														fontSize: 20
+										Container(
+											margin: EdgeInsets.only(
+												top: 30,
+												bottom: 10
+											),
+											padding: EdgeInsets.all(5),
+											height: 50,
+											decoration: BoxDecoration(
+												color: Colors.grey.shade200
+											),
+											width: MediaQuery.of(context).size.width,
+											child: ListView(
+												scrollDirection: Axis.horizontal,
+												children: <Widget>[
+													Align(
+														alignment: Alignment.center,
+														child: FlatButton(
+															child: Text(
+																'Top products',
+																style: TextStyle(
+																	fontWeight: FontWeight.w800,
+																	fontSize: 20,
+																	color: primaryMain
+																),
+															),
+															onPressed: () => print('change'),
+														)
 													),
-												),
-												onPressed: () => print('g'),
-											)
-										),
-										SizedBox(width: 10,),
-										Align(
-											alignment: Alignment.center,
-											child: FlatButton(
-												child: Text(
-													'Previously ordered',
-													style: TextStyle(
-														fontWeight: FontWeight.w400,
-														fontSize: 20
+													SizedBox(width: 10,),
+													Align(
+														alignment: Alignment.center,
+														child: FlatButton(
+															child: Text(
+																'Categories',
+																style: TextStyle(
+																	fontWeight: FontWeight.w400,
+																	fontSize: 20,
+																),
+															),
+															onPressed: () => print('change'),
+														),
 													),
-												),
-												onPressed: () => print('hi'),
-											)
+													SizedBox(width: 10,),
+													Align(
+														alignment: Alignment.center,
+														child: FlatButton(
+															child: Text(
+																'Offers',
+																style: TextStyle(
+																	fontWeight: FontWeight.w400,
+																	fontSize: 20
+																),
+															),
+															onPressed: () => print('he'),
+														)
+													),
+													SizedBox(width: 10,),
+													Align(
+														alignment: Alignment.center,
+														child: FlatButton(
+															child: Text(
+																'Hot Deals',
+																style: TextStyle(
+																	fontWeight: FontWeight.w400,
+																	fontSize: 20
+																),
+															),
+															onPressed: () => print('g'),
+														)
+													),
+													SizedBox(width: 10,),
+													Align(
+														alignment: Alignment.center,
+														child: FlatButton(
+															child: Text(
+																'Previously ordered',
+																style: TextStyle(
+																	fontWeight: FontWeight.w400,
+																	fontSize: 20
+																),
+															),
+															onPressed: () => print('hi'),
+														)
+													),
+													SizedBox(width: 30,),
+												],
+											),
 										),
-										SizedBox(width: 30,),
 									],
-								),
-							),
-						],
+								);
+							}
+							else return ProductCard();
+						},
 					),
 				)
 			],
