@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
 import 'package:flutter/material.dart';

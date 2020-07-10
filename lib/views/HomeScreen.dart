@@ -1,18 +1,26 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/components/OfferBox.dart';
+import 'package:customerappgrihasti/components/feelingBox.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+	TextEditingController _controller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-		backgroundColor: Colors.grey.shade200,
+		backgroundColor: Colors.white,
 		appBar: PreferredSize(
 			child: AppBar(
 				backgroundColor: Colors.transparent,
@@ -90,9 +98,9 @@ class HomeScreen extends StatelessWidget {
 								],
 							),
 							Container(
-								height: 40,
+								height: 45,
 								decoration: BoxDecoration(
-									color: Colors.white,
+									color: Colors.grey.shade200,
 									borderRadius: BorderRadius.circular(5)
 								),
 								padding: EdgeInsets.only(
@@ -103,8 +111,11 @@ class HomeScreen extends StatelessWidget {
 									decoration: InputDecoration(
 										border: InputBorder.none,
 										icon: Icon(FlutterIcons.search1_ant),
+										floatingLabelBehavior: FloatingLabelBehavior.never,
 										labelText: 'Search...'
 									),
+									controller: _controller,
+									onChanged: (value) => print(value),
 								),
 							)
 						],
@@ -117,6 +128,9 @@ class HomeScreen extends StatelessWidget {
 								width: MediaQuery.of(context).size.width,
 								height: 120,
 								padding: EdgeInsets.all(0),
+								decoration: BoxDecoration(
+									color: Colors.grey.shade100
+								),
 								child: ListView.builder(
 									scrollDirection: Axis.horizontal,
 									itemCount: 5,
@@ -129,6 +143,99 @@ class HomeScreen extends StatelessWidget {
 									},
 								),
 							),
+							FeelingBox(
+								text: 'Happiness to be delivered soon',
+								asset: 'assets/svg/Orders.svg',
+								redirect: 'Check your orders',
+							),
+							Container(
+								margin: EdgeInsets.only(
+									top: 30,
+									bottom: 10
+								),
+								padding: EdgeInsets.all(5),
+								height: 50,
+								decoration: BoxDecoration(
+									color: Colors.grey.shade200
+								),
+								width: MediaQuery.of(context).size.width,
+								child: ListView(
+									scrollDirection: Axis.horizontal,
+									children: <Widget>[
+										Align(
+											alignment: Alignment.center,
+											child: FlatButton(
+												child: Text(
+													'Top products',
+													style: TextStyle(
+														fontWeight: FontWeight.w800,
+														fontSize: 20,
+														color: primaryMain
+													),
+												),
+												onPressed: () => print('change'),
+											)
+										),
+										SizedBox(width: 10,),
+										Align(
+											alignment: Alignment.center,
+											child: FlatButton(
+												child: Text(
+													'Categories',
+													style: TextStyle(
+														fontWeight: FontWeight.w400,
+														fontSize: 20,
+													),
+												),
+												onPressed: () => print('change'),
+											),
+										),
+										SizedBox(width: 10,),
+										Align(
+											alignment: Alignment.center,
+											child: FlatButton(
+												child: Text(
+													'Offers',
+													style: TextStyle(
+														fontWeight: FontWeight.w400,
+														fontSize: 20
+													),
+												),
+												onPressed: () => print('he'),
+											)
+										),
+										SizedBox(width: 10,),
+										Align(
+											alignment: Alignment.center,
+											child: FlatButton(
+												child: Text(
+													'Hot Deals',
+													style: TextStyle(
+														fontWeight: FontWeight.w400,
+														fontSize: 20
+													),
+												),
+												onPressed: () => print('g'),
+											)
+										),
+										SizedBox(width: 10,),
+										Align(
+											alignment: Alignment.center,
+											child: FlatButton(
+												child: Text(
+													'Previously ordered',
+													style: TextStyle(
+														fontWeight: FontWeight.w400,
+														fontSize: 20
+													),
+												),
+												onPressed: () => print('hi'),
+											)
+										),
+										SizedBox(width: 30,),
+									],
+								),
+							),
 						],
 					),
 				)
@@ -137,3 +244,4 @@ class HomeScreen extends StatelessWidget {
 	);
   }
 }
+
