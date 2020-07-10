@@ -297,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
 										],
 									);
 								}
-								else return ProductCard(index - 1);
+								else return ProductCard(index: index - 1);
 							},
 						),
 					)

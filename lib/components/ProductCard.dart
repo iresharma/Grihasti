@@ -7,11 +7,19 @@ import 'package:provider/provider.dart';
 
 import 'btnWithIcon.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
 
 	final int index;
 
-	ProductCard(this.index);
+  const ProductCard({Key key, this.index}) : super(key: key);
+
+  @override
+  _ProductCardState createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+
+	String dropdownValue = '1Kg';
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +38,7 @@ class ProductCard extends StatelessWidget {
 					width: MediaQuery.of(context).size.width/3,
 					height: MediaQuery.of(context).size.height/5 - 40,
 					child: BlurHash(
-						image: Top[index].Pic,
+						image: Top[widget.index].Pic,
 						hash: 'qEHV6nWB2yk8\$NxujFNGpyo0adR*=ss:I[R%.7kCMdnjx]S2NHs:S#M|%1%2ENRis9aiSis.slNHW:WBxZ%2ogaekBW;ofo0NHS4',
 					),
 				),
@@ -40,7 +48,7 @@ class ProductCard extends StatelessWidget {
 					mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 					children: <Widget>[
 						Text(
-							Top[index].Name,
+							Top[widget.index].Name,
 							style: TextStyle(
 								fontSize: 20,
 								fontWeight: FontWeight.w800
@@ -80,12 +88,28 @@ class ProductCard extends StatelessWidget {
 												fontSize: 15
 											),
 										),
-										Text(
-											'1kg',
-											style: TextStyle(
-												fontWeight: FontWeight.w400,
-												fontSize: 20
+										DropdownButton<String>(
+											value: dropdownValue,
+											icon: Icon(Icons.arrow_downward),
+											iconSize: 24,
+											elevation: 16,
+											style: TextStyle(color: Colors.deepPurple),
+											underline: Container(
+												height: 2,
+												color: primaryMain,
 											),
+											onChanged: (String newValue) {
+												setState(() {
+													dropdownValue = newValue;
+												});
+											},
+											items: <String>['1Kg', '2Kg', '5Kg', '10Kg']
+												.map<DropdownMenuItem<String>>((String value) {
+												return DropdownMenuItem<String>(
+													value: value,
+													child: Text(value),
+												);
+											}).toList(),
 										)
 									],
 								)
@@ -99,7 +123,7 @@ class ProductCard extends StatelessWidget {
 								Container(
 									width: 120,
 									child: Text(
-										'₹${Top[index].price}',
+										'₹${Top[widget.index].price}',
 										style: TextStyle(
 											color: primaryMain,
 											fontWeight: FontWeight.w900,
@@ -109,7 +133,7 @@ class ProductCard extends StatelessWidget {
 									color: Colors.white,
 								),
 								SizedBox(width: 40,),
-								if(Provider.of<CartItem>(context).count(Top[index].id) == 0)...{
+								if(Provider.of<CartItem>(context).count(Top[widget.index].id) == 0)...{
 									Container(
 										decoration: BoxDecoration(
 											color: primaryMain,
@@ -117,7 +141,7 @@ class ProductCard extends StatelessWidget {
 										),
 										height: 40,
 										child: GestureDetector(
-											onTap: () => Provider.of<CartItem>(context).addToCart(Top[index]),
+											onTap: () => Provider.of<CartItem>(context).addToCart(Top[widget.index]),
 											child: Row(
 												children: <Widget>[
 													Padding(
@@ -148,7 +172,7 @@ class ProductCard extends StatelessWidget {
 															),
 															color: Colors.white,
 															textColor: Colors.red,
-															onPressed: () => Provider.of<CartItem>(context).addToCart(Top[index]),
+															onPressed: () => Provider.of<CartItem>(context).addToCart(Top[widget.index]),
 														),
 													),
 													SizedBox(width: 5,)
@@ -184,13 +208,13 @@ class ProductCard extends StatelessWidget {
 														),
 														color: Colors.white,
 														textColor: Colors.red,
-														onPressed: () => Provider.of<CartItem>(context).removeFromCart(Top[index]),
+														onPressed: () => Provider.of<CartItem>(context).removeFromCart(Top[widget.index]),
 													),
 												),
 												Padding(
 													padding: EdgeInsets.all(10),
 													child: Text(
-														Provider.of<CartItem>(context).count(Top[index].id).toString(),
+														Provider.of<CartItem>(context).count(Top[widget.index].id).toString(),
 														style: TextStyle(
 															color: Colors.white,
 															fontWeight: FontWeight.w700,
@@ -215,7 +239,7 @@ class ProductCard extends StatelessWidget {
 														),
 														color: Colors.white,
 														textColor: Colors.red,
-														onPressed: () => Provider.of<CartItem>(context).addToCart(Top[index]),
+														onPressed: () => Provider.of<CartItem>(context).addToCart(Top[widget.index]),
 													),
 												),
 												SizedBox(width: 5,)
@@ -232,3 +256,4 @@ class ProductCard extends StatelessWidget {
 	);
   }
 }
+
