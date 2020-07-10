@@ -14,7 +14,7 @@ void topProducts() async {
 				element.data['Desc'],
 				element.data['Price'],
 				element.data['Pic'],
-				element.data['hash'] ?? ''
+				element.data['hash'] ?? '|HFFaXYk^6#M9wKSW@j=#*@-5c,1J5O[V=Nfs;w[@[or[k6.O[TLtJnNnO};FxngOZE3NgNHsps,jMFeS#OtcXnzRjxZxHj]OYNeR:JCs9xunhwIbeIpNaxHNGr;v}aeo0Xmt6XS\$et6#*\$ft6nhxHnNV@w{nOenwfNHo0'
 			)
 		);
 	});

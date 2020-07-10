@@ -21,7 +21,7 @@ List<Map<String, BiometricType>> available = [];
 Color primaryMain = Color(0xFFFF3F47);
 Color primarySec = Colors.redAccent;
 Color secondaryMain = Colors.white;
-Color secondarySec = Colors.yellow;
+Color secondarySec = Color(0xFFF9A825);
 
 
 Future<void> getUser() async {
