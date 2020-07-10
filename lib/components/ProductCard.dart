@@ -1,8 +1,18 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
+import 'package:customerappgrihasti/models/Cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
+
+import 'btnWithIcon.dart';
 
 class ProductCard extends StatelessWidget {
+
+	final int index;
+
+	ProductCard(this.index);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,7 +30,7 @@ class ProductCard extends StatelessWidget {
 					width: MediaQuery.of(context).size.width/3,
 					height: MediaQuery.of(context).size.height/5 - 40,
 					child: BlurHash(
-						image: Top[0].Pic,
+						image: Top[index].Pic,
 						hash: 'qEHV6nWB2yk8\$NxujFNGpyo0adR*=ss:I[R%.7kCMdnjx]S2NHs:S#M|%1%2ENRis9aiSis.slNHW:WBxZ%2ogaekBW;ofo0NHS4',
 					),
 				),
@@ -30,7 +40,7 @@ class ProductCard extends StatelessWidget {
 					mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 					children: <Widget>[
 						Text(
-							Top[0].Name,
+							Top[index].Name,
 							style: TextStyle(
 								fontSize: 20,
 								fontWeight: FontWeight.w800
@@ -81,17 +91,138 @@ class ProductCard extends StatelessWidget {
 								)
 							],
 						),
+						SizedBox(height: 30,),
 						Row(
 							mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+							mainAxisSize: MainAxisSize.max,
 							children: <Widget>[
-								Text(
-									'₹${Top[0].price}',
-									style: TextStyle(
-										color: primaryMain,
-										fontWeight: FontWeight.w900,
-										fontSize: 20
+								Container(
+									width: 120,
+									child: Text(
+										'₹${Top[index].price}',
+										style: TextStyle(
+											color: primaryMain,
+											fontWeight: FontWeight.w900,
+											fontSize: 35
+										),
 									),
-								)
+									color: Colors.white,
+								),
+								SizedBox(width: 40,),
+								if(Provider.of<CartItem>(context).count(Top[index].id) == 0)...{
+									Container(
+										decoration: BoxDecoration(
+											color: primaryMain,
+											borderRadius: BorderRadius.circular(100)
+										),
+										height: 40,
+										child: GestureDetector(
+											onTap: () => Provider.of<CartItem>(context).addToCart(Top[index]),
+											child: Row(
+												children: <Widget>[
+													Padding(
+														padding: EdgeInsets.all(10),
+														child: Text(
+															'Add',
+															style: TextStyle(
+																color: Colors.white,
+																fontWeight: FontWeight.w700,
+																fontSize: 20
+															),
+														),
+													),
+													Container(
+														height: 32,
+														width: 32,
+														padding: EdgeInsets.all(0),
+														child: MaterialButton(
+															shape: CircleBorder(side: BorderSide(width: 0, color: Colors.red, style: BorderStyle.solid)),
+															child: Text(
+																'+',
+																style: TextStyle(
+																	color: primaryMain,
+																	fontSize: 32,
+																	fontWeight: FontWeight.w300
+																),
+																textAlign: TextAlign.center,
+															),
+															color: Colors.white,
+															textColor: Colors.red,
+															onPressed: () => Provider.of<CartItem>(context).addToCart(Top[index]),
+														),
+													),
+													SizedBox(width: 5,)
+												],
+											),
+										),
+									)
+								}
+								else...{
+									Container(
+										decoration: BoxDecoration(
+											color: primaryMain,
+											borderRadius: BorderRadius.circular(100)
+										),
+										height: 40,
+										child: Row(
+											children: <Widget>[
+												SizedBox(width: 5,),
+												Container(
+													height: 32,
+													width: 32,
+													padding: EdgeInsets.all(0),
+													child: MaterialButton(
+														shape: CircleBorder(side: BorderSide(width: 0, color: Colors.red, style: BorderStyle.solid)),
+														child: Text(
+															'-',
+															style: TextStyle(
+																color: primaryMain,
+																fontSize: 32,
+																fontWeight: FontWeight.w300
+															),
+															textAlign: TextAlign.center,
+														),
+														color: Colors.white,
+														textColor: Colors.red,
+														onPressed: () => Provider.of<CartItem>(context).removeFromCart(Top[index]),
+													),
+												),
+												Padding(
+													padding: EdgeInsets.all(10),
+													child: Text(
+														Provider.of<CartItem>(context).count(Top[index].id).toString(),
+														style: TextStyle(
+															color: Colors.white,
+															fontWeight: FontWeight.w700,
+															fontSize: 20
+														),
+													),
+												),
+												Container(
+													height: 32,
+													width: 32,
+													padding: EdgeInsets.all(0),
+													child: MaterialButton(
+														shape: CircleBorder(side: BorderSide(width: 0, color: Colors.red, style: BorderStyle.solid)),
+														child: Text(
+															'+',
+															style: TextStyle(
+																color: primaryMain,
+																fontSize: 32,
+																fontWeight: FontWeight.w300
+															),
+															textAlign: TextAlign.center,
+														),
+														color: Colors.white,
+														textColor: Colors.red,
+														onPressed: () => Provider.of<CartItem>(context).addToCart(Top[index]),
+													),
+												),
+												SizedBox(width: 5,)
+											],
+										),
+									)
+								}
 							],
 						)
 					],

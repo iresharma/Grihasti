@@ -20,6 +20,22 @@ class CartItem extends ChangeNotifier {
 
 	List<ProductCart> cartItem = [];
 
+	void removeFromCart(Products prod) {
+		bool removed = false;
+		cartItem.forEach((element) {
+			if(element.id == prod.id) {
+				element.count--;
+				if(element.count == 0) {
+					removed = true;
+				}
+			}
+		});
+		if(removed) {
+			cartItem.removeWhere((element) => element.id == prod.id);
+		}
+		notifyListeners();
+	}
+
 	void addToCart(Products adds) {
 		bool added = false;
 		cartItem.forEach((element) {
@@ -37,7 +53,7 @@ class CartItem extends ChangeNotifier {
 					adds.price,
 					adds.Pic,
 					adds.hash,
-					0
+					1
 				)
 			);
 		}
@@ -48,15 +64,18 @@ class CartItem extends ChangeNotifier {
 
 	int count(String id) {
 		bool z = true;
-		// ignore: missing_return
+		int k;
 		cartItem.forEach((element) {
 			if(element.id == id) {
 				z = false;
-				return element.count;
+				k =  element.count;
 			}
 		});
 		if(z) {
 			return 0;
+		}
+		else {
+			return k;
 		}
 	}
 }
