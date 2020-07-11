@@ -1,25 +1,31 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/models/Products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
-import 'btnWithIcon.dart';
-
 class ProductCard extends StatefulWidget {
 
-	final int index;
+	final Products product;
 
-  const ProductCard({Key key, this.index}) : super(key: key);
+	const ProductCard({Key key, this.product}) : super(key: key);
 
-  @override
-  _ProductCardState createState() => _ProductCardState();
+	@override
+	_ProductCardState createState() => _ProductCardState();
 }
 
 class _ProductCardState extends State<ProductCard> {
 
-	String dropdownValue = '1Kg';
+	int dropDownValue;
+
+	@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    dropDownValue = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,7 @@ class _ProductCardState extends State<ProductCard> {
 					width: MediaQuery.of(context).size.width/3,
 					height: MediaQuery.of(context).size.height/5 - 40,
 					child: BlurHash(
-						image: Top[widget.index].Pic,
+						image: widget.product.Pic,
 						hash: 'qEHV6nWB2yk8\$NxujFNGpyo0adR*=ss:I[R%.7kCMdnjx]S2NHs:S#M|%1%2ENRis9aiSis.slNHW:WBxZ%2ogaekBW;ofo0NHS4',
 					),
 				),
@@ -47,13 +53,15 @@ class _ProductCardState extends State<ProductCard> {
 					crossAxisAlignment: CrossAxisAlignment.start,
 					mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 					children: <Widget>[
+						SizedBox(height: 10,),
 						Text(
-							Top[widget.index].Name,
+							widget.product.Name,
 							style: TextStyle(
-								fontSize: 20,
+								fontSize: 25,
 								fontWeight: FontWeight.w800
 							),
 						),
+						SizedBox(height: 10,),
 						Row(
 							mainAxisAlignment: MainAxisAlignment.spaceBetween,
 							mainAxisSize: MainAxisSize.max,
@@ -69,7 +77,7 @@ class _ProductCardState extends State<ProductCard> {
 											),
 										),
 										Text(
-											'Personal Care',
+											widget.product.category,
 											style: TextStyle(
 												fontWeight: FontWeight.w400,
 												fontSize: 20
@@ -77,7 +85,7 @@ class _ProductCardState extends State<ProductCard> {
 										)
 									],
 								),
-								SizedBox(width: 60,),
+								SizedBox(width: 50,),
 								Column(
 									crossAxisAlignment: CrossAxisAlignment.start,
 									children: <Widget>[
@@ -89,25 +97,30 @@ class _ProductCardState extends State<ProductCard> {
 											),
 										),
 										DropdownButton<String>(
-											value: dropdownValue,
-											icon: Icon(Icons.arrow_downward),
+											value: widget.product.variety.indexOf(widget.product.variety[dropDownValue]).toString(),
+											icon: Icon(FlutterIcons.chevron_down_fea),
 											iconSize: 24,
 											elevation: 16,
 											style: TextStyle(color: Colors.deepPurple),
-											underline: Container(
-												height: 2,
-												color: primaryMain,
-											),
 											onChanged: (String newValue) {
 												setState(() {
-													dropdownValue = newValue;
+													print(newValue);
+												  dropDownValue = int.parse(newValue);
 												});
 											},
-											items: <String>['1Kg', '2Kg', '5Kg', '10Kg']
+											underline: Container(
+												height: 0,
+											),
+											items: widget.product.variety
 												.map<DropdownMenuItem<String>>((String value) {
 												return DropdownMenuItem<String>(
-													value: value,
-													child: Text(value),
+													value: widget.product.variety.indexOf(value).toString(),
+													child: Text(
+														value,
+														style: TextStyle(
+															fontSize: 20
+														),
+													),
 												);
 											}).toList(),
 										)
@@ -115,7 +128,7 @@ class _ProductCardState extends State<ProductCard> {
 								)
 							],
 						),
-						SizedBox(height: 30,),
+						SizedBox(height: 10,),
 						Row(
 							mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 							mainAxisSize: MainAxisSize.max,
@@ -123,7 +136,7 @@ class _ProductCardState extends State<ProductCard> {
 								Container(
 									width: 120,
 									child: Text(
-										'₹${Top[widget.index].price}',
+										'₹${widget.product.price[dropDownValue]}',
 										style: TextStyle(
 											color: primaryMain,
 											fontWeight: FontWeight.w900,
@@ -133,7 +146,7 @@ class _ProductCardState extends State<ProductCard> {
 									color: Colors.white,
 								),
 								SizedBox(width: 40,),
-								if(Provider.of<CartItem>(context).count(Top[widget.index].id) == 0)...{
+								if(Provider.of<CartItem>(context).count(widget.product.id, widget.product.variety[dropDownValue]) == 0)...{
 									Container(
 										decoration: BoxDecoration(
 											color: primaryMain,
@@ -141,7 +154,17 @@ class _ProductCardState extends State<ProductCard> {
 										),
 										height: 40,
 										child: GestureDetector(
-											onTap: () => Provider.of<CartItem>(context).addToCart(Top[widget.index]),
+											onTap: () => Provider.of<CartItem>(context).addToCart(ProductCart(
+												widget.product.id,
+												widget.product.Name,
+												widget.product.desc,
+												widget.product.price[dropDownValue],
+												widget.product.Pic,
+												widget.product.hash,
+												0,
+												widget.product.category,
+												widget.product.variety[dropDownValue]
+											)),
 											child: Row(
 												children: <Widget>[
 													Padding(
@@ -172,7 +195,17 @@ class _ProductCardState extends State<ProductCard> {
 															),
 															color: Colors.white,
 															textColor: Colors.red,
-															onPressed: () => Provider.of<CartItem>(context).addToCart(Top[widget.index]),
+															onPressed: () => Provider.of<CartItem>(context).addToCart(ProductCart(
+																widget.product.id,
+																widget.product.Name,
+																widget.product.desc,
+																widget.product.price[dropDownValue],
+																widget.product.Pic,
+																widget.product.hash,
+																0,
+																widget.product.category,
+																widget.product.variety[dropDownValue]
+															)),
 														),
 													),
 													SizedBox(width: 5,)
@@ -208,13 +241,23 @@ class _ProductCardState extends State<ProductCard> {
 														),
 														color: Colors.white,
 														textColor: Colors.red,
-														onPressed: () => Provider.of<CartItem>(context).removeFromCart(Top[widget.index]),
+														onPressed: () => Provider.of<CartItem>(context).removeFromCart(ProductCart(
+															widget.product.id,
+															widget.product.Name,
+															widget.product.desc,
+															widget.product.price[dropDownValue],
+															widget.product.Pic,
+															widget.product.hash,
+															0,
+															widget.product.category,
+															widget.product.variety[dropDownValue]
+														)),
 													),
 												),
 												Padding(
 													padding: EdgeInsets.all(10),
 													child: Text(
-														Provider.of<CartItem>(context).count(Top[widget.index].id).toString(),
+														Provider.of<CartItem>(context).count(widget.product.id, widget.product.variety[dropDownValue]).toString(),
 														style: TextStyle(
 															color: Colors.white,
 															fontWeight: FontWeight.w700,
@@ -239,7 +282,17 @@ class _ProductCardState extends State<ProductCard> {
 														),
 														color: Colors.white,
 														textColor: Colors.red,
-														onPressed: () => Provider.of<CartItem>(context).addToCart(Top[widget.index]),
+														onPressed: () => Provider.of<CartItem>(context).addToCart(ProductCart(
+															widget.product.id,
+															widget.product.Name,
+															widget.product.desc,
+															widget.product.price[dropDownValue],
+															widget.product.Pic,
+															widget.product.hash,
+															0,
+															widget.product.category,
+															widget.product.variety[dropDownValue]
+														)),
 													),
 												),
 												SizedBox(width: 5,)

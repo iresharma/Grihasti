@@ -15,7 +15,7 @@ class FeelingBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
 		margin: EdgeInsets.all(10),
-		color: Colors.grey.shade100,
+		color: Colors.white,
 		child: DottedBorder(
 			color: primaryMain,
 			strokeWidth: 2,

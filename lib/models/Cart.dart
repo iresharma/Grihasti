@@ -10,20 +10,20 @@ class ProductCart {
 	final String Pic;
 	final String hash;
 	int count;
+	final String category;
+	final String variety;
 
-	ProductCart(this.id, this.Name, this.desc, this.price, this.Pic, this.hash, this.count);
+	ProductCart(this.id, this.Name, this.desc, this.price, this.Pic, this.hash, this.count, this.category, this.variety);
 }
-
-
 
 class CartItem extends ChangeNotifier {
 
 	List<ProductCart> cartItem = [];
 
-	void removeFromCart(Products prod) {
+	void removeFromCart(ProductCart prod) {
 		bool removed = false;
 		cartItem.forEach((element) {
-			if(element.id == prod.id) {
+			if(element.id == prod.id && element.variety == prod.variety) {
 				element.count--;
 				if(element.count == 0) {
 					removed = true;
@@ -31,15 +31,15 @@ class CartItem extends ChangeNotifier {
 			}
 		});
 		if(removed) {
-			cartItem.removeWhere((element) => element.id == prod.id);
+			cartItem.removeWhere((element) => element.id == prod.id && element.variety == prod.variety);
 		}
 		notifyListeners();
 	}
 
-	void addToCart(Products adds) {
+	void addToCart(ProductCart adds) {
 		bool added = false;
 		cartItem.forEach((element) {
-			if(adds.id == element.id) {
+			if(adds.id == element.id && element.variety == adds.variety) {
 				element.count++;
 				added = true;
 			}
@@ -53,7 +53,9 @@ class CartItem extends ChangeNotifier {
 					adds.price,
 					adds.Pic,
 					adds.hash,
-					1
+					1,
+					adds.category,
+					adds.variety
 				)
 			);
 		}
@@ -62,11 +64,11 @@ class CartItem extends ChangeNotifier {
 
 	int get len => cartItem.length;
 
-	int count(String id) {
+	int count(String id, String variety) {
 		bool z = true;
 		int k;
 		cartItem.forEach((element) {
-			if(element.id == id) {
+			if(element.id == id && element.variety == variety) {
 				z = false;
 				k =  element.count;
 			}
