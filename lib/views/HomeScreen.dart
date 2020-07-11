@@ -1,4 +1,6 @@
+import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -14,13 +16,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+	PageController _controller = new PageController();
+	int num = 0;
+
   @override
   Widget build(BuildContext context) {
-    return Builder(
-		builder: (context) => Scaffold(
-			backgroundColor: Colors.white,
-			appBar: PreferredSize(
-				child: AppBar(
+    return Scaffold(
+		backgroundColor: Colors.white,
+		appBar: PreferredSize(
+			child: Builder(
+				builder: (context) => AppBar(
 					backgroundColor: Colors.transparent,
 					leading: IconButton(
 						icon: Icon(FlutterIcons.align_left_fea, color: Colors.black38,),
@@ -70,30 +76,120 @@ class _HomeScreenState extends State<HomeScreen> {
 						)
 					],
 				),
-				preferredSize: Size.fromHeight(80.0)
 			),
-			drawer: Drawer(
-				child: SafeArea(
-					child: Column(
-						children: <Widget>[
-							Text('hello')
-						],
+			preferredSize: Size.fromHeight(80.0)
+		),
+		drawer: ClipPath(
+			clipper: _DrawerClipper(),
+			child: Container(
+				width: MediaQuery.of(context).size.width -150,
+				child: Drawer(
+					child: SafeArea(
+						child: ListView(
+							children: <Widget>[
+								Container(
+									height: MediaQuery.of(context).size.height/5,
+									color: primaryMain,
+									child: Row(
+										crossAxisAlignment: CrossAxisAlignment.center,
+										mainAxisSize: MainAxisSize.max,
+										mainAxisAlignment: MainAxisAlignment.start,
+										children: <Widget>[
+											SizedBox(width: 30,),
+											CircleAvatar(
+												child: Image.asset('assets/images/avataaars.png'),
+												radius: 50,
+											),
+											SizedBox(width: 30,),
+											Column(
+												mainAxisAlignment: MainAxisAlignment.center,
+												children: <Widget>[
+													Text(
+														'Name Sharma',
+														style: TextStyle(
+															fontSize: 25,
+															fontWeight: FontWeight.w700,
+															color: secondaryMain
+														),
+													),
+													Text(
+														'Coins: 20',
+														style: TextStyle(
+															fontSize: 20,
+															fontWeight: FontWeight.w300,
+															color: secondarySec
+														),
+													)
+												],
+											)
+										],
+									),
+								)
+							],
+						),
 					),
 				),
 			),
-			body: PageView(
-				children: <Widget>[
-					HOme(),
-					Center(
-						child: Text(
-							'Page2',
-							style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-						),
-					)
-				],
-			)
+		),
+		body: PageView(
+			controller: _controller,
+			onPageChanged: (index) {
+				setState(() {
+				  num = index;
+				});
+			},
+			children: <Widget>[
+				HOme(),
+				Center(
+					child: Text(
+						'Page2',
+						style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+					),
+				),
+				Center(
+					child: Text(
+						'Page3',
+						style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+					),
+				)
+			],
+		),
+		extendBody: true,
+		bottomNavigationBar: FloatingNavbar(
+			onTap: (int val) {
+				_controller.animateToPage(val, duration: Duration(milliseconds: 250), curve: Curves.easeIn);
+				setState(() {
+				  num = val;
+				});
+			},
+			currentIndex: num,
+			items: [
+				FloatingNavbarItem(icon: Icons.home, title: 'Home'),
+				FloatingNavbarItem(icon: FlutterIcons.all_inclusive_mco, title: 'Categories'),
+				FloatingNavbarItem(icon: FlutterIcons.profile_ant, title: 'Profile'),
+			],
+			backgroundColor: secondaryMain,
+			selectedItemColor: primaryMain,
+			selectedBackgroundColor: Colors.grey.shade200,
+			unselectedItemColor: secondarySec,
 		),
 	);
   }
 }
 
+
+class _DrawerClipper extends CustomClipper<Path> {
+	@override
+	Path getClip(Size size) {
+		Path path = Path();
+
+		path.moveTo(size.width - 50, 0);
+		path.quadraticBezierTo(size.width, size.height / 2, size.width  - 50, size.height);
+		path.lineTo(0, size.height);
+		path.lineTo(0, 0);
+		return path;
+	}
+
+	@override
+	bool shouldReclip(CustomClipper<Path> oldClipper) => true;
+}
