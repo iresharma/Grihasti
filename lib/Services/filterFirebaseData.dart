@@ -14,18 +14,6 @@ void topProducts() async {
 			prices.add(variey['price']);
 			variety.add(variey['name']);
 		});
-//		Top.add(
-//			Products(
-//				element.documentID,
-//				element.data['Name'],
-//				element.data['Desc'],
-//				element.data['Price'],
-//				element.data['Pic'],
-//				element.data['hash'] ?? '|HFFaXYk^6#M9wKSW@j=#*@-5c,1J5O[V=Nfs;w[@[or[k6.O[TLtJnNnO};FxngOZE3NgNHsps,jMFeS#OtcXnzRjxZxHj]OYNeR:JCs9xunhwIbeIpNaxHNGr;v}aeo0Xmt6XS\$et6#*\$ft6nhxHnNV@w{nOenwfNHo0',
-//				element.data['category'] ?? 'Personal Care',
-//				element.data['variety'] ?? ['1Kg', '2Kg', '5Kg', '10Kg']
-//			)
-//		);
 		Top.add(
 			Products(
 				element.documentID,

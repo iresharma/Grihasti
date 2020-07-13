@@ -54,7 +54,11 @@ class FeelingBox extends StatelessWidget {
 											color: Colors.blue
 										),
 									),
-									onPressed: () => print('Offers'),
+									onPressed: () {
+										if(redirect == 'Place your order') {
+											Navigator.of(context).pushNamed('/cart');
+										}
+									},
 								)
 							],
 						)

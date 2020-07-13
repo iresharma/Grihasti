@@ -64,6 +64,19 @@ class CartItem extends ChangeNotifier {
 
 	int get len => cartItem.length;
 
+	int get totalPrice {
+		int price = 0;
+		cartItem.forEach((element) {
+			price = price + element.count * element.price;
+		});
+		return price;
+	}
+
+	void empty() {
+		cartItem = [];
+		notifyListeners();
+	}
+
 	int count(String id, String variety) {
 		bool z = true;
 		int k;

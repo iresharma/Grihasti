@@ -11,6 +11,7 @@ import 'package:flutter_badged/flutter_badge.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
+import 'Profile.dart';
 import 'home.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,51 +32,63 @@ class _HomeScreenState extends State<HomeScreen> {
 			child: Builder(
 				builder: (context) => AppBar(
 					backgroundColor: Colors.transparent,
-					leading: IconButton(
-						icon: Icon(FlutterIcons.align_left_fea, color: Colors.black38,),
-						onPressed: () => Scaffold.of(context).openDrawer(),
+					leading: Hero(
+						child: IconButton(
+							icon: Icon(FlutterIcons.align_left_fea, color: Colors.black38,),
+							onPressed: () => Scaffold.of(context).openDrawer(),
+						),
+						tag: 'Drawer',
 					),
 					elevation: 0,
 					flexibleSpace: SafeArea(
-						child: Row(
-							crossAxisAlignment: CrossAxisAlignment.start,
-							mainAxisAlignment: MainAxisAlignment.center,
-							children: <Widget>[
-								Text(
-									'G',
-									style: TextStyle(
-										color: Colors.black54,
-										fontSize: MediaQuery.of(context).size.width * 0.15,
-										fontWeight: FontWeight.w400,
-										fontFamily: 'Calli2',
+						child: Hero(
+							child: Row(
+								crossAxisAlignment: CrossAxisAlignment.start,
+								mainAxisAlignment: MainAxisAlignment.center,
+								children: <Widget>[
+									Text(
+										'G',
+										style: TextStyle(
+											color: Colors.black54,
+											fontSize: MediaQuery.of(context).size.width * 0.15,
+											fontWeight: FontWeight.w400,
+											fontFamily: 'Calli2',
+										)
+									),
+									Text(
+										'rihasti',
+										style: TextStyle(
+											color: Colors.black54,
+											fontSize: MediaQuery.of(context).size.width * 0.13,
+											fontWeight: FontWeight.w400,
+											fontFamily: 'Calli'
+										)
 									)
-								),
-								Text(
-									'rihasti',
-									style: TextStyle(
-										color: Colors.black54,
-										fontSize: MediaQuery.of(context).size.width * 0.13,
-										fontWeight: FontWeight.w400,
-										fontFamily: 'Calli'
-									)
-								)
-							],
+								],
+							),
+							tag: 'Logo',
 						),
 					),
 					actions: <Widget>[
-						IconButton(
-							icon: Icon(FlutterIcons.search1_ant,color: Colors.black38,),
-							onPressed: () => print('hi'),
-						),
-						IconButton(
-							icon: FlutterBadge(
-								itemCount: Provider.of<CartItem>(context).len,
-								badgeColor: Colors.greenAccent,
-								icon: Icon(FlutterIcons.cart_evi, size: 35, color: Colors.black38,),
-								badgeTextColor: Colors.black38,
-								contentPadding: EdgeInsets.all(7),
+						Hero(
+							child: IconButton(
+								icon: Icon(FlutterIcons.search1_ant,color: Colors.black38,),
+								onPressed: () => print('hi'),
 							),
-							onPressed: () => Navigator.of(context).pushNamed('/cart'),
+							tag: 'Search',
+						),
+						Hero(
+							child: IconButton(
+								icon: FlutterBadge(
+									itemCount: Provider.of<CartItem>(context).len,
+									badgeColor: Colors.greenAccent,
+									icon: Icon(FlutterIcons.cart_evi, size: 35, color: Colors.black38,),
+									badgeTextColor: Colors.black38,
+									contentPadding: EdgeInsets.all(7),
+								),
+								onPressed: () => Navigator.of(context).pushNamed('/cart'),
+							),
+							tag: 'Cart',
 						)
 					],
 				),
@@ -108,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
 												mainAxisAlignment: MainAxisAlignment.center,
 												children: <Widget>[
 													Text(
-														Activeuser.Name,
+														Activeuser.Name ?? 'Name Sharma',
 														style: TextStyle(
 															fontSize: 25,
 															fontWeight: FontWeight.w700,
@@ -134,6 +147,10 @@ class _HomeScreenState extends State<HomeScreen> {
 										.then((value) => Navigator.of(context).pushReplacement(new MaterialPageRoute(
 										builder: (_) => Login()
 									))),
+								),
+								FlatButton(
+									child: Text('Orders'),
+									onPressed: () => print('orders'),
 								)
 							],
 						),
@@ -156,12 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
 						style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
 					),
 				),
-				Center(
-					child: Text(
-						'Page3',
-						style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-					),
-				)
+				ProfilePage()
 			],
 		),
 		extendBody: true,
@@ -176,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
 			items: [
 				FloatingNavbarItem(icon: Icons.home, title: 'Home'),
 				FloatingNavbarItem(icon: FlutterIcons.all_inclusive_mco, title: 'Categories'),
-				FloatingNavbarItem(icon: FlutterIcons.profile_ant, title: 'Profile'),
+				FloatingNavbarItem(icon: FlutterIcons.user_ant, title: 'Profile'),
 			],
 			backgroundColor: secondaryMain,
 			selectedItemColor: primaryMain,
