@@ -1,10 +1,10 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
-import 'package:customerappgrihasti/Services/secureStorage.dart';
-import 'package:customerappgrihasti/views/HomeScreen.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
+
+import 'Login.dart';
 
 List <Slide> slides = new List();
 
@@ -19,7 +19,7 @@ class _IntroScrollerState extends State<IntroScroller> {
 		// Do what you want
 		Navigator.pushReplacement(
 			context,
-			MaterialPageRoute(builder: (context) => HomeScreen())
+			MaterialPageRoute(builder: (context) => Login())
 		);
 	}
 

@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
+import 'package:customerappgrihasti/views/HomeScreen.dart';
+import 'package:customerappgrihasti/views/introScroll.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,11 +27,20 @@ class _SplashState extends State<Splash> {
     super.initState();
     Timer(
 		Duration(seconds: 3),
-		() => Navigator.of(context).pushReplacement(
-			new MaterialPageRoute(
-				builder: (_) => landing
-			)
-		)
+		() {
+			FirebaseAuth.instance.currentUser().then((value) {
+				if( value == null) Navigator.of(context).pushReplacement(
+					new MaterialPageRoute(
+						builder: (_) => IntroScroller()
+					)
+				);
+				else Navigator.of(context).pushReplacement(
+					new MaterialPageRoute(
+						builder: (_) => HomeScreen()
+					)
+				);
+			});
+		}
 	);
   }
   @override

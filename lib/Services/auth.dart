@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:customerappgrihasti/Services/freebaseCloudMessaging.dart';
-import 'package:customerappgrihasti/Services/secureStorage.dart';
+import 'package:customerappgrihasti/models/User.dart';
+import 'package:customerappgrihasti/views/HomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'freebaseCloudMessaging.dart';
 import 'globalVariables.dart';
 
 final GoogleSignIn _googleSignIn = new GoogleSignIn();
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-Future<FirebaseUser> handleSignIn() async {
+Future<FirebaseUser> handleSignIn(BuildContext context) async {
 	final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
 	final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
@@ -20,42 +23,31 @@ Future<FirebaseUser> handleSignIn() async {
 	);
 
 	final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
-	print("signed in " + user.displayName);
-	User['Name'] = user.displayName;
-	User['PhotoUrl'] = user.photoUrl;
-	User['Email'] = user.email;
-	Firestore.instance.collection('customer').where('Email', isEqualTo: user.email).getDocuments().then((onValue) => {
-		if(onValue.documents.length != 0) {
-			onValue.documents.forEach((data) => {
-				writeData({
-				'Uid': data.documentID,
-				'logged': 'true'
-				}),
-				if(data.data['Token'] != Noti) {
-					Firestore.instance.collection('customer').document(data.documentID).updateData({
-						'Token': Noti
-					})
-				},
-				if(data.data['PhotoUrl'] != user.photoUrl) {
-					Firestore.instance.collection('customer').document(data.documentID).updateData({
-						'PhotoUrl': user.photoUrl
-					})
-				}
-			})
+	Activeuser.Name = user.displayName;
+	Activeuser.photoUrl = user.photoUrl;
+	Activeuser.Email = user.email;
+	Activeuser.Uid = user.uid;
+	Activeuser.Noti = Noti;
+	await Firestore.instance.collection('user').document(user.uid).get().then((value) async {
+		if(value.exists) {
+			Activeuser.Tel = value.data['Tel'] ?? '';
+			Activeuser.cart = value.data['cart'] ?? [];
+			Activeuser.address = value.data['address'] ?? [];
 		}
 		else {
-			writeData({
-			'Uid': user.uid.toString(),
-			'logged': 'true'
-			}),
-			Firestore.instance.collection('customer').document(user.uid.toString()).setData({
-				'Email': user.email,
-				'PhotoUrl': user.photoUrl,
-				'Name': user.displayName,
-				'Tel': 0,
-				'Token': Noti
-			})
+			print('hi2');
+			await Firestore.instance.collection('users').document(user.uid).setData({
+				'Name' : user.displayName,
+				'photoUrl' : user.photoUrl,
+				'Email' : user.email,
+				'Noti' : Noti,
+			});
 		}
 	});
+	Navigator.of(context).pushReplacement(
+		new MaterialPageRoute(
+			builder: (_) => HomeScreen()
+		)
+	);
 	return user;
 }

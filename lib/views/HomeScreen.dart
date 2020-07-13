@@ -1,5 +1,8 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/models/User.dart';
+import 'package:customerappgrihasti/views/Login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
 					actions: <Widget>[
 						IconButton(
 							icon: Icon(FlutterIcons.search1_ant,color: Colors.black38,),
-							onPressed: () => print('search'),
+							onPressed: () => print('hi'),
 						),
 						IconButton(
 							icon: FlutterBadge(
@@ -105,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
 												mainAxisAlignment: MainAxisAlignment.center,
 												children: <Widget>[
 													Text(
-														'Name Sharma',
+														Activeuser.Name,
 														style: TextStyle(
 															fontSize: 25,
 															fontWeight: FontWeight.w700,
@@ -113,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
 														),
 													),
 													Text(
-														'Coins: 20',
+														'Coins: 0',
 														style: TextStyle(
 															fontSize: 20,
 															fontWeight: FontWeight.w300,
@@ -124,6 +127,13 @@ class _HomeScreenState extends State<HomeScreen> {
 											)
 										],
 									),
+								),
+								FlatButton(
+									child: Text('Signout'),
+									onPressed: () => FirebaseAuth.instance.signOut()
+										.then((value) => Navigator.of(context).pushReplacement(new MaterialPageRoute(
+										builder: (_) => Login()
+									))),
 								)
 							],
 						),
