@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
+import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/models/User.dart';
 import 'package:customerappgrihasti/views/HomeScreen.dart';
 import 'package:customerappgrihasti/views/introScroll.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 
 class Splash extends StatefulWidget {
@@ -34,11 +38,22 @@ class _SplashState extends State<Splash> {
 						builder: (_) => IntroScroller()
 					)
 				);
-				else Navigator.of(context).pushReplacement(
-					new MaterialPageRoute(
-						builder: (_) => HomeScreen()
-					)
-				);
+				else {
+					Firestore.instance.collection('users').document(value.uid).get()
+						.then((user) {
+							print(user.data['Name']);
+						Activeuser.Name = user.data['Name'];
+						Activeuser.Email = user.data['Email'];
+						Activeuser.address = user.data['Address'];
+						Activeuser.Tel = value.phoneNumber;
+						Provider.of<CartItem>(context).deProcess(user.data['Cart']);
+						Navigator.of(context).pushReplacement(
+							new MaterialPageRoute(
+								builder: (_) => HomeScreen()
+							)
+						);
+					});
+				}
 			});
 		}
 	);

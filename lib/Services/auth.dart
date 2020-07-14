@@ -4,7 +4,6 @@ import 'package:customerappgrihasti/views/HomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'freebaseCloudMessaging.dart';
@@ -28,7 +27,7 @@ Future<FirebaseUser> handleSignIn(BuildContext context) async {
 	Activeuser.Email = user.email;
 	Activeuser.Uid = user.uid;
 	Activeuser.Noti = Noti;
-	await Firestore.instance.collection('user').document(user.uid).get().then((value) async {
+	await Firestore.instance.collection('users').document(user.uid).get().then((value) async {
 		if(value.exists) {
 			Activeuser.Tel = value.data['Tel'] ?? '';
 			Activeuser.cart = value.data['cart'] ?? [];
@@ -41,6 +40,7 @@ Future<FirebaseUser> handleSignIn(BuildContext context) async {
 				'photoUrl' : user.photoUrl,
 				'Email' : user.email,
 				'Noti' : Noti,
+				'cred' : credential
 			});
 		}
 	});

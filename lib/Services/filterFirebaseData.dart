@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
+import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/models/Order.dart';
 import 'package:customerappgrihasti/models/Products.dart';
+import 'package:customerappgrihasti/models/User.dart';
 
 void topProducts() async {
 	print('====================Called==================');
-	List<DocumentSnapshot> stream = await Firestore.instance.collection('products').getDocuments().then((value) => value.documents);
+	List<DocumentSnapshot> stream = await Firestore.instance.collection('products').orderBy('Nsold', descending: true).getDocuments().then((value) => value.documents);
 	Top = [];
 
 	List<int> prices = [];
@@ -26,5 +29,22 @@ void topProducts() async {
 				variety ?? ['1Kg', '2Kg', '5Kg', '10Kg']
 			)
 		);
+	});
+}
+
+void order() async {
+	await Firestore.instance.collection('orders').where('uid', isEqualTo: Activeuser.Uid).snapshots().listen((event) {
+		orders = [];
+		if(event.documents.length != 0) {
+			event.documents.forEach((element) {
+				orders.add(Order(
+					element.documentID,
+					element.data['price'].toString(),
+					element.data['cart'],
+					element.data['paymentId'] ?? 'COD',
+					element.data['uid']
+				));
+			});
+		}
 	});
 }

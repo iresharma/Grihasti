@@ -77,6 +77,41 @@ class CartItem extends ChangeNotifier {
 		notifyListeners();
 	}
 
+	List<Map<String, dynamic>> get process {
+		List<Map<String, dynamic>> temp = [];
+		cartItem.forEach((element) {
+			temp.add({
+				'id': element.id,
+				'Name': element.Name,
+				'desc': element.desc,
+				'price': element.price,
+				'Pic': element.Pic,
+				'hash': element.hash,
+				'count': element.count,
+				'category': element.category,
+				'variety': element.variety
+			});
+		});
+		return temp;
+	}
+
+	void deProcess(List<dynamic> fireCart) {
+		fireCart.forEach((element) {
+			cartItem.add(ProductCart(
+				element['id'],
+				element['Name'],
+				element['desc'],
+				element['price'],
+				element['Pic'],
+				element['hash'],
+				element['count'],
+				element['category'],
+				element['variety']
+			));
+		});
+		notifyListeners();
+	}
+
 	int count(String id, String variety) {
 		bool z = true;
 		int k;

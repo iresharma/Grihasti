@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
 import 'package:customerappgrihasti/models/User.dart';
 import 'package:customerappgrihasti/views/Login.dart';
+import 'package:customerappgrihasti/views/profilePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,8 +13,6 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-
-import 'Profile.dart';
 import 'home.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,6 +24,41 @@ class _HomeScreenState extends State<HomeScreen> {
 
 	PageController _controller = new PageController();
 	int num = 0;
+
+	@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer(
+		Duration(seconds: 2), () {
+		if(Activeuser.Email == null || Activeuser.Name == null || Activeuser.Tel == null ){
+			showDialog(
+				context: context,
+				barrierDismissible: false,
+				builder: (context) {
+					return AlertDialog(
+						title: Text('Complete user info'),
+						content: Container(
+							width: MediaQuery.of(context).size.width * 0.75,
+							child: Text('Please fill in all info for a better experience'),
+						),
+						actions: <Widget>[
+							FlatButton(
+								child: Text('Proceed'),
+								onPressed: () {
+									Navigator.of(context).pop();
+									_controller.animateToPage(2, duration: Duration(milliseconds: 250), curve: Curves.easeIn);
+									Navigator.of(context).pushNamed('/edit');
+								},
+							)
+						],
+					);
+				}
+			);
+		}
+	}
+	);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
 								),
 								FlatButton(
 									child: Text('Orders'),
-									onPressed: () => print('orders'),
+									onPressed: () => Navigator.of(context).pushNamed('/orders'),
 								)
 							],
 						),

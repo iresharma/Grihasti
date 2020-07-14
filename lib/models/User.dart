@@ -5,7 +5,7 @@ class User {
 	String Name;
 	String Uid;
 	int Coins;
-	List<String> address;
+	String address;
 	String Email;
 	String Tel;
 	String photoUrl;

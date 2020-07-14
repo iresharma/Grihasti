@@ -2,6 +2,7 @@ import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/User.dart';
 import 'package:customerappgrihasti/views/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -19,14 +20,23 @@ class ProfilePage extends StatelessWidget {
 							children: <Widget>[
 								CircleAvatar(
 									maxRadius: 48,
-									backgroundImage:Activeuser.photoUrl == '' ? AssetImage('assets/images/avataaars.png') : NetworkImage(Activeuser.photoUrl),
+									backgroundImage:Activeuser.photoUrl == '' || Activeuser.photoUrl == null ? AssetImage('assets/images/avataaars.png') : NetworkImage(Activeuser.photoUrl),
 								),
-								Padding(
-									padding: const EdgeInsets.all(8.0),
-									child: Text(
-										Activeuser.Name ?? 'Name Sharma',
-										style: TextStyle(fontWeight: FontWeight.bold),
-									),
+								Row(
+									mainAxisAlignment: MainAxisAlignment.center,
+									children: <Widget>[
+										Padding(
+											padding: const EdgeInsets.all(8.0),
+											child: Text(
+												Activeuser.Name ?? 'Name Sharma',
+												style: TextStyle(fontWeight: FontWeight.bold),
+											),
+										),
+										IconButton(
+											icon: Icon(FlutterIcons.edit_2_fea, size: 15,),
+											onPressed: () => Navigator.of(context).pushNamed('/edit'),
+										)
+									],
 								),
 								Container(
 									margin: EdgeInsets.symmetric(vertical: 16.0),

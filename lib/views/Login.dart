@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import 'HomeScreen.dart';
 
@@ -29,24 +28,33 @@ class _LoginState extends State<Login> {
 			phoneNumber: '+91' + Num,
 			timeout: Duration(minutes: 2),
 			forceResendingToken: forceResend,
-			verificationCompleted: (AuthCredential authC) => auth.signInWithCredential(authC).then((value) {
-				if(value.user != null) {
-					Firestore.instance.collection('users').document(value.user.uid).setData({
-						'tel': '+91'+Num,
-						'Noti': Noti
-					});
-					Activeuser.Tel = Num;
-					Activeuser.Noti = Noti;
-					Navigator.of(context).pushReplacement(
-						new MaterialPageRoute(
-							builder: (_) => HomeScreen()
-						)
-					);
-				}
+			verificationCompleted: (AuthCredential authC) => auth.signInWithCredential(authC).then((aith) {
+				Firestore.instance.collection('users').where('Tel', isEqualTo: '+91-$Num').getDocuments().then((value) {
+					if(value.documents.length == 0) {
+						Firestore.instance.collection('users').document(aith.user.uid).setData({
+							'Tel': '+91-$Num',
+							'Noti': Noti
+						});
+					}
+					else {
+						Firestore.instance.collection('users').document(value.documents[0].documentID).get()
+							.then((user) {
+								Activeuser.Name = user.data['Name'];
+								Activeuser.Email = user.data['Email'];
+								Activeuser.address = user.data['Address'];
+						});
+					}
+				});
+				Activeuser.Tel = _controller.text.trim();
+				Activeuser.Noti = Noti;
+				Navigator.of(context).pushReplacement(
+					new MaterialPageRoute(
+						builder: (_) => HomeScreen()
+					)
+				);
 			}),
 			verificationFailed: (AuthException ex) {
-				FlutterToast toast;
-				toast.showToast(child: Text('Error occured while signing in, please try again later'));
+				Scaffold.of(context).showSnackBar(new SnackBar(content: Text('An error occured')));
 			},
 			codeSent: (String verificationId, [int forceResendingToken]) async {
 				setState(() {
@@ -68,10 +76,22 @@ class _LoginState extends State<Login> {
 
 	checkManually(String trim) async {
 		AuthCredential cred = await PhoneAuthProvider.getCredential(verificationId: vrfCode, smsCode: trim);
-			auth.signInWithCredential(cred).then((value) {
-				Firestore.instance.collection('user').document(value.user.uid).setData({
-					'tel': '+91'+_controller.text.trim(),
-					'Noti': Noti
+			auth.signInWithCredential(cred).then((aith) {
+				Firestore.instance.collection('users').where('Tel', isEqualTo: '+91-${_controller.text.trim()}').getDocuments().then((value) {
+					if(value.documents.length == 0) {
+						Firestore.instance.collection('users').document(aith.user.uid).setData({
+							'Tel': '+91-${_controller.text.trim()}',
+							'Noti': Noti
+						});
+					}
+					else {
+						Firestore.instance.collection('users').document(value.documents[0].documentID).get()
+							.then((user) {
+							Activeuser.Name = user.data['Name'];
+							Activeuser.Email = user.data['Email'];
+							Activeuser.address = user.data['Address'];
+						});
+					}
 				});
 				Activeuser.Tel = _controller.text.trim();
 				Activeuser.Noti = Noti;
@@ -216,55 +236,6 @@ class _LoginState extends State<Login> {
 							),
 						],
 					),
-					SizedBox(height: MediaQuery.of(context).size.height/25,),
-					Center(
-						child: Container(
-							width: MediaQuery.of(context).size.width * 0.7,
-							child: Row(
-								children: <Widget>[
-									Expanded(
-										child: Divider(
-											color: Colors.white,
-										)
-									),
-									SizedBox(width: 10,),
-									Text(
-										'Or',
-										style: TextStyle(
-											color: Colors.white,
-											fontWeight: FontWeight.w200,
-											fontSize: 30
-										),
-									),
-									SizedBox(width: 10,),
-									Expanded(
-										child: Divider(
-											color: Colors.white,
-										)
-									),
-								]
-							),
-						),
-					),
-					SizedBox(height: MediaQuery.of(context).size.height/35,),
-					Container(
-						width: MediaQuery.of(context).size.width * 0.7,
-						child: SimpleRoundIconButton(
-							buttonText: Text(
-								'Use google',
-								style: TextStyle(
-									fontSize: 18,
-									color: Colors.white
-								),
-							),
-							backgroundColor: Colors.blueAccent,
-							icon: Icon(FlutterIcons.google_ant),
-							onPressed: () {
-								handleSignIn(context);
-							},
-							iconAlignment: Alignment.centerRight,
-						),
-					)
 				],
 			),
 		),

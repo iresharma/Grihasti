@@ -1,4 +1,5 @@
-import 'package:customerappgrihasti/views/Profile.dart';
+import 'package:customerappgrihasti/views/OrdersPage.dart';
+import 'package:customerappgrihasti/views/addInfo.dart';
 import 'package:customerappgrihasti/views/cart.dart';
 import 'package:customerappgrihasti/views/splashScreen.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +7,9 @@ import 'package:flutter/material.dart';
 Map<String, Widget Function(BuildContext)> Router() {
 	var router = {
 		'/' : (_) => Splash(),
-		'/profile': (_) => ProfilePage(),
-		'/cart': (_) => CartPage()
+		'/cart': (_) => CartPage(),
+		'/edit': (_) => Addinfo(),
+		'/orders': (_) => OrdersPage()
 	};
 
 	return router;

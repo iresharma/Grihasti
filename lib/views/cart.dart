@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/Services/razorPay.dart';
 import 'package:customerappgrihasti/components/CartProduct.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/models/User.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -95,7 +98,7 @@ class CartPage extends StatelessWidget {
                   Center(
                       child: SvgPicture.asset(
                           'assets/svg/alone.svg',
-                          width: MediaQuery.of(context).size.width - 100,
+                          width: MediaQuery.of(context).size.width - 150,
                       ),
                   ),
                   FlatButton(
@@ -135,15 +138,57 @@ class CartPage extends StatelessWidget {
                                   ),
                               ),
                           ),
-                          onPressed: () => doPayment(RPayOptions(
-                              Provider.of<CartItem>(context).totalPrice * 100,
-                              'Iresh',
-                              'Test one',
-                              {
-                                  'contact': '+91-8582871444',
-                                  'email': 'iresh.sharma@gmail.com'
+                          onPressed: () => showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) {
+                                  return AlertDialog(
+                                      title: Text('Select your payment method'),
+                                      content: Container(
+                                          width: MediaQuery.of(context).size.width,
+                                          padding: EdgeInsets.all(10),
+                                          margin: EdgeInsets.all(20),
+                                          child: Text(
+                                              'Your bill amount is ${Provider.of<CartItem>(context).totalPrice}, select if you want COD or online payment'
+                                          ),
+                                      ),
+                                      actions: <Widget>[
+                                          Row(
+                                              children: <Widget>[
+                                                  FlatButton(
+                                                      child: Text('COD'),
+                                                      onPressed: () async {
+                                                          var uid = await FirebaseAuth.instance.currentUser().then((value) => value.uid);
+                                                          await Firestore.instance.collection('orders').document().setData({
+                                                              'items': Provider.of<CartItem>(context).process,
+                                                              'price': Provider.of<CartItem>(context).totalPrice,
+                                                              'uid': uid
+                                                          });
+                                                          await Firestore.instance.collection('users').document(uid).updateData({
+                                                              'Cart': []
+                                                          });
+                                                          Provider.of<CartItem>(context).empty();
+                                                          Navigator.of(context).pop();
+                                                      },
+                                                  ),
+                                                  FlatButton(
+                                                      child: Text('Pay now'),
+                                                      onPressed: () => doPayment(RPayOptions(
+                                                          Provider.of<CartItem>(context).totalPrice * 100,
+                                                          'Iresh',
+                                                          'Test one',
+                                                          {
+                                                              'contact': '+91-8582871444',
+                                                              'email': 'iresh.sharma@gmail.com'
+                                                          }
+                                                      ), context),
+                                                  )
+                                              ],
+                                          )
+                                      ],
+                                  );
                               }
-                          ), context),
+                          ),
                       ),
                   );
               }
