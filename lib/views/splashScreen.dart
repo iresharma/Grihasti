@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart';
 
 
 class Splash extends StatefulWidget {
@@ -31,30 +32,41 @@ class _SplashState extends State<Splash> {
     super.initState();
     Timer(
 		Duration(seconds: 3),
-		() {
-			FirebaseAuth.instance.currentUser().then((value) {
-				if( value == null) Navigator.of(context).pushReplacement(
-					new MaterialPageRoute(
-						builder: (_) => IntroScroller()
-					)
-				);
-				else {
-					Firestore.instance.collection('users').document(value.uid).get()
-						.then((user) {
-							print(user.data['Name']);
-						Activeuser.Name = user.data['Name'];
-						Activeuser.Email = user.data['Email'];
-						Activeuser.address = user.data['Address'];
-						Activeuser.Tel = value.phoneNumber;
-						Provider.of<CartItem>(context).deProcess(user.data['Cart']);
+		() async {
+			Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
+			GeolocationStatus geolocationStatus  = await geolocator.checkGeolocationPermissionStatus();
+			Position post = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
+			double loc = await Geolocator().distanceBetween(post.longitude, post.latitude, 88.354382, 22.623758);
+//			88.352357, 22.636997,
+			print(loc.toString());
+			if(loc <= 10000) {
+				FirebaseAuth.instance.currentUser().then((value) {
+					if( value == null) {
 						Navigator.of(context).pushReplacement(
 							new MaterialPageRoute(
-								builder: (_) => HomeScreen()
+								builder: (_) => IntroScroller()
 							)
 						);
-					});
-				}
-			});
+					}
+					else {
+						Firestore.instance.collection('users').document(value.uid).get()
+							.then((user) {
+							print(user.data['Name']);
+							Activeuser.Name = user.data['Name'];
+							Activeuser.Email = user.data['Email'];
+							Activeuser.address = user.data['Address'];
+							Activeuser.Tel = value.phoneNumber;
+							Provider.of<CartItem>(context).deProcess(user.data['Cart']);
+							Navigator.of(context).pushReplacement(
+								new MaterialPageRoute(
+									builder: (_) => HomeScreen()
+								)
+							);
+						});
+					}
+				});
+			}
+			else Navigator.of(context).pushReplacementNamed('/not_serving');
 		}
 	);
   }

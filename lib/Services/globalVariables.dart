@@ -3,6 +3,7 @@ import 'package:customerappgrihasti/models/Order.dart';
 import 'package:customerappgrihasti/models/Products.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:customerappgrihasti/models/Category.dart';
 
 
 List<Map<String, BiometricType>> available = [];
@@ -18,3 +19,5 @@ List<Products> Top = [];
 List<Products> Prev = [];
 
 List<Order> orders = [];
+
+List<Category> cat = [];

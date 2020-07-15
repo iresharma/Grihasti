@@ -4,7 +4,7 @@ class Order {
 
 	final String id;
 	final String price;
-	final List<CartItem> items;
+	final List<ProductCart> items;
 	final String paymentId;
 	final String uid;
 

@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/models/Category.dart';
 import 'package:customerappgrihasti/models/User.dart';
 import 'package:customerappgrihasti/views/Login.dart';
+import 'package:customerappgrihasti/views/categoryPage.dart';
 import 'package:customerappgrihasti/views/profilePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
@@ -203,12 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
 			},
 			children: <Widget>[
 				HOme(),
-				Center(
-					child: Text(
-						'Page2',
-						style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-					),
-				),
+				categoryPage(),
 				ProfilePage()
 			],
 		),

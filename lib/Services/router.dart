@@ -1,3 +1,4 @@
+import 'package:customerappgrihasti/views/NotServing.dart';
 import 'package:customerappgrihasti/views/OrdersPage.dart';
 import 'package:customerappgrihasti/views/addInfo.dart';
 import 'package:customerappgrihasti/views/cart.dart';
@@ -9,7 +10,8 @@ Map<String, Widget Function(BuildContext)> Router() {
 		'/' : (_) => Splash(),
 		'/cart': (_) => CartPage(),
 		'/edit': (_) => Addinfo(),
-		'/orders': (_) => OrdersPage()
+		'/orders': (_) => OrdersPage(),
+		'/not_serving': (_) => NotServing()
 	};
 
 	return router;

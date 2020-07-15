@@ -29,7 +29,8 @@ class _GrihastiAppState extends State<GrihastiApp> {
 	void startup() async {
 		initFCM();
 		topProducts();
-		await order();
+		order();
+		category();
 		await initLA();
 		await handleDynamicLink();
 		analytics = FirebaseAnalytics();

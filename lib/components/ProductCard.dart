@@ -22,7 +22,6 @@ class _ProductCardState extends State<ProductCard> {
 
 	@override
   void initState() {
-    // TODO: implement initState
     super.initState();
     dropDownValue = 0;
   }
@@ -48,12 +47,11 @@ class _ProductCardState extends State<ProductCard> {
 						hash: 'qEHV6nWB2yk8\$NxujFNGpyo0adR*=ss:I[R%.7kCMdnjx]S2NHs:S#M|%1%2ENRis9aiSis.slNHW:WBxZ%2ogaekBW;ofo0NHS4',
 					),
 				),
-				SizedBox(width: 20,),
+				SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
 				Column(
 					crossAxisAlignment: CrossAxisAlignment.start,
 					mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 					children: <Widget>[
-						SizedBox(height: 10,),
 						Text(
 							widget.product.Name,
 							style: TextStyle(
@@ -61,7 +59,7 @@ class _ProductCardState extends State<ProductCard> {
 								fontWeight: FontWeight.w800
 							),
 						),
-						SizedBox(height: 10,),
+						SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
 						Row(
 							mainAxisAlignment: MainAxisAlignment.spaceBetween,
 							mainAxisSize: MainAxisSize.max,
@@ -85,7 +83,7 @@ class _ProductCardState extends State<ProductCard> {
 										)
 									],
 								),
-								SizedBox(width: 50,),
+								SizedBox(width: MediaQuery.of(context).size.width * 0.15,),
 								Column(
 									crossAxisAlignment: CrossAxisAlignment.start,
 									children: <Widget>[
@@ -128,13 +126,13 @@ class _ProductCardState extends State<ProductCard> {
 								)
 							],
 						),
-						SizedBox(height: 10,),
+						SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
 						Row(
 							mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 							mainAxisSize: MainAxisSize.max,
 							children: <Widget>[
 								Container(
-									width: 120,
+									width: MediaQuery.of(context).size.width/4,
 									child: Text(
 										'₹${widget.product.price[dropDownValue]}',
 										style: TextStyle(
@@ -145,7 +143,7 @@ class _ProductCardState extends State<ProductCard> {
 									),
 									color: Colors.white,
 								),
-								SizedBox(width: 40,),
+								SizedBox(width: MediaQuery.of(context).size.width/8 -10,),
 								if(Provider.of<CartItem>(context).count(widget.product.id, widget.product.variety[dropDownValue]) == 0)...{
 									Container(
 										decoration: BoxDecoration(
