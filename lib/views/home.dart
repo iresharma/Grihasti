@@ -5,6 +5,7 @@ import 'package:customerappgrihasti/components/feelingBox.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -94,7 +95,7 @@ class _HOmeState extends State<HOme> {
 								children: <Widget>[
 									Container(
 										width: MediaQuery.of(context).size.width,
-										height: 120,
+										height: 150,
 										padding: EdgeInsets.all(0),
 										child: ListView.builder(
 											scrollDirection: Axis.horizontal,
@@ -108,7 +109,14 @@ class _HOmeState extends State<HOme> {
 											},
 										),
 									),
-									if(Provider.of<CartItem>(context).len == 0)...{
+									if(orders.length != 0)...{
+										FeelingBox(
+											text: 'It feels very lonely here',
+											asset: 'assets/svg/emptyCart.svg',
+											redirect: 'Shop now',
+										)
+									}
+									else if(Provider.of<CartItem>(context).len == 0)...{
 										FeelingBox(
 											text: 'It feels very lonely here',
 											asset: 'assets/svg/emptyCart.svg',
@@ -143,7 +151,7 @@ class _HOmeState extends State<HOme> {
 															'Top products',
 															style: TextStyle(
 																fontWeight: Topp ? FontWeight.w800 : FontWeight.w400,
-																fontSize: 20,
+																fontSize: ScreenUtil().setSp(10),
 																color: Topp ? primaryMain : Colors.black54
 															),
 														),
@@ -166,7 +174,7 @@ class _HOmeState extends State<HOme> {
 															'Offers',
 															style: TextStyle(
 																fontWeight: Offers ? FontWeight.w800 : FontWeight.w400,
-																fontSize: 20,
+																fontSize: ScreenUtil().setSp(10),
 																color: Offers ? primaryMain : Colors.black54
 															),
 														),
@@ -189,7 +197,7 @@ class _HOmeState extends State<HOme> {
 															'Hot Deals',
 															style: TextStyle(
 																fontWeight: Hot ? FontWeight.w800 : FontWeight.w400,
-																fontSize: 20,
+																fontSize: ScreenUtil().setSp(10),
 																color: Hot ? primaryMain : Colors.black54
 															),
 														),
@@ -212,7 +220,7 @@ class _HOmeState extends State<HOme> {
 															'Previously ordered',
 															style: TextStyle(
 																fontWeight: Prevv? FontWeight.w800 : FontWeight.w400,
-																fontSize: 20,
+																fontSize: ScreenUtil().setSp(10),
 																color: Prevv? primaryMain : Colors.black54
 															),
 														),

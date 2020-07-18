@@ -1,6 +1,7 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class FeelingBox extends StatelessWidget {
@@ -30,7 +31,7 @@ class FeelingBox extends StatelessWidget {
 					children: <Widget>[
 						SvgPicture.asset(
 							asset,
-							width: 100,
+							width: 110,
 							height: 80,
 						),
 						Column(
@@ -41,10 +42,10 @@ class FeelingBox extends StatelessWidget {
 									child: Text(
 										text,
 										style: TextStyle(
-											fontSize: 20,
+											fontSize: ScreenUtil().setSp(10),
 											fontWeight: FontWeight.w400
 										),
-										textAlign: TextAlign.right,
+										textAlign: TextAlign.center,
 									),
 								),
 								FlatButton(

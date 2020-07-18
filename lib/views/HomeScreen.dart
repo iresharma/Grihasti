@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'home.dart';
 
@@ -133,66 +134,59 @@ class _HomeScreenState extends State<HomeScreen> {
 			),
 			preferredSize: Size.fromHeight(80.0)
 		),
-		drawer: ClipPath(
-			clipper: _DrawerClipper(),
-			child: Container(
-				width: MediaQuery.of(context).size.width -150,
-				child: Drawer(
-					child: SafeArea(
-						child: ListView(
-							children: <Widget>[
-								Container(
-									height: MediaQuery.of(context).size.height/5,
-									color: primaryMain,
-									child: Row(
-										crossAxisAlignment: CrossAxisAlignment.center,
-										mainAxisSize: MainAxisSize.max,
-										mainAxisAlignment: MainAxisAlignment.start,
+		drawer: Drawer(
+			child: SafeArea(
+				child: ListView(
+					children: <Widget>[
+						Container(
+							height: MediaQuery.of(context).size.height/5,
+							color: primaryMain,
+							child: Column(
+								crossAxisAlignment: CrossAxisAlignment.center,
+								mainAxisSize: MainAxisSize.max,
+								mainAxisAlignment: MainAxisAlignment.center,
+								children: <Widget>[
+									CircleAvatar(
+										child: Image.asset('assets/images/avataaars.png'),
+										radius: 50,
+									),
+									SizedBox(height: 20,),
+									Column(
+										mainAxisAlignment: MainAxisAlignment.center,
 										children: <Widget>[
-											SizedBox(width: 30,),
-											CircleAvatar(
-												child: Image.asset('assets/images/avataaars.png'),
-												radius: 50,
+											Text(
+												Activeuser.Name ?? 'Name Sharma',
+												style: TextStyle(
+													fontSize: ScreenUtil().setSp(15),
+													fontWeight: FontWeight.w700,
+													color: secondaryMain
+												),
 											),
-											SizedBox(width: 30,),
-											Column(
-												mainAxisAlignment: MainAxisAlignment.center,
-												children: <Widget>[
-													Text(
-														Activeuser.Name ?? 'Name Sharma',
-														style: TextStyle(
-															fontSize: 25,
-															fontWeight: FontWeight.w700,
-															color: secondaryMain
-														),
-													),
-													Text(
-														'Coins: 0',
-														style: TextStyle(
-															fontSize: 20,
-															fontWeight: FontWeight.w300,
-															color: secondarySec
-														),
-													)
-												],
+											Text(
+												'Coins: 0',
+												style: TextStyle(
+													fontSize: ScreenUtil().setSp(10),
+													fontWeight: FontWeight.w300,
+													color: secondarySec
+												),
 											)
 										],
-									),
-								),
-								FlatButton(
-									child: Text('Signout'),
-									onPressed: () => FirebaseAuth.instance.signOut()
-										.then((value) => Navigator.of(context).pushReplacement(new MaterialPageRoute(
-										builder: (_) => Login()
-									))),
-								),
-								FlatButton(
-									child: Text('Orders'),
-									onPressed: () => Navigator.of(context).pushNamed('/orders'),
-								)
-							],
+									)
+								],
+							),
 						),
-					),
+						FlatButton(
+							child: Text('Orders'),
+							onPressed: () => Navigator.of(context).pushNamed('/orders'),
+						),
+						FlatButton(
+							child: Text('Signout'),
+							onPressed: () => FirebaseAuth.instance.signOut()
+								.then((value) => Navigator.of(context).pushReplacement(new MaterialPageRoute(
+								builder: (_) => Login()
+							))),
+						),
+					],
 				),
 			),
 		),

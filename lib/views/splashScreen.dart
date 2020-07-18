@@ -8,6 +8,7 @@ import 'package:customerappgrihasti/views/HomeScreen.dart';
 import 'package:customerappgrihasti/views/introScroll.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,51 +28,60 @@ class _SplashState extends State<Splash> {
 		Colors.green
 	];
 
+	final Geolocator geolocator = Geolocator();
+
 	@override
   void initState() {
     super.initState();
     Timer(
 		Duration(seconds: 3),
 		() async {
-			Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
-			GeolocationStatus geolocationStatus  = await geolocator.checkGeolocationPermissionStatus();
-			Position post = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
-			double loc = await Geolocator().distanceBetween(post.longitude, post.latitude, 88.354382, 22.623758);
-//			88.352357, 22.636997,
-			print(loc.toString());
-			if(loc <= 10000) {
-				FirebaseAuth.instance.currentUser().then((value) {
-					if( value == null) {
-						Navigator.of(context).pushReplacement(
-							new MaterialPageRoute(
-								builder: (_) => IntroScroller()
-							)
-						);
-					}
-					else {
-						Firestore.instance.collection('users').document(value.uid).get()
-							.then((user) {
-							print(user.data['Name']);
-							Activeuser.Name = user.data['Name'];
-							Activeuser.Email = user.data['Email'];
-							Activeuser.address = user.data['Address'];
-							Activeuser.Tel = value.phoneNumber;
-							Provider.of<CartItem>(context).deProcess(user.data['Cart']);
-							Navigator.of(context).pushReplacement(
-								new MaterialPageRoute(
-									builder: (_) => HomeScreen()
-								)
-							);
+			double loc;
+			geolocator
+				.getCurrentPosition(desiredAccuracy: LocationAccuracy.best,locationPermissionLevel: GeolocationPermission.locationWhenInUse,)
+				.then((Position position) {
+				print('${position.latitude}, ${position.longitude}');
+				geolocator.distanceBetween(position.latitude, position.longitude, 22.623621, 88.353856).then((loc) {
+					print(loc);
+					if(loc <= 10000) {
+						FirebaseAuth.instance.currentUser().then((value) {
+							if( value == null) {
+								Navigator.of(context).pushReplacement(
+									new MaterialPageRoute(
+										builder: (_) => IntroScroller()
+									)
+								);
+							}
+							else {
+								Firestore.instance.collection('users').document(value.uid).get()
+									.then((user) {
+									print(user.data['Name']);
+									Activeuser.Uid = value.uid;
+									Activeuser.Name = user.data['Name'];
+									Activeuser.Email = user.data['Email'];
+									Activeuser.address = user.data['Address'];
+									Activeuser.Tel = value.phoneNumber;
+									Provider.of<CartItem>(context).deProcess(user.data['Cart']);
+									Navigator.of(context).pushReplacement(
+										new MaterialPageRoute(
+											builder: (_) => HomeScreen()
+										)
+									);
+								});
+							}
 						});
 					}
+					else Navigator.of(context).pushReplacementNamed('/not_serving');
 				});
-			}
-			else Navigator.of(context).pushReplacementNamed('/not_serving');
+			});
 		}
 	);
   }
   @override
   Widget build(BuildContext context) {
+		
+		ScreenUtil.init(context, height: 712, width: 360, allowFontScaling: false);
+		
 	  return Scaffold(
 		  backgroundColor: primaryMain,
 		  body: Center(

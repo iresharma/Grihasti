@@ -4,6 +4,7 @@ import 'package:customerappgrihasti/models/Products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class ProductCard extends StatefulWidget {
@@ -29,10 +30,10 @@ class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-		width: MediaQuery.of(context).size.width,
-		height: MediaQuery.of(context).size.height/5 - 10,
+		width: ScreenUtil.defaultWidth * 1.0,
+		height: ScreenUtil.defaultHeight/11 - 10,
 		margin: EdgeInsets.all(5),
-		padding: EdgeInsets.all(10),
+		padding: EdgeInsets.all(5),
 		decoration: BoxDecoration(
 			borderRadius: BorderRadius.circular(10),
 			color: Colors.white
@@ -40,14 +41,14 @@ class _ProductCardState extends State<ProductCard> {
 		child: Row(
 			children: <Widget>[
 				SizedBox(
-					width: MediaQuery.of(context).size.width/3,
-					height: MediaQuery.of(context).size.height/5 - 40,
+					width: MediaQuery.of(context).size.width/4,
+					height: ScreenUtil.defaultHeight/11.5,
 					child: BlurHash(
 						image: widget.product.Pic,
 						hash: 'qEHV6nWB2yk8\$NxujFNGpyo0adR*=ss:I[R%.7kCMdnjx]S2NHs:S#M|%1%2ENRis9aiSis.slNHW:WBxZ%2ogaekBW;ofo0NHS4',
 					),
 				),
-				SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
+				SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
 				Column(
 					crossAxisAlignment: CrossAxisAlignment.start,
 					mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -55,35 +56,40 @@ class _ProductCardState extends State<ProductCard> {
 						Text(
 							widget.product.Name,
 							style: TextStyle(
-								fontSize: 25,
+								fontSize: ScreenUtil().setSp(18),
 								fontWeight: FontWeight.w800
 							),
 						),
-						SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
 						Row(
 							mainAxisAlignment: MainAxisAlignment.spaceBetween,
 							mainAxisSize: MainAxisSize.max,
 							children: <Widget>[
-								Column(
-									crossAxisAlignment: CrossAxisAlignment.start,
-									children: <Widget>[
-										Text(
-											'Category',
-											style: TextStyle(
-												fontWeight: FontWeight.w200,
-												fontSize: 15
+								Container(
+									width: MediaQuery.of(context).size.width * 0.33,
+									child: Column(
+										crossAxisAlignment: CrossAxisAlignment.start,
+										children: <Widget>[
+											Text(
+												'Category',
+												style: TextStyle(
+													fontWeight: FontWeight.w200,
+													fontSize: ScreenUtil().setSp(10)
+												),
 											),
-										),
-										Text(
-											widget.product.category,
-											style: TextStyle(
-												fontWeight: FontWeight.w400,
-												fontSize: 20
-											),
-										)
-									],
+											Text(
+												widget.product.category,
+												style: TextStyle(
+													fontWeight: FontWeight.w400,
+													fontSize: ScreenUtil().setSp(13),
+												),
+												overflow: TextOverflow.ellipsis,
+											)
+										],
+									),
 								),
-								SizedBox(width: MediaQuery.of(context).size.width * 0.15,),
+								SizedBox(
+									width: MediaQuery.of(context).size.width * 0.05,
+								),
 								Column(
 									crossAxisAlignment: CrossAxisAlignment.start,
 									children: <Widget>[
@@ -91,15 +97,18 @@ class _ProductCardState extends State<ProductCard> {
 											'Varient',
 											style: TextStyle(
 												fontWeight: FontWeight.w200,
-												fontSize: 15
+												fontSize: ScreenUtil().setSp(10)
 											),
 										),
 										DropdownButton<String>(
 											value: widget.product.variety.indexOf(widget.product.variety[dropDownValue]).toString(),
-											icon: Icon(FlutterIcons.chevron_down_fea),
-											iconSize: 24,
+											icon: Icon(FlutterIcons.chevron_down_fea, color: primaryMain,),
+											iconSize: ScreenUtil().setSp(15),
 											elevation: 16,
-											style: TextStyle(color: Colors.deepPurple),
+											style: TextStyle(
+												color: Colors.deepPurple,
+												fontSize: ScreenUtil().setSp(20),
+											),
 											onChanged: (String newValue) {
 												setState(() {
 													print(newValue);
@@ -116,7 +125,7 @@ class _ProductCardState extends State<ProductCard> {
 													child: Text(
 														value,
 														style: TextStyle(
-															fontSize: 20
+															fontSize: MediaQuery.of(context).textScaleFactor * 15,
 														),
 													),
 												);
@@ -126,31 +135,31 @@ class _ProductCardState extends State<ProductCard> {
 								)
 							],
 						),
-						SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
 						Row(
-							mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+							mainAxisAlignment: MainAxisAlignment.spaceBetween,
 							mainAxisSize: MainAxisSize.max,
 							children: <Widget>[
 								Container(
-									width: MediaQuery.of(context).size.width/4,
+									width: MediaQuery.of(context).size.width * 0.33,
 									child: Text(
 										'₹${widget.product.price[dropDownValue]}',
 										style: TextStyle(
 											color: primaryMain,
 											fontWeight: FontWeight.w900,
-											fontSize: 35
+											fontSize: ScreenUtil().setSp(20)
 										),
 									),
-									color: Colors.white,
 								),
-								SizedBox(width: MediaQuery.of(context).size.width/8 -10,),
 								if(Provider.of<CartItem>(context).count(widget.product.id, widget.product.variety[dropDownValue]) == 0)...{
+									SizedBox(
+										width: MediaQuery.of(context).size.width * 0.05,
+									),
 									Container(
 										decoration: BoxDecoration(
 											color: primaryMain,
 											borderRadius: BorderRadius.circular(100)
 										),
-										height: 40,
+										height: 35,
 										child: GestureDetector(
 											onTap: () => Provider.of<CartItem>(context).addToCart(ProductCart(
 												widget.product.id,
@@ -166,19 +175,24 @@ class _ProductCardState extends State<ProductCard> {
 											child: Row(
 												children: <Widget>[
 													Padding(
-														padding: EdgeInsets.all(10),
+														padding: EdgeInsets.only(
+															left: 10,
+															top: 5,
+															right: 5,
+															bottom: 5
+														),
 														child: Text(
 															'Add',
 															style: TextStyle(
 																color: Colors.white,
 																fontWeight: FontWeight.w700,
-																fontSize: 20
+																fontSize: MediaQuery.of(context).textScaleFactor * 15
 															),
 														),
 													),
 													Container(
-														height: 32,
-														width: 32,
+														height: 27,
+														width: 30,
 														padding: EdgeInsets.all(0),
 														child: MaterialButton(
 															shape: CircleBorder(side: BorderSide(width: 0, color: Colors.red, style: BorderStyle.solid)),
@@ -186,7 +200,7 @@ class _ProductCardState extends State<ProductCard> {
 																'+',
 																style: TextStyle(
 																	color: primaryMain,
-																	fontSize: 32,
+																	fontSize: MediaQuery.of(context).textScaleFactor * 27,
 																	fontWeight: FontWeight.w300
 																),
 																textAlign: TextAlign.center,
@@ -213,18 +227,21 @@ class _ProductCardState extends State<ProductCard> {
 									)
 								}
 								else...{
+									SizedBox(
+										width: MediaQuery.of(context).size.width * 0.02,
+									),
 									Container(
 										decoration: BoxDecoration(
 											color: primaryMain,
 											borderRadius: BorderRadius.circular(100)
 										),
-										height: 40,
+										height: 35,
 										child: Row(
 											children: <Widget>[
 												SizedBox(width: 5,),
 												Container(
-													height: 32,
-													width: 32,
+													height: 27,
+													width: 30,
 													padding: EdgeInsets.all(0),
 													child: MaterialButton(
 														shape: CircleBorder(side: BorderSide(width: 0, color: Colors.red, style: BorderStyle.solid)),
@@ -232,7 +249,7 @@ class _ProductCardState extends State<ProductCard> {
 															'-',
 															style: TextStyle(
 																color: primaryMain,
-																fontSize: 32,
+																fontSize: MediaQuery.of(context).textScaleFactor * 27,
 																fontWeight: FontWeight.w300
 															),
 															textAlign: TextAlign.center,
@@ -253,19 +270,19 @@ class _ProductCardState extends State<ProductCard> {
 													),
 												),
 												Padding(
-													padding: EdgeInsets.all(10),
+													padding: EdgeInsets.all(5),
 													child: Text(
 														Provider.of<CartItem>(context).count(widget.product.id, widget.product.variety[dropDownValue]).toString(),
 														style: TextStyle(
 															color: Colors.white,
 															fontWeight: FontWeight.w700,
-															fontSize: 20
+															fontSize: MediaQuery.of(context).textScaleFactor * 15
 														),
 													),
 												),
 												Container(
-													height: 32,
-													width: 32,
+													height: 27,
+													width: 30,
 													padding: EdgeInsets.all(0),
 													child: MaterialButton(
 														shape: CircleBorder(side: BorderSide(width: 0, color: Colors.red, style: BorderStyle.solid)),
@@ -273,7 +290,7 @@ class _ProductCardState extends State<ProductCard> {
 															'+',
 															style: TextStyle(
 																color: primaryMain,
-																fontSize: 32,
+																fontSize: MediaQuery.of(context).textScaleFactor * 27,
 																fontWeight: FontWeight.w300
 															),
 															textAlign: TextAlign.center,

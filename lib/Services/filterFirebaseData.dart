@@ -5,16 +5,16 @@ import 'package:customerappgrihasti/models/Category.dart';
 import 'package:customerappgrihasti/models/Order.dart';
 import 'package:customerappgrihasti/models/Products.dart';
 import 'package:customerappgrihasti/models/User.dart';
-
+import 'dart:core';
 void topProducts() async {
-	print('====================Called==================');
-	List<DocumentSnapshot> stream = await Firestore.instance.collection('products').orderBy('Nsold', descending: true).getDocuments().then((value) => value.documents);
+	print('====================${Activeuser.Uid}==================');
+	List<DocumentSnapshot> stream = await Firestore.instance.collection('products').getDocuments().then((value) => value.documents);
 	Top = [];
 
 	List<int> prices = [];
 	List<String> variety = [];
 	stream.forEach((element) {
-		element.data['variety'].forEach((variey) {
+		element.data['Variety'].forEach((variey) {
 			prices.add(variey['price']);
 			variety.add(variey['name']);
 		});
@@ -25,9 +25,10 @@ void topProducts() async {
 				element.data['Desc'],
 				prices,
 				element.data['Pic'],
-				element.data['Hash'] ?? '|HFFaXYk^6#M9wKSW@j=#*@-5c,1J5O[V=Nfs;w[@[or[k6.O[TLtJnNnO};FxngOZE3NgNHsps,jMFeS#OtcXnzRjxZxHj]OYNeR:JCs9xunhwIbeIpNaxHNGr;v}aeo0Xmt6XS\$et6#*\$ft6nhxHnNV@w{nOenwfNHo0',
-				element.data['category'] ?? 'Personal Care',
-				variety ?? ['1Kg', '2Kg', '5Kg', '10Kg']
+				element.data['Hash'],
+				element.data['Category']['name'],
+				variety,
+				element.data['Subcategory']['name']
 			)
 		);
 	});
@@ -80,6 +81,7 @@ List<Map<String, String>> processSubCategory(List<dynamic> hi) {
 
 void category() {
 	Firestore.instance.collection('categories').getDocuments().then((value) {
+		cat = [];
 		value.documents.forEach((element) {
 			cat.add(Category(
 				element.data['name'],

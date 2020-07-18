@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class OfferBox extends StatelessWidget {
@@ -20,8 +21,8 @@ class OfferBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-		width: MediaQuery.of(context).size.width/2 - 30,
-		height: 100,
+		width: MediaQuery.of(context).size.width/2 + 30,
+		height: 150,
 		margin: EdgeInsets.all(5),
 		padding: EdgeInsets.all(10),
 		decoration: BoxDecoration(
@@ -38,7 +39,7 @@ class OfferBox extends StatelessWidget {
 						Text(
 							'₹${main}',
 							style: TextStyle(
-								fontSize: 30,
+								fontSize: ScreenUtil().setSp(20),
 								fontWeight: FontWeight.w900,
 								color: Colors.white
 							),
@@ -48,7 +49,7 @@ class OfferBox extends StatelessWidget {
 							child: Text(
 								'''${fineprint}''',
 								style: TextStyle(
-									fontSize: 15,
+									fontSize: ScreenUtil().setSp(10),
 									fontWeight: FontWeight.w400,
 									color: Colors.white,
 								),
@@ -58,8 +59,7 @@ class OfferBox extends StatelessWidget {
 				),
 				SvgPicture.asset(
 					'assets/svg/emptyCart.svg',
-					width: 60,
-					height: 60,
+					width: MediaQuery.of(context).size.width/4,
 				)
 			],
 		),

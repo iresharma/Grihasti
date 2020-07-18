@@ -28,32 +28,29 @@ class CartPage extends StatelessWidget {
             ),
             elevation: 0,
             flexibleSpace: SafeArea(
-              child: Hero(
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                          Text(
-                              'G',
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: MediaQuery.of(context).size.width * 0.15,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Calli2',
-                              )
-                          ),
-                          Text(
-                              'rihasti',
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: MediaQuery.of(context).size.width * 0.13,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Calli'
-                              )
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                      Text(
+                          'G',
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: MediaQuery.of(context).size.width * 0.15,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'Calli2',
                           )
-                      ],
-                  ),
-                  tag: 'Logo',
+                      ),
+                      Text(
+                          'rihasti',
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: MediaQuery.of(context).size.width * 0.13,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'Calli'
+                          )
+                      )
+                  ],
               ),
             ),
             actions: <Widget>[
@@ -73,7 +70,6 @@ class CartPage extends StatelessWidget {
                           badgeTextColor: Colors.black38,
                           contentPadding: EdgeInsets.all(7),
                       ),
-                      onPressed: () => Navigator.of(context).pushNamed('/cart'),
                   ),
                   tag: 'Cart',
               )
@@ -106,7 +102,7 @@ class CartPage extends StatelessWidget {
                           'Check out hot deals->',
                           style: TextStyle(
                               color: Colors.blue,
-                              fontSize: 20
+                              fontSize: MediaQuery.of(context).textScaleFactor * 15,
                           ),
                       ),
                       onPressed: () => Navigator.of(context).pop(),
@@ -134,7 +130,7 @@ class CartPage extends StatelessWidget {
                                   'Checkout',
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20
+                                      fontSize: MediaQuery.of(context).textScaleFactor * 15,
                                   ),
                               ),
                           ),
@@ -202,11 +198,11 @@ class CartPage extends StatelessWidget {
                               Text(
                                   'Final Price',
                                   style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: MediaQuery.of(context).textScaleFactor * 15,
                                   ),
                               ),
                               Text(
-                                  Provider.of<CartItem>(context).totalPrice.toString(),
+                                  '₹ ${Provider.of<CartItem>(context).totalPrice.toString()}',
                                   style: TextStyle(
                                       fontSize: 25,
                                   ),

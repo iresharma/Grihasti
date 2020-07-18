@@ -43,7 +43,6 @@ class _GrihastiAppState extends State<GrihastiApp> {
 		return LifeCycleManager(
 			cart: Provider.of<CartItem>(context).process,
 			child: MaterialApp(
-				debugShowCheckedModeBanner: true,
 				title: 'Grihasti',
 				initialRoute: '/',
 				routes: Router(),

@@ -3,6 +3,7 @@ import 'package:customerappgrihasti/models/Cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CartProduct extends StatefulWidget {
 
@@ -18,8 +19,8 @@ class _CartProductState extends State<CartProduct> {
   @override
   Widget build(BuildContext context) {
     return Container(
-		width: MediaQuery.of(context).size.width,
-		height: MediaQuery.of(context).size.height/6 - 10,
+		width: ScreenUtil.defaultWidth * 1.0,
+		height: ScreenUtil.defaultHeight/11 - 10,
 		margin: EdgeInsets.all(5),
 		padding: EdgeInsets.all(10),
 		decoration: BoxDecoration(
@@ -30,7 +31,7 @@ class _CartProductState extends State<CartProduct> {
 			children: <Widget>[
 				SizedBox(
 					width: MediaQuery.of(context).size.width/4,
-					height: MediaQuery.of(context).size.height/6 - 40,
+					height: ScreenUtil.defaultHeight/11.5,
 					child: BlurHash(
 						image: widget.product.Pic,
 						hash: 'qEHV6nWB2yk8\$NxujFNGpyo0adR*=ss:I[R%.7kCMdnjx]S2NHs:S#M|%1%2ENRis9aiSis.slNHW:WBxZ%2ogaekBW;ofo0NHS4',
@@ -44,35 +45,44 @@ class _CartProductState extends State<CartProduct> {
 						Text(
 							widget.product.Name,
 							style: TextStyle(
-								fontSize: 25,
+								fontSize: ScreenUtil().setSp(18),
 								fontWeight: FontWeight.w800
 							),
 						),
-						SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
 						Row(
 							mainAxisAlignment: MainAxisAlignment.spaceBetween,
 							mainAxisSize: MainAxisSize.max,
 							children: <Widget>[
-								Column(
-									crossAxisAlignment: CrossAxisAlignment.start,
-									children: <Widget>[
-										Text(
-											'Category',
-											style: TextStyle(
-												fontWeight: FontWeight.w200,
-												fontSize: 15
+								Container(
+									padding: EdgeInsets.only(
+										left: 10,
+										right: 10
+									),
+									width: MediaQuery.of(context).size.width * 0.33,
+									child: Column(
+										crossAxisAlignment: CrossAxisAlignment.start,
+										children: <Widget>[
+											Text(
+												'Category',
+												style: TextStyle(
+													fontWeight: FontWeight.w200,
+													fontSize:ScreenUtil().setSp(10)
+												),
 											),
-										),
-										Text(
-											widget.product.category,
-											style: TextStyle(
-												fontWeight: FontWeight.w400,
-												fontSize: 20
-											),
-										)
-									],
+											Text(
+												widget.product.category,
+												style: TextStyle(
+													fontWeight: FontWeight.w400,
+													fontSize: ScreenUtil().setSp(13),
+												),
+												overflow: TextOverflow.ellipsis,
+											)
+										],
+									),
 								),
-								SizedBox(width: MediaQuery.of(context).size.width * 0.15,),
+								SizedBox(
+									width: MediaQuery.of(context).size.width * 0.1,
+								),
 								Column(
 									crossAxisAlignment: CrossAxisAlignment.start,
 									children: <Widget>[
@@ -80,14 +90,14 @@ class _CartProductState extends State<CartProduct> {
 											'Varient',
 											style: TextStyle(
 												fontWeight: FontWeight.w200,
-												fontSize: 15
+												fontSize: ScreenUtil().setSp(10)
 											),
 										),
 										Text(
 											'${widget.product.variety}',
 											style: TextStyle(
 												fontWeight: FontWeight.w400,
-												fontSize: 20
+												fontSize: ScreenUtil().setSp(12)
 											),
 										),
 									],
@@ -106,24 +116,26 @@ class _CartProductState extends State<CartProduct> {
 										style: TextStyle(
 											color: primaryMain,
 											fontWeight: FontWeight.w900,
-											fontSize: 35
+											fontSize: ScreenUtil().setSp(20)
 										),
 									),
 									color: Colors.white,
 								),
-								SizedBox(width: MediaQuery.of(context).size.width/8 -10,),
+								SizedBox(
+									width: MediaQuery.of(context).size.width * 0.12,
+								),
 								Container(
 									decoration: BoxDecoration(
 										color: primaryMain,
 										borderRadius: BorderRadius.circular(100)
 									),
-									height: 40,
+									height: 35,
 									child: Row(
 										children: <Widget>[
 											SizedBox(width: 5,),
 											Container(
-												height: 32,
-												width: 32,
+												height: 27,
+												width: 27,
 												padding: EdgeInsets.all(0),
 												child: MaterialButton(
 													shape: CircleBorder(side: BorderSide(width: 0, color: Colors.red, style: BorderStyle.solid)),
@@ -131,7 +143,7 @@ class _CartProductState extends State<CartProduct> {
 														'-',
 														style: TextStyle(
 															color: primaryMain,
-															fontSize: 32,
+															fontSize: MediaQuery.of(context).textScaleFactor * 27,
 															fontWeight: FontWeight.w300
 														),
 														textAlign: TextAlign.center,
@@ -152,19 +164,19 @@ class _CartProductState extends State<CartProduct> {
 												),
 											),
 											Padding(
-												padding: EdgeInsets.all(10),
+												padding: EdgeInsets.all(5),
 												child: Text(
 													Provider.of<CartItem>(context).count(widget.product.id, widget.product.variety).toString(),
 													style: TextStyle(
 														color: Colors.white,
 														fontWeight: FontWeight.w700,
-														fontSize: 20
+														fontSize: MediaQuery.of(context).textScaleFactor * 15
 													),
 												),
 											),
 											Container(
-												height: 32,
-												width: 32,
+												height: 27,
+												width: 27,
 												padding: EdgeInsets.all(0),
 												child: MaterialButton(
 													shape: CircleBorder(side: BorderSide(width: 0, color: Colors.red, style: BorderStyle.solid)),
@@ -172,7 +184,7 @@ class _CartProductState extends State<CartProduct> {
 														'+',
 														style: TextStyle(
 															color: primaryMain,
-															fontSize: 32,
+															fontSize: MediaQuery.of(context).textScaleFactor * 27,
 															fontWeight: FontWeight.w300
 														),
 														textAlign: TextAlign.center,
