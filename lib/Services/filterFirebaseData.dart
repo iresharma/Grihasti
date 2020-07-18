@@ -7,7 +7,6 @@ import 'package:customerappgrihasti/models/Products.dart';
 import 'package:customerappgrihasti/models/User.dart';
 import 'dart:core';
 void topProducts() async {
-	print('====================${Activeuser.Uid}==================');
 	List<DocumentSnapshot> stream = await Firestore.instance.collection('products').getDocuments().then((value) => value.documents);
 	Top = [];
 
@@ -75,8 +74,10 @@ List<Map<String, String>> processSubCategory(List<dynamic> hi) {
 		temp.add({
 			'name': element['name'],
 			'id': element['id'],
+			'icon': element['icon']
 		});
 	});
+	return temp;
 }
 
 void category() {

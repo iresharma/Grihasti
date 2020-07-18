@@ -34,7 +34,7 @@ class OfferBox extends StatelessWidget {
 			children: <Widget>[
 				Column(
 					crossAxisAlignment: CrossAxisAlignment.start,
-					mainAxisAlignment: MainAxisAlignment.center,
+					mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 					children: <Widget>[
 						Text(
 							'₹${main}',

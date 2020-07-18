@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
 			},
 			children: <Widget>[
 				HOme(),
-				categoryPage(),
+				CategoryPage(),
 				ProfilePage()
 			],
 		),
