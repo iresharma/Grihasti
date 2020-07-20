@@ -128,7 +128,7 @@ class _IntroScrollerState extends State<IntroScroller> {
 	);
 	slides.add(
 		new Slide(
-			title: "Delivered with ♥️",
+			title: "Made in 🇮🇳",
 			styleTitle:
 			TextStyle(
 				color: secondaryMain,

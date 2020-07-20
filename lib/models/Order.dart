@@ -7,7 +7,9 @@ class Order {
 	final List<ProductCart> items;
 	final String paymentId;
 	final String uid;
+	final String status;
+	final String ordered_on;
 
-  Order(this.id, this.price, this.items, this.paymentId, this.uid);
+  Order(this.id, this.price, this.items, this.paymentId, this.uid, this.ordered_on, this.status);
 
 }

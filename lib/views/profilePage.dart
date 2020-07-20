@@ -64,7 +64,7 @@ class ProfilePage extends StatelessWidget {
 													children: <Widget>[
 														IconButton(
 															icon: Image.asset('assets/icons/truck.png'),
-															onPressed: () => print('tracking')
+															onPressed: () => Navigator.of(context).pushNamed('/orders')
 														),
 														Text(
 															'Track Orders',

@@ -41,11 +41,11 @@ class _ProductCardState extends State<ProductCard> {
 		child: Row(
 			children: <Widget>[
 				SizedBox(
-					width: MediaQuery.of(context).size.width/4,
+					width: MediaQuery.of(context).size.width > 450 ? MediaQuery.of(context).size.width/3 : MediaQuery.of(context).size.width/4,
 					height: ScreenUtil.defaultHeight/11.5,
 					child: BlurHash(
 						image: widget.product.Pic,
-						hash: 'qEHV6nWB2yk8\$NxujFNGpyo0adR*=ss:I[R%.7kCMdnjx]S2NHs:S#M|%1%2ENRis9aiSis.slNHW:WBxZ%2ogaekBW;ofo0NHS4',
+						hash: widget.product.hash
 					),
 				),
 				SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
@@ -56,7 +56,7 @@ class _ProductCardState extends State<ProductCard> {
 						Text(
 							widget.product.Name,
 							style: TextStyle(
-								fontSize: ScreenUtil().setSp(18),
+								fontSize: MediaQuery.of(context).size.width > 450 ? ScreenUtil().setSp(15) : ScreenUtil().setSp(18),
 								fontWeight: FontWeight.w800
 							),
 						),
@@ -118,6 +118,8 @@ class _ProductCardState extends State<ProductCard> {
 											underline: Container(
 												height: 0,
 											),
+											focusColor: Colors.white,
+											dropdownColor: Colors.white,
 											items: widget.product.variety
 												.map<DropdownMenuItem<String>>((String value) {
 												return DropdownMenuItem<String>(

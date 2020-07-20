@@ -49,12 +49,14 @@ class _GrihastiAppState extends State<GrihastiApp> {
 				theme: ThemeData(
 					brightness: Brightness.light,
 					primaryColor: Color(0xFFFF3F47),
-					accentColor: Colors.redAccent
+					accentColor: Colors.redAccent,
+					canvasColor: Colors.transparent
 				),
 				darkTheme: ThemeData(
 					brightness: Brightness.light,
 					primaryColor: Color(0xFFFF3F47),
-					accentColor: Colors.redAccent
+					accentColor: Colors.redAccent,
+					canvasColor: Colors.transparent
 				),
 			),
 		);

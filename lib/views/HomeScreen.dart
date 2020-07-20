@@ -134,59 +134,70 @@ class _HomeScreenState extends State<HomeScreen> {
 			),
 			preferredSize: Size.fromHeight(80.0)
 		),
-		drawer: Drawer(
-			child: SafeArea(
-				child: ListView(
-					children: <Widget>[
-						Container(
-							height: MediaQuery.of(context).size.height/5,
-							color: primaryMain,
-							child: Column(
-								crossAxisAlignment: CrossAxisAlignment.center,
-								mainAxisSize: MainAxisSize.max,
-								mainAxisAlignment: MainAxisAlignment.center,
-								children: <Widget>[
-									CircleAvatar(
-										child: Image.asset('assets/images/avataaars.png'),
-										radius: 50,
-									),
-									SizedBox(height: 20,),
-									Column(
-										mainAxisAlignment: MainAxisAlignment.center,
-										children: <Widget>[
-											Text(
-												Activeuser.Name ?? 'Name Sharma',
-												style: TextStyle(
-													fontSize: ScreenUtil().setSp(15),
-													fontWeight: FontWeight.w700,
-													color: secondaryMain
+		drawer: Theme(
+			data: ThemeData(
+				canvasColor: Colors.white
+			),
+			child: Drawer(
+				child: SafeArea(
+					child: ListView(
+						children: <Widget>[
+							Container(
+								height: MediaQuery.of(context).size.height/5,
+								color: primaryMain,
+								child: Column(
+									crossAxisAlignment: CrossAxisAlignment.center,
+									mainAxisSize: MainAxisSize.max,
+									mainAxisAlignment: MainAxisAlignment.center,
+									children: <Widget>[
+										CircleAvatar(
+											child: Image.asset('assets/images/avataaars.png'),
+											radius: 50,
+										),
+										SizedBox(height: 20,),
+										Column(
+											mainAxisAlignment: MainAxisAlignment.center,
+											children: <Widget>[
+												Text(
+													Activeuser.Name ?? 'Name Sharma',
+													style: TextStyle(
+														fontSize: ScreenUtil().setSp(15),
+														fontWeight: FontWeight.w700,
+														color: secondaryMain
+													),
 												),
-											),
-											Text(
-												'Coins: 0',
-												style: TextStyle(
-													fontSize: ScreenUtil().setSp(10),
-													fontWeight: FontWeight.w300,
-													color: secondarySec
-												),
-											)
-										],
-									)
-								],
+												Text(
+													'Coins: 0',
+													style: TextStyle(
+														fontSize: ScreenUtil().setSp(10),
+														fontWeight: FontWeight.w300,
+														color: secondarySec
+													),
+												)
+											],
+										)
+									],
+								),
 							),
-						),
-						FlatButton(
-							child: Text('Orders'),
-							onPressed: () => Navigator.of(context).pushNamed('/orders'),
-						),
-						FlatButton(
-							child: Text('Signout'),
-							onPressed: () => FirebaseAuth.instance.signOut()
-								.then((value) => Navigator.of(context).pushReplacement(new MaterialPageRoute(
-								builder: (_) => Login()
-							))),
-						),
-					],
+							Container(
+								color: Colors.white,
+								child: FlatButton(
+									child: Text('Orders'),
+									onPressed: () => Navigator.of(context).pushNamed('/orders'),
+								),
+							),
+							Container(
+								color: Colors.white,
+								child: FlatButton(
+									child: Text('Signout'),
+									onPressed: () => FirebaseAuth.instance.signOut()
+										.then((value) => Navigator.of(context).pushReplacement(new MaterialPageRoute(
+										builder: (_) => Login()
+									))),
+								),
+							)
+						],
+					),
 				),
 			),
 		),

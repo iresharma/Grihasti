@@ -30,11 +30,11 @@ class _CartProductState extends State<CartProduct> {
 		child: Row(
 			children: <Widget>[
 				SizedBox(
-					width: MediaQuery.of(context).size.width/4,
+					width: MediaQuery.of(context).size.width > 450 ? MediaQuery.of(context).size.width/3 : MediaQuery.of(context).size.width/4,
 					height: ScreenUtil.defaultHeight/11.5,
 					child: BlurHash(
 						image: widget.product.Pic,
-						hash: 'qEHV6nWB2yk8\$NxujFNGpyo0adR*=ss:I[R%.7kCMdnjx]S2NHs:S#M|%1%2ENRis9aiSis.slNHW:WBxZ%2ogaekBW;ofo0NHS4',
+						hash: widget.product.hash,
 					),
 				),
 				SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
@@ -79,9 +79,6 @@ class _CartProductState extends State<CartProduct> {
 											)
 										],
 									),
-								),
-								SizedBox(
-									width: MediaQuery.of(context).size.width * 0.1,
 								),
 								Column(
 									crossAxisAlignment: CrossAxisAlignment.start,

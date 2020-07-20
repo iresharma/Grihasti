@@ -23,6 +23,7 @@ class _AddinfoState extends State<Addinfo> {
 	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
+			backgroundColor: Colors.grey.shade200,
 			appBar: PreferredSize(
 				child: Builder(
 					builder: (context) =>

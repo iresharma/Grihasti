@@ -1,3 +1,4 @@
+import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -98,7 +99,7 @@ class MainBackground extends CustomPainter {
 		canvas.drawRect(
 			Rect.fromLTRB(
 				width - (width / 3), 0,width, height),
-			Paint()..color = Color.fromRGBO(253, 184, 70, 0.7));
+			Paint()..color = primaryMain);
 
 	}
 

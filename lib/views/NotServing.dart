@@ -11,6 +11,7 @@ class NotServing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+		backgroundColor: Colors.grey.shade200,
 		appBar: PreferredSize(
 			child: Builder(
 				builder: (context) => AppBar(

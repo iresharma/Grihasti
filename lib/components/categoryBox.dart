@@ -29,8 +29,11 @@ class _CategoryBoxState extends State<CategoryBox> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
 		duration: Duration(milliseconds: 250),
-		height: animate ? MediaQuery.of(context).size.height/5 : MediaQuery.of(context).size.height/12,
-		color: Colors.white,
+		height: animate ? MediaQuery.of(context).size.height/6 + 20 : MediaQuery.of(context).size.height/12,
+		decoration: BoxDecoration(
+			color: Colors.white,
+			borderRadius: BorderRadius.circular(20)
+		),
 		margin: EdgeInsets.only(
 			right: ScreenUtil().setSp(10),
 			left: ScreenUtil().setSp(10),

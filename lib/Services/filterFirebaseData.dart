@@ -13,6 +13,8 @@ void topProducts() async {
 	List<int> prices = [];
 	List<String> variety = [];
 	stream.forEach((element) {
+		prices = [];
+		variety = [];
 		element.data['Variety'].forEach((variey) {
 			prices.add(variey['price']);
 			variety.add(variey['name']);
@@ -51,17 +53,24 @@ List<ProductCart> processOrders(List<dynamic> items) {
 	return temp;
 }
 
+String processTime(int x) {
+	DateTime y = new DateTime.fromMicrosecondsSinceEpoch(x);
+	return '${y.day} - ${y.month} - ${y.year}';
+}
+
 void order() {
 	Firestore.instance.collection('orders').where('uid', isEqualTo: Activeuser.Uid).snapshots().listen((event) {
 		orders = [];
 		if(event.documents.length != 0) {
 			event.documents.forEach((element) {
 				orders.add(Order(
-					element.documentID,
+					element.data['orderId'] ?? element.documentID,
 					element.data['price'].toString(),
 					processOrders(element.data['items']),
 					element.data['paymentId'] ?? 'COD',
-					element.data['uid']
+					element.data['uid'],
+					processTime(element.data['ordered_on']),
+					element.data['status']
 				));
 			});
 		}
