@@ -251,7 +251,7 @@ class _CartPageState extends State<CartPage> {
                                                         child: Column(
                                                             children: <Widget>[
                                                                 Text(
-                                                                    'Hello, you have ${Provider.of<CartItem>(context).len} items in your cart, amounting to a total of ${Provider.of<CartItem>(context).totalPrice}, please select payment method:',
+                                                                    'Hello, you have ${Provider.of<CartItem>(context).len} items in your cart, amounting to a total of ₹${Provider.of<CartItem>(context).totalPrice}, please select payment method:',
                                                                     style: TextStyle(
                                                                         fontSize: ScreenUtil().setSp(15)
                                                                     ),

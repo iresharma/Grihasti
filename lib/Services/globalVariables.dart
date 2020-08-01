@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:customerappgrihasti/models/Category.dart';
 
-
 List<Map<String, BiometricType>> available = [];
 
 Color primaryMain = Color(0xFFFF3F47);
@@ -13,10 +12,9 @@ Color primarySec = Colors.redAccent;
 Color secondaryMain = Colors.white;
 Color secondarySec = Color(0xFFF9A825);
 
-
 List<Products> Top = [];
 
-List<Products> Prev = [];
+List<ProductCart> Prev = [];
 
 List<Order> orders = [];
 

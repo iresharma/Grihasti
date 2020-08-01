@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
@@ -9,7 +10,6 @@ import 'package:customerappgrihasti/views/introScroll.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -36,7 +36,6 @@ class _SplashState extends State<Splash> {
     Timer(
 		Duration(seconds: 3),
 		() async {
-			double loc;
 			geolocator
 				.getCurrentPosition(desiredAccuracy: LocationAccuracy.best,locationPermissionLevel: GeolocationPermission.locationWhenInUse,)
 				.then((Position position) {
@@ -73,6 +72,9 @@ class _SplashState extends State<Splash> {
 					}
 					else Navigator.of(context).pushReplacementNamed('/not_serving');
 				});
+			})
+			.catchError((onError) => {
+				AppSettings.openLocationSettings()
 			});
 		}
 	);

@@ -1,206 +1,183 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:customerappgrihasti/models/Order.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class OrdersBox extends StatelessWidget {
+  final Order order;
 
-	final Order order;
+  OrdersBox({this.order});
 
-	OrdersBox({this.order});
+  DateTime processTime(String arg) {
+    int time = int.parse(arg);
+    DateTime order = new DateTime.fromMicrosecondsSinceEpoch(time);
+    return order;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-		child: Container(
-			width: MediaQuery.of(context).size.width,
-			height: MediaQuery.of(context).size.height/5,
-			decoration: BoxDecoration(
-				color: Colors.white,
-			),
-			padding: EdgeInsets.all(10),
-			child: Column(
-				crossAxisAlignment: CrossAxisAlignment.start,
-				children: <Widget>[
-					RichText(
-						text: TextSpan(
-							children: [
-								TextSpan(
-									text: 'Order Id: ',
-									style: TextStyle(
-										fontWeight: FontWeight.w400,
-										fontSize: ScreenUtil().setSp(15),
-										color: Colors.black
-									)
-								),
-								TextSpan(
-									text: order.id,
-									style: TextStyle(
-										fontWeight: FontWeight.w300,
-										fontSize: ScreenUtil().setSp(12),
-										color: Colors.black
-									)
-								)
-							]
-						),
-					),
-					Divider(thickness: 2,),
-					Padding(
-						padding: EdgeInsets.only(
-							left: 20
-						),
-						child: Column(
-							crossAxisAlignment: CrossAxisAlignment.start,
-							children: <Widget>[
-								SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
-								Row(
-									mainAxisAlignment: MainAxisAlignment.spaceBetween,
-									children: <Widget>[
-										Row(
-											children: <Widget>[
-												Text(
-													'Status: ',
-													style: TextStyle(
-														fontWeight: FontWeight.w500,
-														fontSize: ScreenUtil().setSp(15),
-														color: Colors.black
-													),
-												),
-												Container(
-													decoration: BoxDecoration(
-														color: Colors.green,
-														borderRadius: BorderRadius.circular(1000)
-													),
-													margin: EdgeInsets.only(left: 10),
-													padding: EdgeInsets.all(5),
-													child: Text(
-														order.status,
-														style: TextStyle(
-															fontWeight: FontWeight.w300,
-															fontSize: ScreenUtil().setSp(13),
-															color: Colors.white
-														),
-													),
-												),
-											],
-										),
-										RichText(
-											text: TextSpan(
-												children: [
-													TextSpan(
-														text: 'Ordered on:   ',
-														style: TextStyle(
-															fontWeight: FontWeight.w500,
-															fontSize: ScreenUtil().setSp(13),
-															color: Colors.black
-														)
-													),
-													TextSpan(
-														text: order.ordered_on,
-														style: TextStyle(
-															fontWeight: FontWeight.w300,
-															fontSize: ScreenUtil().setSp(13),
-															color: Colors.black
-														)
-													)
-												]
-											),
-										),
-									],
-								),
-								SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
-								if(order.paymentId == 'COD')...{
-									RichText(
-										text: TextSpan(
-											children: [
-												TextSpan(
-													text: 'Payment mode:   ',
-													style: TextStyle(
-														fontWeight: FontWeight.w500,
-														fontSize: ScreenUtil().setSp(13),
-														color: Colors.black
-													)
-												),
-												TextSpan(
-													text: 'Offline',
-													style: TextStyle(
-														fontWeight: FontWeight.w300,
-														fontSize: ScreenUtil().setSp(12),
-														color: Colors.black
-													)
-												)
-											]
-										),
-									)
-								}
-								else...{
-									Row(
-										crossAxisAlignment: CrossAxisAlignment.start,
-										children: <Widget>[
-											Text(
-												'Payment mode:   ',
-												style: TextStyle(
-													fontWeight: FontWeight.w500,
-													fontSize: ScreenUtil().setSp(15),
-													color: Colors.black
-												)
-											),
-											Column(
-												crossAxisAlignment: CrossAxisAlignment.start,
-												mainAxisAlignment: MainAxisAlignment.end,
-												children: <Widget>[
-													Text(
-														'Online',
-														style: TextStyle(
-															fontWeight: FontWeight.w300,
-															fontSize: ScreenUtil().setSp(15),
-															color: Colors.black
-														)
-													),
-													Text(
-														'(${order.paymentId})',
-														style: TextStyle(
-															fontWeight: FontWeight.w300,
-															fontSize: ScreenUtil().setSp(7),
-															color: Colors.black
-														)
-													),
-												],
-											)
-										],
-									)
-								},
-								SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
-								RichText(
-									text: TextSpan(
-										children: [
-											TextSpan(
-												text: 'Amount:   ',
-												style: TextStyle(
-													fontWeight: FontWeight.w500,
-													fontSize: ScreenUtil().setSp(13),
-													color: Colors.black
-												)
-											),
-											TextSpan(
-												text: '₹${order.price}',
-												style: TextStyle(
-													fontWeight: FontWeight.w300,
-													fontSize: ScreenUtil().setSp(13),
-													color: Colors.black
-												)
-											)
-										]
-									),
-								),
-							],
-						),
-					)
-				],
-			),
-		),
-	);
+    return Container(
+      height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height/3 : MediaQuery.of(context).size.height/3 + ScreenUtil().setSp(20),
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.all(0),
+      padding: EdgeInsets.all(0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Ordered about ${timeago.format(processTime(order.ordered_on))}',
+            style: TextStyle(
+              fontSize: ScreenUtil().setSp(10)
+            ),
+          ),
+          SizedBox(height: ScreenUtil().setSp(5)),
+          Container(
+            padding: EdgeInsets.all(ScreenUtil().setSp(8)),
+            decoration: BoxDecoration(
+              color: Colors.white
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(0),
+                    border: Border.all(color: Colors.black38, width: 0.5),
+                    color: Colors.white,
+                  ),
+                  height: MediaQuery.of(context).size.height/5,
+                  padding: EdgeInsets.only(
+                    top: 10,
+                    right: 10,
+                    left: 10
+                  ),
+                  margin: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'G  ',
+                              style: TextStyle(
+                                fontFamily: 'Calli2',
+                                fontSize: ScreenUtil().setSp(12),
+                                color: primaryMain
+                              )
+                            ),
+                            TextSpan(
+                              text: 'Delivered by ',
+                                style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(9),
+                                  color: Colors.black54
+                                )
+                            ),
+                            TextSpan(
+                                text: ' G',
+                                style: TextStyle(
+                                    fontFamily: 'Calli2',
+                                    fontSize: ScreenUtil().setSp(12),
+                                    color: Colors.black
+                                )
+                            ),
+                            TextSpan(
+                                text: 'rihasti',
+                                style: TextStyle(
+                                    fontFamily: 'Calli',
+                                    fontSize: ScreenUtil().setSp(10),
+                                    color: Colors.black
+                                )
+                            ),
+                          ]
+                        ),
+                      ),
+                      Divider(thickness: 1,),
+                      Container(
+                        height: MediaQuery.of(context).size.height/7 - ScreenUtil().setSp(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Text(
+                                  'Order amount',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: ScreenUtil().setSp(10)
+                                  ),
+                                ),
+                                Text(
+                                  'Discount amount',
+                                  style: TextStyle(
+                                      fontSize: ScreenUtil().setSp(10)
+                                  ),
+                                ),
+
+                                Text(
+                                  'Order ID: ${order.paymentId == 'COD' ? order.id : order.paymentId}',
+                                  style: TextStyle(
+                                      fontSize: ScreenUtil().setSp(12),
+                                      fontWeight: FontWeight.w200
+                                  ),
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Icon(FlutterIcons.check_circle_fea, color: Colors.green,),
+                                    SizedBox(width: 10,),
+                                    Text('Delivered', style: TextStyle(
+                                      fontSize: ScreenUtil().setSp(10),
+                                      color: Colors.green
+                                    ),)
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Text(
+                                    '₹ ${order.price}',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: ScreenUtil().setSp(12)
+                                    ),
+                                  ),
+                                  Text(
+                                    'Discount amount',
+                                    style: TextStyle(
+                                        fontSize: ScreenUtil().setSp(10),
+                                      color: primaryMain
+                                    ),
+                                  ),
+                                ]
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  child: RaisedButton(
+                    color: Colors.deepOrangeAccent,
+                    child: Text('View Order'),
+                    onPressed: () => print('hi'),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
