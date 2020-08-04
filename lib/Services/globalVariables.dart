@@ -19,3 +19,5 @@ List<ProductCart> Prev = [];
 List<Order> orders = [];
 
 List<Category> cat = [];
+
+String Location = '';

@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 class Splash extends StatefulWidget {
@@ -40,6 +41,10 @@ class _SplashState extends State<Splash> {
 				.getCurrentPosition(desiredAccuracy: LocationAccuracy.best,locationPermissionLevel: GeolocationPermission.locationWhenInUse,)
 				.then((Position position) {
 				print('${position.latitude}, ${position.longitude}');
+				Geolocator().placemarkFromCoordinates(position.latitude, position.longitude, localeIdentifier: 'en').then((value) => {
+					print('${value[0].locality}, ${value[0].subLocality}'),
+					Location = '${value[0].locality}, ${value[0].subLocality}'
+				});
 				geolocator.distanceBetween(position.latitude, position.longitude, 22.623621, 88.353856).then((loc) {
 					print(loc);
 					if(loc <= 10000) {
@@ -74,7 +79,16 @@ class _SplashState extends State<Splash> {
 				});
 			})
 			.catchError((onError) => {
-				AppSettings.openLocationSettings()
+				Fluttertoast.showToast(
+					msg: 'Please turn on location and restart the app',
+					toastLength: Toast.LENGTH_LONG,
+					gravity: ToastGravity.CENTER,
+					timeInSecForIosWeb: 1,
+					backgroundColor: Colors.red,
+					textColor: Colors.white,
+					fontSize: 16.0
+				),
+				Future.delayed(Duration(milliseconds: 300), () => AppSettings.openLocationSettings())
 			});
 		}
 	);

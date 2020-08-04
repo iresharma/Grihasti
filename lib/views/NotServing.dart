@@ -3,6 +3,7 @@ import 'package:customerappgrihasti/views/Login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_badged/flutter_badge.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
@@ -58,15 +59,34 @@ class NotServing extends StatelessWidget {
 				crossAxisAlignment: CrossAxisAlignment.center,
 				children: <Widget>[
 					Container(
-						padding: EdgeInsets.all(40),
+						padding: EdgeInsets.only(
+							top: 40,
+							left: 40,
+							right: 40,
+							bottom: 20
+						),
 						child: Text(
 							'Sorry we don\'t serve here yet',
 							style: TextStyle(
-								fontSize: 20,
+								fontSize: ScreenUtil().setSp(20),
 								fontWeight: FontWeight.bold,
 								color: primaryMain
 							),
 						),
+					),
+					Row(
+						mainAxisAlignment: MainAxisAlignment.center,
+						children: <Widget>[
+							Icon(
+								FlutterIcons.location_evi,
+								color: primaryMain,
+								size: 30,
+							),
+							Text(
+								Location,
+								style: TextStyle(color: primaryMain, fontSize: 17),
+							),
+						],
 					),
 					SvgPicture.asset(
 						'assets/svg/noService.svg',

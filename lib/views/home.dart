@@ -50,7 +50,7 @@ class _HOmeState extends State<HOme> {
                     size: 30,
                   ),
                   Text(
-                    'Howrahlkadslgna;rigbd;uvbdvnf',
+                    Location,
                     style: TextStyle(color: primaryMain, fontSize: 17),
                   ),
                 ],
@@ -67,9 +67,10 @@ class _HOmeState extends State<HOme> {
                       border: InputBorder.none,
                       icon: Icon(FlutterIcons.search1_ant),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
-                      labelText: 'Search...'),
+                      labelText: 'Search...'
+                  ),
                   controller: _controller,
-                  onChanged: (value) => print(value),
+                  onTap: () => Navigator.of(context).pushNamed('/search'),
                 ),
               )
             ],

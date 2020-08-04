@@ -1,4 +1,5 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
+import 'package:customerappgrihasti/views/viewOrder.dart';
 import 'package:flutter/material.dart';
 import 'package:customerappgrihasti/models/Order.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -10,10 +11,10 @@ class OrdersBox extends StatelessWidget {
 
   OrdersBox({this.order});
 
-  DateTime processTime(String arg) {
+  String processTime(String arg) {
     int time = int.parse(arg);
     DateTime order = new DateTime.fromMicrosecondsSinceEpoch(time);
-    return order;
+    return order.day.toString() + '/' + order.month.toString() + '/' + order.year.toString();
   }
 
   @override
@@ -27,7 +28,7 @@ class OrdersBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Ordered about ${timeago.format(processTime(order.ordered_on))}',
+            'Ordered on ${processTime(order.ordered_on)}',
             style: TextStyle(
               fontSize: ScreenUtil().setSp(10)
             ),
@@ -121,7 +122,7 @@ class OrdersBox extends StatelessWidget {
                                 ),
 
                                 Text(
-                                  'Order ID: ${order.paymentId == 'COD' ? order.id : order.paymentId}',
+                                  'Order ID: ${order.id}',
                                   style: TextStyle(
                                       fontSize: ScreenUtil().setSp(12),
                                       fontWeight: FontWeight.w200
@@ -170,7 +171,7 @@ class OrdersBox extends StatelessWidget {
                   child: RaisedButton(
                     color: Colors.deepOrangeAccent,
                     child: Text('View Order'),
-                    onPressed: () => print('hi'),
+                    onPressed: () => Navigator.of(context).push(new MaterialPageRoute(builder: (_) => viewOrder(order: order,))),
                   ),
                 )
               ],
