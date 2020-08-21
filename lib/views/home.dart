@@ -4,6 +4,7 @@ import 'package:customerappgrihasti/components/OfferBox.dart';
 import 'package:customerappgrihasti/components/ProductCard.dart';
 import 'package:customerappgrihasti/components/feelingBox.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/models/Search.dart';
 import 'package:customerappgrihasti/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -66,6 +67,7 @@ class _HOmeState extends State<HOme> {
                 margin: EdgeInsets.all(20),
                 child: GestureDetector(
                   onTap: () {
+                    Provider.of<Search>(context).search('');
                     Navigator.of(context).push(
                       new PageRouteBuilder(
                           transitionDuration: Duration(microseconds: 250),

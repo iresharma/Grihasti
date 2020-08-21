@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
-import 'package:customerappgrihasti/models/Category.dart';
+import 'package:customerappgrihasti/models/Search.dart';
 import 'package:customerappgrihasti/models/User.dart';
 import 'package:customerappgrihasti/views/Login.dart';
 import 'package:customerappgrihasti/views/categoryPage.dart';
 import 'package:customerappgrihasti/views/profilePage.dart';
+import 'package:customerappgrihasti/views/search.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -113,7 +114,24 @@ class _HomeScreenState extends State<HomeScreen> {
 							Hero(
 								child: IconButton(
 									icon: Icon(FlutterIcons.search1_ant,color: Colors.black38,),
-									onPressed: () => print('hi'),
+									onPressed: () {
+										Provider.of<Search>(context).search('');
+										Navigator.of(context).push(
+												new PageRouteBuilder(
+														transitionDuration: Duration(microseconds: 250),
+														transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child) {
+															print(animation);
+															return FadeTransition(
+																opacity: animation,
+																child: child,
+															);
+														},
+														pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation) {
+															return SearchPage();
+														}
+												)
+										);
+									},
 								),
 								tag: 'Search',
 							),

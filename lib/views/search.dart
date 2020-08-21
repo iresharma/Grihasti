@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/Search.dart';
 import 'package:flutter/material.dart';
@@ -59,13 +60,63 @@ class SearchPage extends StatelessWidget {
 				canvasColor: Colors.white
 			),
 			child: FloatingSearchBar.builder(
-				itemCount: Provider.of<Search>(context).len,
+				itemCount: Provider.of<Search>(context).len == 0 ? Activeuser.recentlySearch.length : Provider.of<Search>(context).len,
 				pinned: true,
 				onChanged: (value) => Provider.of<Search>(context).search(value),
 				itemBuilder: (BuildContext context, int index) {
-					return Text(
-							Provider.of<Search>(context).searchResult[index].name
-					);
+					if(Provider.of<Search>(context).len == 0) {
+						return GestureDetector(
+								child: Padding(
+									padding: const EdgeInsets.only(
+											left: 18,
+											right: 18
+									),
+									child: ListTile(
+										title: Text(
+												Activeuser.recentlySearch[index].name,
+											style: TextStyle(
+												color: Colors.deepPurple,
+												fontWeight: FontWeight.w600
+											),
+										),
+										subtitle: Text(
+												Activeuser.recentlySearch[index].type,
+												style: TextStyle(
+														color: Colors.deepPurpleAccent
+												),
+										),
+										trailing: Icon(FlutterIcons.chevron_right_ent),
+										leading: Icon(FlutterIcons.search1_ant),
+									),
+								)
+						);
+					}
+					else {
+						return GestureDetector(
+							onTap: () {
+								Activeuser.recentlySearch.add(Provider.of<Search>(context).searchResult[index]);
+								Firestore.instance.collection('users').document(Activeuser.Uid).setData({
+									'searched': Provider.of<Search>(context).deprocess(Activeuser.recentlySearch)
+								}, merge: true);
+							},
+							child: Padding(
+								padding: const EdgeInsets.only(
+										left: 18,
+										right: 18
+								),
+								child: ListTile(
+									title: Text(
+											Provider.of<Search>(context).searchResult[index].name
+									),
+									subtitle: Text(
+											Provider.of<Search>(context).searchResult[index].type
+									),
+									trailing: Icon(FlutterIcons.chevron_right_ent),
+									leading: Icon(FlutterIcons.search1_ant),
+								),
+							),
+						);
+					}
 				},
 				decoration: InputDecoration(
 					border: InputBorder.none,
@@ -141,7 +192,6 @@ class SearchPage extends StatelessWidget {
 						),
 					),
 				),
-				onTap: () {},
 			),
 		),
 	);

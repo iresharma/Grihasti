@@ -5,6 +5,7 @@ import 'package:customerappgrihasti/Services/filterFirebaseData.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/models/Search.dart';
 import 'package:customerappgrihasti/models/User.dart';
 import 'package:customerappgrihasti/views/HomeScreen.dart';
 import 'package:customerappgrihasti/views/introScroll.dart';
@@ -68,6 +69,7 @@ class _SplashState extends State<Splash> {
 									Activeuser.Tel = value.phoneNumber;
 									Activeuser.coins = user.data['coins'] ?? 0;
 									Provider.of<CartItem>(context).deProcess(user.data['Cart']);
+									Provider.of<Search>(context).process(user.data['searched'] ?? []);
 									Navigator.of(context).pushReplacement(
 										new MaterialPageRoute(
 											builder: (_) => HomeScreen()

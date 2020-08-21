@@ -1,4 +1,5 @@
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/models/Search.dart';
 
 class User {
 
@@ -12,6 +13,7 @@ class User {
 	List<ProductCart> cart;
 	String Noti;
 	int coins;
+	List<SearchItem> recentlySearch = [];
 
 }
 
