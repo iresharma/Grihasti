@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     Timer(
-		Duration(seconds: 2), () {
+		Duration(seconds: 0), () {
 		if(Activeuser.Email == null || Activeuser.Name == null || Activeuser.Tel == null ){
 			showDialog(
 				context: context,
@@ -168,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
 														),
 													),
 													Text(
-														'Coins: 0',
+														'Coins: ${Activeuser.coins}',
 														style: TextStyle(
 															fontSize: ScreenUtil().setSp(10),
 															fontWeight: FontWeight.w300,

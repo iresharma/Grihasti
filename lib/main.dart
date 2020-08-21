@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'Services/dynamicLinks.dart';
 import 'Services/freebaseCloudMessaging.dart';
 import 'Services/lifecyclemanager.dart';
+import 'models/Search.dart';
 
 FirebaseAnalytics analytics;
 
@@ -28,6 +29,7 @@ class _GrihastiAppState extends State<GrihastiApp> {
 
 	void startup() async {
 		initFCM();
+		hotDeals();
 		topProducts();
 		order();
 		category();
@@ -42,21 +44,24 @@ class _GrihastiAppState extends State<GrihastiApp> {
 		startup();
 		return LifeCycleManager(
 			cart: Provider.of<CartItem>(context).process,
-			child: MaterialApp(
-				title: 'Grihasti',
-				initialRoute: '/',
-				routes: Router(),
-				theme: ThemeData(
-					brightness: Brightness.light,
-					primaryColor: Color(0xFFFF3F47),
-					accentColor: Colors.redAccent,
-					canvasColor: Colors.transparent
-				),
-				darkTheme: ThemeData(
-					brightness: Brightness.light,
-					primaryColor: Color(0xFFFF3F47),
-					accentColor: Colors.redAccent,
-					canvasColor: Colors.transparent
+			child: ChangeNotifierProvider(
+				builder: (context) => Search(),
+				child: MaterialApp(
+					title: 'Grihasti',
+					initialRoute: '/',
+					routes: Router(),
+					theme: ThemeData(
+							brightness: Brightness.light,
+							primaryColor: Color(0xFFFF3F47),
+							accentColor: Colors.redAccent,
+							canvasColor: Colors.transparent
+					),
+					darkTheme: ThemeData(
+							brightness: Brightness.light,
+							primaryColor: Color(0xFFFF3F47),
+							accentColor: Colors.redAccent,
+							canvasColor: Colors.transparent
+					),
 				),
 			),
 		);

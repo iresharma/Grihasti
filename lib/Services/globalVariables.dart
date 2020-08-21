@@ -14,10 +14,12 @@ Color secondarySec = Color(0xFFF9A825);
 
 List<Products> Top = [];
 
-List<ProductCart> Prev = [];
+List<Products> Prev = [];
 
 List<Order> orders = [];
 
 List<Category> cat = [];
+
+List<Products> hotdeals = [];
 
 String Location = '';

@@ -42,7 +42,7 @@ class _ProductCardState extends State<ProductCard> {
 			children: <Widget>[
 				SizedBox(
 					width: MediaQuery.of(context).size.width > 450 ? MediaQuery.of(context).size.width/3 : MediaQuery.of(context).size.width/4,
-					height: ScreenUtil.defaultHeight/11.5,
+					height: MediaQuery.of(context).size.width > 450 ? ScreenUtil.defaultHeight/11.5 : MediaQuery.of(context).size.width/4,
 					child: BlurHash(
 						image: widget.product.Pic,
 						hash: widget.product.hash

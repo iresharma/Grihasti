@@ -1,131 +1,143 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
+import 'package:customerappgrihasti/components/colorCircleLoader.dart';
 import 'package:customerappgrihasti/models/Category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryBox extends StatefulWidget {
+  final Category cat;
 
-	final Category cat;
-
-	CategoryBox({this.cat});
+  CategoryBox({this.cat});
 
   @override
   _CategoryBoxState createState() => _CategoryBoxState();
 }
 
 class _CategoryBoxState extends State<CategoryBox> {
+  bool animate;
+  double height;
+  List<DocumentSnapshot> docs;
 
-	bool animate;
-
-	@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     animate = false;
+    height = 0;
+    docs = [];
+  }
+
+  void loader() async {
+    print('hi');
+    List<DocumentSnapshot> temp = docs.length == 0
+        ? await Firestore.instance
+            .collection('categories')
+            .where('parent', isEqualTo: widget.cat.name)
+            .getDocuments()
+            .then((value) => value.documents)
+        : docs;
+    setState(() {
+      docs = temp;
+      height = docs.length * 50.0;
+      animate = !animate;
+    });
+    print(docs);
+    print(height);
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-		duration: Duration(milliseconds: 250),
-		height: animate ? MediaQuery.of(context).size.height/6 + 20 : MediaQuery.of(context).size.height/12,
-		decoration: BoxDecoration(
-			color: Colors.white,
-			borderRadius: BorderRadius.circular(20)
-		),
-		margin: EdgeInsets.only(
-			right: ScreenUtil().setSp(10),
-			left: ScreenUtil().setSp(10),
-			top: ScreenUtil().setSp(5),
-			bottom: ScreenUtil().setSp(5)
-		),
-		padding: EdgeInsets.all(10),
-		child: animate ? Column(
-			children: <Widget>[
-				Row(
-					mainAxisAlignment: MainAxisAlignment.spaceBetween,
-					children: <Widget>[
-						Text(
-							widget.cat.name,
-							style: TextStyle(
-								fontWeight: FontWeight.w300,
-								fontSize: ScreenUtil().setSp(20)
-							),
-						),
-						IconButton(
-							icon: Icon(FlutterIcons.chevron_up_ent),
-							onPressed: () {
-								setState(() {
-									animate = !animate;
-								});
-							},
-						)
-					],
-				),
-				Divider(thickness: 2,),
-				SizedBox(
-					width: MediaQuery.of(context).size.width - 40,
-					height: MediaQuery.of(context).size.width/5,
-					child: AnimatedOpacity(
-						duration: Duration(milliseconds: 300),
-						opacity: animate ? 1 : 0,
-						child: ListView.builder(
-							physics: NeverScrollableScrollPhysics(),
-							itemCount: 4,
-							scrollDirection: Axis.horizontal,
-							itemBuilder: (context, index) => index == 3 ? Container(
-								margin: EdgeInsets.all(0),
-								height: MediaQuery.of(context).size.width/4,
-								padding: EdgeInsets.all(ScreenUtil().setSp(10)),
-								child: Center(
-									child: Icon(FlutterIcons.chevron_circle_right_faw, color: primaryMain, size: ScreenUtil().setSp(30),),
-								),
-							) : SizedBox(
-								width: MediaQuery.of(context).size.width/4,
-								child: Column(
-									children: <Widget>[
-										Image.asset(
-											widget.cat.sub[index]['icon'] == '' ? 'assets/icons/about_us.png' : widget.cat.sub[index]['icon'],
-											height: MediaQuery.of(context).size.width/5 - ScreenUtil().setSp(20),
-											width: MediaQuery.of(context).size.width/5 - ScreenUtil().setSp(20),
-										),
-										Text(
-											widget.cat.sub[index]['name'],
-											style: TextStyle(
-												fontSize: ScreenUtil().setSp(10),
-												fontWeight: FontWeight.w300
-											),
-											overflow: TextOverflow.ellipsis,
-										)
-									],
-								),
-							),
-						),
-					),
-				)
-			],
-		) : Row(
-			mainAxisAlignment: MainAxisAlignment.spaceBetween,
-			crossAxisAlignment: CrossAxisAlignment.center,
-			children: <Widget>[
-				Text(
-					widget.cat.name,
-					style: TextStyle(
-						fontWeight: FontWeight.w300,
-						fontSize: ScreenUtil().setSp(20)
-					),
-				),
-				IconButton(
-					icon: Icon(FlutterIcons.chevron_down_ent),
-					onPressed: () {
-						setState(() {
-						  animate = !animate;
-						});
-					},
-				)
-			],
-		)
-	);
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10)
+        ),
+        child: AnimatedContainer(
+            duration: Duration(milliseconds: 250),
+            height: animate
+                ? MediaQuery.of(context).size.height / 15 + 20 + height
+                : MediaQuery.of(context).size.height / 15,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            margin: EdgeInsets.only(
+                right: ScreenUtil().setSp(10),
+                left: ScreenUtil().setSp(10),
+                top: ScreenUtil().setSp(5),
+                bottom: ScreenUtil().setSp(5)),
+            padding: EdgeInsets.all(10),
+            child: animate
+                ? Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            widget.cat.name,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                fontSize: ScreenUtil().setSp(20)),
+                          ),
+                          IconButton(
+                            icon: Icon(FlutterIcons.chevron_up_ent),
+                            onPressed: () {
+                              setState(() {
+                                animate = !animate;
+                              });
+                            },
+                          )
+                        ],
+                      ),
+                      Divider(
+                        thickness: 2,
+                      ),
+                      Container(
+                        height: height,
+                        child: GridView.builder(
+                            itemCount: docs.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3, crossAxisSpacing: 4),
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height: ScreenUtil().setSp(70),
+                                      child: Image.network(docs[index].data['icon']),
+                                    ),
+                                    Text(docs[index].data['name'])
+                                  ],
+                                ),
+                                onTap: () => print('hello'),
+                              );
+                            }),
+                      )
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        widget.cat.name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontSize: ScreenUtil().setSp(20)),
+                      ),
+                      IconButton(
+                        icon: Icon(FlutterIcons.chevron_down_ent),
+                        onPressed: () => loader(),
+                      )
+                    ],
+                  )),
+      ),
+    );
   }
 }

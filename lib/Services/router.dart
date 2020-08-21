@@ -13,7 +13,7 @@ Map<String, Widget Function(BuildContext)> Router() {
 		'/cart': (_) => CartPage(),
 		'/edit': (_) => Addinfo(),
 		'/orders': (_) => OrdersPage(),
-		'/search': (_) => Search(),
+		'/search': (_) => SearchPage(),
 		'/not_serving': (_) => NotServing()
 	};
 

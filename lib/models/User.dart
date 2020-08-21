@@ -11,6 +11,7 @@ class User {
 	String photoUrl;
 	List<ProductCart> cart;
 	String Noti;
+	int coins;
 
 }
 

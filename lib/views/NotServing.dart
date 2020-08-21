@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
+import 'package:customerappgrihasti/models/User.dart';
 import 'package:customerappgrihasti/views/Login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_badged/flutter_badge.dart';
@@ -7,6 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
+
+import 'HomeScreen.dart';
+import 'introScroll.dart';
 
 class NotServing extends StatelessWidget {
   @override
@@ -107,11 +113,33 @@ class NotServing extends StatelessWidget {
 								actions: <Widget>[
 									FlatButton(
 										child: Text('Proceed'),
-										onPressed: () => Navigator.of(context).pushReplacement(
-											new MaterialPageRoute(
-												builder: (_) => Login()
-											)
-										),
+										onPressed: () => FirebaseAuth.instance.currentUser().then((value) {
+											if( value == null) {
+												Navigator.of(context).pushReplacement(
+														new MaterialPageRoute(
+																builder: (_) => IntroScroller()
+														)
+												);
+											}
+											else {
+												Firestore.instance.collection('users').document(value.uid).get()
+														.then((user) {
+													print(user.data['Name']);
+													Activeuser.Uid = value.uid;
+													Activeuser.Name = user.data['Name'];
+													Activeuser.Email = user.data['Email'];
+													Activeuser.address = user.data['Address'];
+													Activeuser.Tel = value.phoneNumber;
+													Activeuser.coins = user.data['coins'] ?? 0;
+													Provider.of<CartItem>(context).deProcess(user.data['Cart']);
+													Navigator.of(context).pushReplacement(
+															new MaterialPageRoute(
+																	builder: (_) => HomeScreen()
+															)
+													);
+												});
+											}
+										}),
 									)
 								],
 							)

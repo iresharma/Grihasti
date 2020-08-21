@@ -76,11 +76,11 @@ class ProfilePage extends StatelessWidget {
 													mainAxisAlignment: MainAxisAlignment.center,
 													children: <Widget>[
 														IconButton(
-															icon: Image.asset('assets/icons/card.png'),
-															onPressed:()=> print('payment methods'),
+															icon: Image.asset('assets/icons/wallet.png'),
+															onPressed:()=> print('Coins ${Activeuser.coins}'),
 														),
 														Text(
-															'Payment Methods',
+															'Coins ${Activeuser.coins}',
 															style: TextStyle(fontWeight: FontWeight.bold),
 														)
 													],

@@ -1,8 +1,10 @@
+import 'package:customerappgrihasti/Services/filterFirebaseData.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/components/OfferBox.dart';
 import 'package:customerappgrihasti/components/ProductCard.dart';
 import 'package:customerappgrihasti/components/feelingBox.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -62,15 +64,34 @@ class _HOmeState extends State<HOme> {
                     borderRadius: BorderRadius.circular(5)),
                 padding: EdgeInsets.only(left: 10),
                 margin: EdgeInsets.all(20),
-                child: TextField(
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      icon: Icon(FlutterIcons.search1_ant),
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      labelText: 'Search...'
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      new PageRouteBuilder(
+                          transitionDuration: Duration(microseconds: 250),
+                          transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child) {
+                            print(animation);
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                          pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation) {
+                            return SearchPage();
+                          }
+                      )
+                    );
+                  },
+                  child: TextField(
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        icon: Icon(FlutterIcons.search1_ant),
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        labelText: 'Search...'
+                    ),
+                    enabled: false,
+                    controller: _controller,
                   ),
-                  controller: _controller,
-                  onTap: () => Navigator.of(context).pushNamed('/search'),
                 ),
               )
             ],
@@ -202,7 +223,7 @@ class _HOmeState extends State<HOme> {
                                     Offers = false;
                                     Hot = true;
                                     Prevv = false;
-                                    len = Top.length + 1;
+                                    len = hotdeals.length + 1;
                                   });
                                 },
                               )),
@@ -272,9 +293,9 @@ class _HOmeState extends State<HOme> {
               } else if (Topp)
                 return ProductCard(product: Top[index - 1]);
               else if (Hot)
-                return ProductCard(product: Top[index - 1]);
-              else if (Offers) return ProductCard(product: Top[index - 1]);
-              // else return ProductCard(product: Prev[index - 1]);s
+                return ProductCard(product: hotdeals[index - 1]);
+//              else if (Offers) return ProductCard(product: Top[index - 1]);
+               else return ProductCard(product: Prev[index - 1]);
             },
           ),
         )

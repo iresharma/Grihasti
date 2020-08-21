@@ -1,4 +1,5 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
+import 'package:customerappgrihasti/models/Search.dart';
 import 'package:flutter/material.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -6,8 +7,12 @@ import 'package:customerappgrihasti/models/User.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:customerappgrihasti/views/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
-class Search extends StatelessWidget {
+class SearchPage extends StatelessWidget {
+
+	TextEditingController _controller = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,11 +59,12 @@ class Search extends StatelessWidget {
 				canvasColor: Colors.white
 			),
 			child: FloatingSearchBar.builder(
-				itemCount: 100,
+				itemCount: Provider.of<Search>(context).len,
 				pinned: true,
+				onChanged: (value) => Provider.of<Search>(context).search(value),
 				itemBuilder: (BuildContext context, int index) {
-					return ListTile(
-						leading: Text(index.toString()),
+					return Text(
+							Provider.of<Search>(context).searchResult[index].name
 					);
 				},
 				decoration: InputDecoration(
@@ -67,6 +73,7 @@ class Search extends StatelessWidget {
 					labelText: 'Search...',
 					fillColor: Colors.white,
 				),
+				controller: _controller,
 				trailing: CircleAvatar(
 					child: Icon(FlutterIcons.search1_ant, color: secondarySec,),
 					backgroundColor: primaryMain,
@@ -101,7 +108,7 @@ class Search extends StatelessWidget {
 														),
 													),
 													Text(
-														'Coins: 0',
+														'Coins: ${Activeuser.coins}',
 														style: TextStyle(
 															fontSize: ScreenUtil().setSp(10),
 															fontWeight: FontWeight.w300,
@@ -134,7 +141,6 @@ class Search extends StatelessWidget {
 						),
 					),
 				),
-				onChanged: (String value) {},
 				onTap: () {},
 			),
 		),

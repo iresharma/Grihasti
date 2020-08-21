@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:customerappgrihasti/Services/filterFirebaseData.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
@@ -35,7 +36,7 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
     Timer(
-		Duration(seconds: 3),
+		Duration(seconds: 0),
 		() async {
 			geolocator
 				.getCurrentPosition(desiredAccuracy: LocationAccuracy.best,locationPermissionLevel: GeolocationPermission.locationWhenInUse,)
@@ -65,6 +66,7 @@ class _SplashState extends State<Splash> {
 									Activeuser.Email = user.data['Email'];
 									Activeuser.address = user.data['Address'];
 									Activeuser.Tel = value.phoneNumber;
+									Activeuser.coins = user.data['coins'] ?? 0;
 									Provider.of<CartItem>(context).deProcess(user.data['Cart']);
 									Navigator.of(context).pushReplacement(
 										new MaterialPageRoute(
@@ -97,7 +99,7 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
 		
 		ScreenUtil.init(context, height: 712, width: 360, allowFontScaling: false);
-		
+		searchFire(context);
 	  return Scaffold(
 		  backgroundColor: primaryMain,
 		  body: Center(
