@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:customerappgrihasti/models/Order.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -117,8 +118,8 @@ class viewOrder extends StatelessWidget {
 						backgroundColor: Colors.transparent,
 						leading: Hero(
 							child: IconButton(
-								icon: Icon(FlutterIcons.align_left_fea, color: Colors.black38,),
-								onPressed: () => Scaffold.of(context).openDrawer(),
+								icon: Icon(FlutterIcons.ios_arrow_back_ion, color: Colors.black38,),
+								onPressed: () => Navigator.of(context).pop(),
 							),
 							tag: 'Drawer',
 						),
@@ -177,73 +178,6 @@ class viewOrder extends StatelessWidget {
 					),
 				),
 				preferredSize: Size.fromHeight(80.0)
-			),
-			drawer: Theme(
-				data: ThemeData(
-					canvasColor: Colors.white
-				),
-				child: Drawer(
-					child: SafeArea(
-						child: ListView(
-							children: <Widget>[
-								Container(
-									height: MediaQuery.of(context).size.height/5,
-									color: primaryMain,
-									child: Column(
-										crossAxisAlignment: CrossAxisAlignment.center,
-										mainAxisSize: MainAxisSize.max,
-										mainAxisAlignment: MainAxisAlignment.center,
-										children: <Widget>[
-											CircleAvatar(
-												child: Image.asset('assets/images/avataaars.png'),
-												radius: 50,
-											),
-											SizedBox(height: 20,),
-											Column(
-												mainAxisAlignment: MainAxisAlignment.center,
-												children: <Widget>[
-													Text(
-														Activeuser.Name ?? 'Name Sharma',
-														style: TextStyle(
-															fontSize: ScreenUtil().setSp(15),
-															fontWeight: FontWeight.w700,
-															color: secondaryMain
-														),
-													),
-													Text(
-														'Coins: 0',
-														style: TextStyle(
-															fontSize: ScreenUtil().setSp(10),
-															fontWeight: FontWeight.w300,
-															color: secondarySec
-														),
-													)
-												],
-											)
-										],
-									),
-								),
-								Container(
-									color: Colors.white,
-									child: FlatButton(
-										child: Text('Orders'),
-										onPressed: () => Navigator.of(context).pushNamed('/orders'),
-									),
-								),
-								Container(
-									color: Colors.white,
-									child: FlatButton(
-										child: Text('Signout'),
-										onPressed: () => FirebaseAuth.instance.signOut()
-											.then((value) => Navigator.of(context).pushReplacement(new MaterialPageRoute(
-											builder: (_) => Login()
-										))),
-									),
-								)
-							],
-						),
-					),
-				),
 			),
 			body: SingleChildScrollView(
 				child: Column(
@@ -342,7 +276,59 @@ class viewOrder extends StatelessWidget {
 										padding: EdgeInsets.all(15),
 										child: RaisedButton(
 											child: Text('Order Again', style: TextStyle(color: Colors.white),),
-											onPressed: () => print('order again'),
+											onPressed: () {
+												if(Provider.of<CartItem>(context).len == 0) {
+													order.items.forEach((element) {
+														Provider.of<CartItem>(context).addToCart(element);
+													});
+												} else return showDialog(
+														context: context,
+														builder: (context) {
+															return AlertDialog(
+																elevation: 10,
+																title: Text(
+																	'Cart already has items',
+																	style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+																),
+																content: Text(
+																		'The already has ${Provider.of<CartItem>(context).len} item(s)'
+																),
+																actions: [
+																	ButtonBar(
+																		children: [
+																			FlatButton(
+																				child: Text(
+																					'Empty',
+																					style: TextStyle(
+																							color: Colors.red
+																					),
+																				),
+																				onPressed: () {
+																					Provider.of<CartItem>(context).empty();
+																					order.items.forEach((element) {
+																						Provider.of<CartItem>(context).addToCart(element);
+																					});
+																					Navigator.of(context).pop();
+																				},
+																			),
+																			FlatButton(
+																				child: Text(
+																					'Add',
+																				),
+																				onPressed: () {
+																					order.items.forEach((element) {
+																						Provider.of<CartItem>(context).addToCart(element);
+																					});
+																					Navigator.of(context).pop();
+																				},
+																			)
+																		],
+																	)
+																],
+															);
+														}
+												);
+											},
 											color: Colors.deepOrangeAccent
 										),
 									);

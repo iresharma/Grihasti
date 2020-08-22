@@ -23,3 +23,5 @@ List<Category> cat = [];
 List<Products> hotdeals = [];
 
 String Location = '';
+
+bool ordersLoaded = false;

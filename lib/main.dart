@@ -31,7 +31,6 @@ class _GrihastiAppState extends State<GrihastiApp> {
 		initFCM();
 		hotDeals();
 		topProducts();
-		order();
 		category();
 		await initLA();
 		await handleDynamicLink();

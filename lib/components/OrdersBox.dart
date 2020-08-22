@@ -14,7 +14,7 @@ class OrdersBox extends StatelessWidget {
   String processTime(String arg) {
     int time = int.parse(arg);
     DateTime order = new DateTime.fromMicrosecondsSinceEpoch(time);
-    return order.day.toString() + '/' + order.month.toString() + '/' + order.year.toString();
+    return order.day.toString() + '/' + order.month.toString() + '/' + order.year.toString() + 'time: ' + order.hour.toString() + ':' + order.minute.toString();
   }
 
   @override
@@ -170,7 +170,7 @@ class OrdersBox extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.95,
                   child: RaisedButton(
                     color: Colors.deepOrangeAccent,
-                    child: Text('View Order'),
+                    child: Text('View Order', style: TextStyle(color: Colors.white),),
                     onPressed: () => Navigator.of(context).push(new MaterialPageRoute(builder: (_) => viewOrder(order: order,))),
                   ),
                 )

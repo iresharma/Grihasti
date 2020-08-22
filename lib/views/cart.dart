@@ -36,72 +36,8 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
+    double coinVal = Activeuser.coins > 0 ? (Provider.of<CartItem>(context).totalPrice * 0.2 >= Activeuser.coins ? double.parse(Activeuser.coins.toString()) : Provider.of<CartItem>(context).totalPrice * 0.2) : 0;
     return Scaffold(
-        drawer: Theme(
-          data: ThemeData(canvasColor: Colors.white),
-          child: Drawer(
-            child: SafeArea(
-              child: ListView(
-                children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height / 5,
-                    color: primaryMain,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CircleAvatar(
-                          child: Image.asset('assets/images/avataaars.png'),
-                          radius: 50,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              Activeuser.Name ?? 'Name Sharma',
-                              style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(15),
-                                  fontWeight: FontWeight.w700,
-                                  color: secondaryMain),
-                            ),
-                            Text(
-                              'Coins: 0',
-                              style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(10),
-                                  fontWeight: FontWeight.w300,
-                                  color: secondarySec),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    color: Colors.white,
-                    child: FlatButton(
-                      child: Text('Orders'),
-                      onPressed: () =>
-                          Navigator.of(context).pushNamed('/orders'),
-                    ),
-                  ),
-                  Container(
-                    color: Colors.white,
-                    child: FlatButton(
-                      child: Text('Signout'),
-                      onPressed: () => FirebaseAuth.instance.signOut().then(
-                          (value) => Navigator.of(context).pushReplacement(
-                              new MaterialPageRoute(builder: (_) => Login()))),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
         backgroundColor: Colors.grey.shade200,
         appBar: PreferredSize(
             child: AppBar(
@@ -109,10 +45,10 @@ class _CartPageState extends State<CartPage> {
               leading: Hero(
                 child: IconButton(
                   icon: Icon(
-                    FlutterIcons.align_left_fea,
+                    FlutterIcons.ios_arrow_back_ion,
                     color: Colors.black38,
                   ),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
                 tag: 'Drawer',
               ),
@@ -310,69 +246,113 @@ class _CartPageState extends State<CartPage> {
                                         },
                                         selectedColor: Colors.black,
                                       ),
-                                        Container(
-                                            margin: EdgeInsets.all(20),
-                                            padding: EdgeInsets.all(5),
-                                            child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: <Widget>[
+                                      Container(
+                                          margin: EdgeInsets.all(20),
+                                          padding: EdgeInsets.all(5),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Tooltip(
+                                                height: 40,
+                                                waitDuration: Duration(microseconds: 1),
+                                                showDuration: Duration(seconds: 5),
+                                                message: 'A maximum 20% of the final price can be availed as coin bonus',
+                                                child: Row(
+                                                  children: [
                                                     Text(
-                                                        'Final Price',
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                            MediaQuery.of(context).textScaleFactor *
-                                                                15,
-                                                        ),
+                                                      'Coins Applied',
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                        MediaQuery.of(context).textScaleFactor *
+                                                            17,
+                                                      ),
                                                     ),
-                                                    Text(
-                                                        '₹ ${Provider.of<CartItem>(context).totalPrice.toString()}',
-                                                        style: TextStyle(
-                                                            fontSize: 25,
-                                                        ),
-                                                    )
-                                                ],
-                                            )),
-                                        SizedBox(
-                                            width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width/10,
-                                            child: RaisedButton(
-                                              child: Text('Checkout'),
-                                              color: Colors.deepOrangeAccent,
-                                              onPressed: () async {
-                                                  if(_selected[0]) {
-                                                      var uid = Activeuser.Uid;
-                                                      await Firestore.instance.collection('orders').document().setData({
-                                                          'items': Provider.of<CartItem>(context).process,
-                                                          'price': Provider.of<CartItem>(context).totalPrice,
-                                                          'uid': uid,
-                                                          'status': 'ordered',
-                                                          'ordered_on': DateTime.now().microsecondsSinceEpoch
-                                                      });
-                                                      await Firestore.instance.collection('users').document(uid).updateData({
-                                                          'Cart': []
-                                                      });
-                                                      Provider.of<CartItem>(context).empty();
-                                                      Navigator.of(context).pop();
-                                                      Scaffold.of(context).showSnackBar(SnackBar(
-                                                          content: Text('Order placed'),
-                                                          duration: Duration(seconds: 2),
-                                                          action: SnackBarAction(
-                                                              label: 'Check orders',
-                                                              onPressed: () => Navigator.of(context).pushNamed('/orders'),
-                                                          ),
-                                                      ));
-                                                  }
-                                                  else {
-                                                      await doPayment(RPayOptions(
-                                                          amount: Provider.of<CartItem>(context).totalPrice * 100,
-                                                          name: Activeuser.Name,
-                                                          desc: 'Checkout with ${Provider.of<CartItem>(context).len} item(s)',
-                                                          prefill: {
-                                                              'email': Activeuser.Email,
-                                                              'contact': Activeuser.Tel.toString()
-                                                          }
-                                                      ), context1, context);
-                                                  }
-                                              },
+                                                    Icon(FlutterIcons.info_outline_mdi, size: MediaQuery.of(context).textScaleFactor * 17,),
+                                                  ],
+                                                ),
+                                              ),
+                                              Text(
+                                                '- ₹ $coinVal',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                      ),
+                                      Divider(thickness: 2,),
+                                      Container(
+                                          margin: EdgeInsets.all(20),
+                                          padding: EdgeInsets.all(5),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(
+                                                'Final Price',
+                                                style: TextStyle(
+                                                  fontSize:
+                                                  MediaQuery.of(context).textScaleFactor *
+                                                      17,
+                                                ),
+                                              ),
+                                              Text(
+                                                '₹ ${Provider.of<CartItem>(context).totalPrice - coinVal.toInt()}',
+                                                style: TextStyle(
+                                                  fontSize: 25,
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                      ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(18.0),
+                                          child: SizedBox(
+                                              width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width/10,
+                                              child: FlatButton(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                                child: Text('Checkout', style: TextStyle(color: Colors.white),),
+                                                color: primaryMain,
+                                                onPressed: () async {
+                                                    if(_selected[0]) {
+                                                        var uid = Activeuser.Uid;
+                                                        await Firestore.instance.collection('orders').document().setData({
+                                                            'items': Provider.of<CartItem>(context).process,
+                                                            'price': Provider.of<CartItem>(context).totalPrice - coinVal,
+                                                            'uid': uid,
+                                                            'status': 'ordered',
+                                                            'ordered_on': DateTime.now().microsecondsSinceEpoch
+                                                        });
+                                                        Activeuser.coins = Activeuser.coins - coinVal.round();
+                                                        await Firestore.instance.collection('users').document(uid).updateData({
+                                                            'Cart': [],
+                                                            'coins': Activeuser.coins
+                                                        });
+                                                        Provider.of<CartItem>(context).empty();
+                                                        Navigator.of(context).pop();
+                                                        Scaffold.of(context).showSnackBar(SnackBar(
+                                                            content: Text('Order placed'),
+                                                            duration: Duration(seconds: 2),
+                                                            action: SnackBarAction(
+                                                                label: 'Check orders',
+                                                                onPressed: () => Navigator.of(context).pushNamed('/orders'),
+                                                            ),
+                                                        ));
+                                                    }
+                                                    else {
+                                                        await doPayment(RPayOptions(
+                                                            amount: (Provider.of<CartItem>(context).totalPrice - coinVal.round()) * 100,
+                                                            name: Activeuser.Name,
+                                                            desc: 'Checkout with ${Provider.of<CartItem>(context).len} item(s)',
+                                                            prefill: {
+                                                                'email': Activeuser.Email,
+                                                                'contact': Activeuser.Tel.toString()
+                                                            }
+                                                        ), context1, context, coinVal);
+                                                    }
+                                                },
+                                            ),
                                           ),
                                         )
                                     ],

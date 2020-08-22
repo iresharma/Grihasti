@@ -21,7 +21,7 @@ class RPayOptions {
   RPayOptions({this.amount, this.name, this.desc, this.prefill});
 }
 
-Future<dynamic> doPayment(RPayOptions options, BuildContext context, BuildContext context1) async {
+Future<dynamic> doPayment(RPayOptions options, BuildContext context, BuildContext context1, double coinVal) async {
 
 	var razorPay = new Razorpay();
 
@@ -64,8 +64,11 @@ Future<dynamic> doPayment(RPayOptions options, BuildContext context, BuildContex
 			'status': 'ordered',
 			'ordered_on': DateTime.now().microsecondsSinceEpoch
 		});
+
+		Activeuser.coins = Activeuser.coins - coinVal.round();
 		await Firestore.instance.collection('users').document(uid).updateData({
-			'Cart': []
+			'Cart': [],
+			'coins': Activeuser.coins
 		});
 		Provider.of<CartItem>(context).empty();
 		Navigator.of(context).pop();

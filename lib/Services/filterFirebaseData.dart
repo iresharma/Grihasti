@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 void topProducts() async {
 
-  Firestore.instance.collection('products').snapshots().listen((event) {
+  Firestore.instance.collection('products').where('featured', isEqualTo: true).snapshots().listen((event) {
     if(event.documents.length != 0) {
       List<DocumentSnapshot> stream = event.documents;
       Top = [];
@@ -109,27 +109,31 @@ List<ProductCart> processOrders(List<dynamic> items) {
   return temp;
 }
 
-void order() {
-  Firestore.instance
-      .collection('orders')
-      .where('uid', isEqualTo: Activeuser.Uid)
-      .orderBy('ordered_on', descending: true)
-      .snapshots()
-      .listen((event) {
-    orders = [];
-    if (event.documents.length != 0) {
-      event.documents.forEach((element) {
-        orders.add(Order(
-            element.data['orderId'] ?? element.documentID,
-            element.data['price'].toString(),
-            processOrders(element.data['items']),
-            element.data['paymentId'] ?? 'COD',
-            element.data['uid'],
-            element.data['ordered_on'].toString(),
-            element.data['status']));
-      });
-    }
-  });
+bool order() {
+  if(orders.length == 0) {
+    Firestore.instance
+        .collection('orders')
+        .where('uid', isEqualTo: Activeuser.Uid)
+        .orderBy('ordered_on', descending: true)
+        .snapshots()
+        .listen((event) {
+      orders = [];
+      if (event.documents.length != 0) {
+        event.documents.forEach((element) {
+          print('==================${element.data['price']}');
+          orders.add(Order(
+              element.data['orderId'] ?? element.documentID,
+              element.data['price'].toString(),
+              processOrders(element.data['items']),
+              element.data['paymentId'] ?? 'COD',
+              element.data['uid'],
+              element.data['ordered_on'].toString(),
+              element.data['status']));
+        });
+      }
+      return true;
+    });
+  } else return true;
 }
 
 void category() {

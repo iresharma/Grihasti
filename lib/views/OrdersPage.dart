@@ -1,4 +1,8 @@
+import 'package:customerappgrihasti/Services/filterFirebaseData.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
+import 'package:customerappgrihasti/components/colorLoader.dart';
+import 'package:customerappgrihasti/models/Order.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:customerappgrihasti/components/OrdersBox.dart';
@@ -6,33 +10,55 @@ import 'package:flutter_badged/flutter_badge.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
-import 'package:customerappgrihasti/models/User.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:customerappgrihasti/views/Login.dart';
 
-class OrdersPage extends StatelessWidget {
+class OrdersPage extends StatefulWidget {
+  @override
+  _OrdersPageState createState() => _OrdersPageState();
+}
+
+class _OrdersPageState extends State<OrdersPage> {
+
+  bool funcreturn;
+  List<Order> orderr;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    funcreturn = false;
+    orderr = [];
+  }
+
+  void load() async {
+    bool temp = await order();
+    setState(() {
+      funcreturn = temp;
+      orderr = orders;
+    });
+}
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      appBar: PreferredSize(
-          child: Builder(
-            builder: (context) => AppBar(
-              backgroundColor: Colors.transparent,
-              leading: Hero(
-                child: IconButton(
-                  icon: Icon(
-                    FlutterIcons.align_left_fea,
-                    color: Colors.black38,
+    load();
+    if(funcreturn) {
+      return Scaffold(
+        backgroundColor: Colors.grey.shade200,
+        appBar: PreferredSize(
+            child: Builder(
+              builder: (context) => AppBar(
+                backgroundColor: Colors.transparent,
+                leading: Hero(
+                  child: IconButton(
+                    icon: Icon(
+                      FlutterIcons.ios_arrow_back_ion,
+                      color: Colors.black38,
+                    ),
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
+                  tag: 'Drawer',
                 ),
-                tag: 'Drawer',
-              ),
-              elevation: 0,
-              flexibleSpace: SafeArea(
-                child: Hero(
+                elevation: 0,
+                flexibleSpace: SafeArea(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -48,133 +74,223 @@ class OrdersPage extends StatelessWidget {
                           style: TextStyle(
                               color: Colors.black54,
                               fontSize:
-                                  MediaQuery.of(context).size.width * 0.13,
+                              MediaQuery.of(context).size.width * 0.13,
                               fontWeight: FontWeight.w400,
                               fontFamily: 'Calli'))
                     ],
                   ),
-                  tag: 'Logo',
                 ),
-              ),
-              actions: <Widget>[
-                Hero(
-                  child: IconButton(
-                    icon: Icon(
-                      FlutterIcons.search1_ant,
-                      color: Colors.black38,
-                    ),
-                    onPressed: () => print('hi'),
-                  ),
-                  tag: 'Search',
-                ),
-                Hero(
-                  child: IconButton(
-                    icon: FlutterBadge(
-                      itemCount: Provider.of<CartItem>(context).len,
-                      badgeColor: Colors.greenAccent,
+                actions: <Widget>[
+                  Hero(
+                    child: IconButton(
                       icon: Icon(
-                        FlutterIcons.cart_evi,
-                        size: 35,
+                        FlutterIcons.search1_ant,
                         color: Colors.black38,
                       ),
-                      badgeTextColor: Colors.black38,
-                      contentPadding: EdgeInsets.all(7),
+                      onPressed: () => print('hi'),
                     ),
-                    onPressed: () => Navigator.of(context).pushNamed('/cart'),
+                    tag: 'Search',
                   ),
-                  tag: 'Cart',
-                )
-              ],
-            ),
-          ),
-          preferredSize: Size.fromHeight(80.0)),
-      drawer: Theme(
-        data: ThemeData(canvasColor: Colors.white),
-        child: Drawer(
-          child: SafeArea(
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height / 5,
-                  color: primaryMain,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CircleAvatar(
-                        child: Image.asset('assets/images/avataaars.png'),
-                        radius: 50,
+                  Hero(
+                    child: IconButton(
+                      icon: FlutterBadge(
+                        itemCount: Provider.of<CartItem>(context).len,
+                        badgeColor: Colors.greenAccent,
+                        icon: Icon(
+                          FlutterIcons.cart_evi,
+                          size: 35,
+                          color: Colors.black38,
+                        ),
+                        badgeTextColor: Colors.black38,
+                        contentPadding: EdgeInsets.all(7),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            Activeuser.Name ?? 'Name Sharma',
-                            style: TextStyle(
-                                fontSize: ScreenUtil().setSp(15),
-                                fontWeight: FontWeight.w700,
-                                color: secondaryMain),
-                          ),
-                          Text(
-                            'Coins: 0',
-                            style: TextStyle(
-                                fontSize: ScreenUtil().setSp(10),
-                                fontWeight: FontWeight.w300,
-                                color: secondarySec),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  child: FlatButton(
-                    child: Text('Orders'),
-                    onPressed: () => Navigator.of(context).pushNamed('/orders'),
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  child: FlatButton(
-                    child: Text('Signout'),
-                    onPressed: () => FirebaseAuth.instance.signOut().then(
-                        (value) => Navigator.of(context).pushReplacement(
-                            new MaterialPageRoute(builder: (_) => Login()))),
-                  ),
-                )
-              ],
+                      onPressed: () => Navigator.of(context).pushNamed('/cart'),
+                    ),
+                    tag: 'Cart',
+                  )
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: orders.length == 0
-            ? SvgPicture.asset(
+            preferredSize: Size.fromHeight(80.0)),
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          child: orderr.length == 0
+              ? Column(
+            children: [
+              SvgPicture.asset(
                 'assets/svg/emptyOrder.svg',
                 width: MediaQuery.of(context).size.height * 0.6,
+              ),
+              Text(
+                'There are no previous orders',
+                style: TextStyle(
+                    fontSize: ScreenUtil().setSp(15)
+                ),
               )
-            : ListView.separated(
-                itemCount: orders.length,
-                itemBuilder: (context, index) => Container(
-                  margin:
-                      EdgeInsets.only(top: 5, bottom: 0),
-                  child: OrdersBox(
-                    order: orders[index],
+            ],
+          )
+              : ListView.separated(
+            itemCount: orderr.length + 1,
+            itemBuilder: (context, index) => index == 0 ? Container(
+              height: 70,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 15.0,
+                    bottom:15.0,
+                    left: 30.0,
+                    right: 30.0
+                ),
+                child: RaisedButton(
+                  elevation: 5,
+                  child: Text(
+                    'Filter',
+                    style: TextStyle(
+                        fontSize: ScreenUtil().setSp(13)
+                    ),
+                  ),
+                  color: primaryMain,
+                  onPressed: () => showCupertinoModalPopup(
+                      context: context,
+                      builder: (_) => CupertinoActionSheet(
+                        actions: [
+                          CupertinoActionSheetAction(
+                            child: Text(
+                              'Delivered',
+                              style: TextStyle(
+                                  color: Colors.green
+                              ),
+                            ),
+                            onPressed: () => print('hi'),
+                          ),
+                          CupertinoActionSheetAction(
+                            child: Text(
+                              'Active',
+                              style: TextStyle(
+                                  color: Colors.blue
+                              ),
+                            ),
+                            onPressed: () => print('hi'),
+                          ),
+                          CupertinoActionSheetAction(
+                            child: Text(
+                              'Placed',
+                              style: TextStyle(
+                                  color: Colors.deepOrangeAccent
+                              ),
+                            ),
+                            onPressed: () => print('hi'),
+                          ),
+                        ],
+                        cancelButton: CupertinoActionSheetAction(
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                                color: Colors.red
+                            ),
+                          ),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      )
+                  ),
+                  textColor: Colors.white,
+                ),
+              ),
+            ) : Container(
+              margin:
+              EdgeInsets.only(top: 5, bottom: 0),
+              child: OrdersBox(
+                order: orderr[index - 1],
+              ),
+            ),
+            separatorBuilder: (context, index) {
+              return Divider(
+                color: primaryMain,
+              );
+            },
+          ),
+        ),
+      );
+    }
+    else {
+      return Scaffold(
+        backgroundColor: Colors.grey.shade200,
+        appBar: PreferredSize(
+            child: Builder(
+              builder: (context) => AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                leading: Hero(
+                  child: IconButton(
+                    icon: Icon(
+                      FlutterIcons.ios_arrow_back_ion,
+                      color: Colors.black38,
+                    ),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  tag: 'Drawer',
+                ),
+                flexibleSpace: SafeArea(
+                  child: Hero(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('G',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: MediaQuery.of(context).size.width * 0.15,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'Calli2',
+                            )),
+                        Text('rihasti',
+                            style: TextStyle(
+                                color: Colors.black54,
+                                fontSize:
+                                MediaQuery.of(context).size.width * 0.13,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Calli'))
+                      ],
+                    ),
+                    tag: 'Logo',
                   ),
                 ),
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    color: primaryMain,
-                  );
-                },
+                actions: <Widget>[
+                  Hero(
+                    child: IconButton(
+                      icon: Icon(
+                        FlutterIcons.search1_ant,
+                        color: Colors.black38,
+                      ),
+                      onPressed: () => print('hi'),
+                    ),
+                    tag: 'Search',
+                  ),
+                  Hero(
+                    child: IconButton(
+                      icon: FlutterBadge(
+                        itemCount: Provider.of<CartItem>(context).len,
+                        badgeColor: Colors.greenAccent,
+                        icon: Icon(
+                          FlutterIcons.cart_evi,
+                          size: 35,
+                          color: Colors.black38,
+                        ),
+                        badgeTextColor: Colors.black38,
+                        contentPadding: EdgeInsets.all(7),
+                      ),
+                      onPressed: () => Navigator.of(context).pushNamed('/cart'),
+                    ),
+                    tag: 'Cart',
+                  )
+                ],
               ),
-      ),
-    );
+            ),
+            preferredSize: Size.fromHeight(80.0)),
+        body: Center(
+          child: ColorLoader4(),
+        ),
+      );
+    }
   }
 }
+

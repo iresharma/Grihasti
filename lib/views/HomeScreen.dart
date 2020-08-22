@@ -73,14 +73,31 @@ class _HomeScreenState extends State<HomeScreen> {
 				child: Builder(
 					builder: (context) => AppBar(
 						backgroundColor: Colors.transparent,
+						elevation: 0,
 						leading: Hero(
 							child: IconButton(
-								icon: Icon(FlutterIcons.align_left_fea, color: Colors.black38,),
-								onPressed: () => Scaffold.of(context).openDrawer(),
+								icon: Icon(FlutterIcons.search1_ant,color: Colors.black38,),
+								onPressed: () {
+									Provider.of<Search>(context).search('');
+									Navigator.of(context).push(
+											new PageRouteBuilder(
+													transitionDuration: Duration(microseconds: 250),
+													transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child) {
+														print(animation);
+														return FadeTransition(
+															opacity: animation,
+															child: child,
+														);
+													},
+													pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation) {
+														return SearchPage();
+													}
+											)
+									);
+								},
 							),
-							tag: 'Drawer',
+							tag: 'Search',
 						),
-						elevation: 0,
 						flexibleSpace: SafeArea(
 							child: Hero(
 								child: Row(
@@ -113,30 +130,6 @@ class _HomeScreenState extends State<HomeScreen> {
 						actions: <Widget>[
 							Hero(
 								child: IconButton(
-									icon: Icon(FlutterIcons.search1_ant,color: Colors.black38,),
-									onPressed: () {
-										Provider.of<Search>(context).search('');
-										Navigator.of(context).push(
-												new PageRouteBuilder(
-														transitionDuration: Duration(microseconds: 250),
-														transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child) {
-															print(animation);
-															return FadeTransition(
-																opacity: animation,
-																child: child,
-															);
-														},
-														pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation) {
-															return SearchPage();
-														}
-												)
-										);
-									},
-								),
-								tag: 'Search',
-							),
-							Hero(
-								child: IconButton(
 									icon: FlutterBadge(
 										itemCount: Provider.of<CartItem>(context).len,
 										badgeColor: Colors.greenAccent,
@@ -152,73 +145,6 @@ class _HomeScreenState extends State<HomeScreen> {
 					),
 				),
 				preferredSize: Size.fromHeight(80.0)
-			),
-			drawer: Theme(
-				data: ThemeData(
-					canvasColor: Colors.white
-				),
-				child: Drawer(
-					child: SafeArea(
-						child: ListView(
-							children: <Widget>[
-								Container(
-									height: MediaQuery.of(context).size.height/5,
-									color: primaryMain,
-									child: Column(
-										crossAxisAlignment: CrossAxisAlignment.center,
-										mainAxisSize: MainAxisSize.max,
-										mainAxisAlignment: MainAxisAlignment.center,
-										children: <Widget>[
-											CircleAvatar(
-												child: Image.asset('assets/images/avataaars.png'),
-												radius: 50,
-											),
-											SizedBox(height: 20,),
-											Column(
-												mainAxisAlignment: MainAxisAlignment.center,
-												children: <Widget>[
-													Text(
-														Activeuser.Name ?? 'Name Sharma',
-														style: TextStyle(
-															fontSize: ScreenUtil().setSp(15),
-															fontWeight: FontWeight.w700,
-															color: secondaryMain
-														),
-													),
-													Text(
-														'Coins: ${Activeuser.coins}',
-														style: TextStyle(
-															fontSize: ScreenUtil().setSp(10),
-															fontWeight: FontWeight.w300,
-															color: secondarySec
-														),
-													)
-												],
-											)
-										],
-									),
-								),
-								Container(
-									color: Colors.white,
-									child: FlatButton(
-										child: Text('Orders'),
-										onPressed: () => Navigator.of(context).pushNamed('/orders'),
-									),
-								),
-								Container(
-									color: Colors.white,
-									child: FlatButton(
-										child: Text('Signout'),
-										onPressed: () => FirebaseAuth.instance.signOut()
-											.then((value) => Navigator.of(context).pushReplacement(new MaterialPageRoute(
-											builder: (_) => Login()
-										))),
-									),
-								)
-							],
-						),
-					),
-				),
 			),
 			body: PageView(
 				controller: _controller,

@@ -119,7 +119,7 @@ class _CartProductState extends State<CartProduct> {
 									color: Colors.white,
 								),
 								SizedBox(
-									width: MediaQuery.of(context).size.width * 0.12,
+									width: MediaQuery.of(context).size.width * 0.06,
 								),
 								Container(
 									decoration: BoxDecoration(

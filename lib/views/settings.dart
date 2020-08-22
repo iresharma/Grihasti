@@ -7,24 +7,23 @@ import 'Login.dart';
 class SettingsPage extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) {
-		return CustomPaint(
-			painter: MainBackground(),
-			child: Scaffold(
-				appBar: AppBar(
-					iconTheme: IconThemeData(
-						color: Colors.black,
-					),
-					brightness: Brightness.light,
-					backgroundColor: Colors.transparent,
-					title: Text(
-						'Settings',
-						style: TextStyle(color: Color(0xff202020)),
-					),
-					elevation: 0,
+		return Scaffold(
+			backgroundColor: Colors.grey.shade200,
+			appBar: AppBar(
+				iconTheme: IconThemeData(
+					color: Colors.black,
 				),
-				body: SafeArea(
-					bottom: true,
-					child: LayoutBuilder(
+				brightness: Brightness.light,
+				backgroundColor: Colors.transparent,
+				title: Text(
+					'Settings',
+					style: TextStyle(color: Color(0xff202020)),
+				),
+				elevation: 0,
+			),
+			body: SafeArea(
+				bottom: true,
+				child: LayoutBuilder(
 						builder:(builder,constraints)=> SingleChildScrollView(
 							child: ConstrainedBox(
 								constraints: BoxConstraints(minHeight: constraints.maxHeight),
@@ -38,16 +37,16 @@ class SettingsPage extends StatelessWidget {
 												child: Text(
 													'General',
 													style: TextStyle(
-														color: Colors.black,
-														fontWeight: FontWeight.bold,
-														fontSize: 18.0),
+															color: Colors.black,
+															fontWeight: FontWeight.bold,
+															fontSize: 18.0),
 												),
 											),
 											ListTile(
 												title: Text('Legal & About'),
 												leading: Image.asset('assets/icons/legal.png'),
 												onTap: () => Navigator.of(context).push(
-													MaterialPageRoute(builder: (_) => LegalAboutPage())),
+														MaterialPageRoute(builder: (_) => LegalAboutPage())),
 											),
 											ListTile(
 												title: Text('About Us'),
@@ -59,16 +58,16 @@ class SettingsPage extends StatelessWidget {
 												child: Text(
 													'Account',
 													style: TextStyle(
-														color: Colors.black,
-														fontWeight: FontWeight.bold,
-														fontSize: 18.0),
+															color: Colors.black,
+															fontWeight: FontWeight.bold,
+															fontSize: 18.0),
 												),
 											),
 											ListTile(
 												title: Text('Sign out'),
 												leading: Image.asset('assets/icons/sign_out.png'),
 												onTap: () => Navigator.of(context).push(
-													MaterialPageRoute(builder: (_) => Login())),
+														MaterialPageRoute(builder: (_) => Login())),
 											),
 
 										],
@@ -76,36 +75,9 @@ class SettingsPage extends StatelessWidget {
 								),
 							),
 						)
-					),
 				),
 			),
 		);
-	}
-}
-
-
-class MainBackground extends CustomPainter {
-
-	MainBackground();
-
-	@override
-	void paint(Canvas canvas, Size size) {
-		double height = size.height;
-		double width = size.width;
-		canvas.drawRect(
-			Rect.fromLTRB(
-				0, 0,width, height),
-			Paint()..color = Colors.white);
-		canvas.drawRect(
-			Rect.fromLTRB(
-				width - (width / 3), 0,width, height),
-			Paint()..color = primaryMain);
-
-	}
-
-	@override
-	bool shouldRepaint(CustomPainter oldDelegate) {
-		return false;
 	}
 }
 
@@ -162,6 +134,18 @@ class _LegalAboutPageState extends State<LegalAboutPage> {
 										ListTile(
 											title: Text('License'),
 											trailing: Icon(Icons.chevron_right),
+											onTap: () => showAboutDialog(
+													context: context,
+													applicationVersion: '0.1.3',
+													applicationIcon: CircleAvatar(
+													  child: Image.asset(
+													  	'assets/Appicon/Grihasti.png',
+													  ),
+													),
+													applicationName: 'Grihasti',
+													applicationLegalese: 'This app is a copyright of Grihasti Co. \n owned by Nirmal Kumar Bhutra.'
+													
+											),
 										),
 									],
 								),

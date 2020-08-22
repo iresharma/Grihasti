@@ -32,7 +32,7 @@ class _AddinfoState extends State<Addinfo> {
 							elevation: 0,
 							leading: Hero(
 								child: IconButton(
-									icon: Icon(FlutterIcons.back_ant,
+									icon: Icon(FlutterIcons.ios_arrow_back_ion,
 										color: Colors.black38,),
 									onPressed: () =>
 										Navigator.of(context)
@@ -129,7 +129,6 @@ class _AddinfoState extends State<Addinfo> {
 								TextFormField(
 									controller: Name,
 									decoration: InputDecoration(
-										border: InputBorder.none,
 										icon: Icon(FlutterIcons.profile_ant),
 										labelText: 'Name',
 										fillColor: Colors.grey.shade400
@@ -147,7 +146,6 @@ class _AddinfoState extends State<Addinfo> {
 								TextFormField(
 									controller: Email,
 									decoration: InputDecoration(
-										border: InputBorder.none,
 										icon: Icon(FlutterIcons.email_box_mco),
 										labelText: 'Email',
 										fillColor: Colors.grey.shade400,
@@ -166,7 +164,6 @@ class _AddinfoState extends State<Addinfo> {
 								TextFormField(
 									controller: Tel,
 									decoration: InputDecoration(
-										border: InputBorder.none,
 										icon: Icon(
 											FlutterIcons.phone_android_mdi),
 										labelText: 'Phone number',
@@ -187,12 +184,12 @@ class _AddinfoState extends State<Addinfo> {
 								TextFormField(
 									controller: Address,
 									decoration: InputDecoration(
-										border: InputBorder.none,
 										icon: Icon(
 											FlutterIcons.home_account_mco),
 										labelText: 'Address',
 										fillColor: Colors.grey.shade400
 									),
+									maxLines: 5,
 									validator: (value) {
 										if (value.isEmpty) {
 											return 'Cannot be empty';
@@ -203,6 +200,9 @@ class _AddinfoState extends State<Addinfo> {
 										}
 									},
 								),
+								SizedBox(
+									height: MediaQuery.of(context).size.height/15,
+								),
 								OutlineButton.icon(
 									icon: Icon(FlutterIcons.check_all_mco),
 									label: Text('Save'),
@@ -210,12 +210,16 @@ class _AddinfoState extends State<Addinfo> {
 										if(key.currentState.validate()) {
 											var cart = Provider.of<CartItem>(context).process;
 											FirebaseAuth.instance.currentUser()
-												.then((value) => Firestore.instance.collection('users').document(value.uid).updateData({
-												'Email': Activeuser.Email,
-												'Address': Activeuser.address,
-												'Name': Activeuser.Name,
-												'Cart': cart
-											}));
+												.then((value) {
+													Firestore.instance.collection('users').document(value.uid).updateData({
+														'Email': Activeuser.Email,
+														'Address': Activeuser.address,
+														'Name': Activeuser.Name,
+														'Cart': cart
+														});
+													Navigator.of(context).pop();
+												}
+											);
 										}
 									},
 								)
