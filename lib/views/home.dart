@@ -199,7 +199,7 @@ class _HOmeState extends State<HOme> {
                                     Offers = true;
                                     Hot = false;
                                     Prevv = false;
-                                    len = Top.length + 1;
+                                    len = offerProduct.length + 1;
                                   });
                                 },
                               )),
