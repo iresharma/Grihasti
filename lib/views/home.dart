@@ -296,8 +296,10 @@ class _HOmeState extends State<HOme> {
                 return ProductCard(product: Top[index - 1]);
               else if (Hot)
                 return ProductCard(product: hotdeals[index - 1]);
-//              else if (Offers) return ProductCard(product: Top[index - 1]);
-               else return ProductCard(product: Prev[index - 1]);
+              else if (Offers)
+                return ProductCard(product: offerProduct[index - 1]);
+               else
+                 return ProductCard(product: Prev[index - 1]);
             },
           ),
         )

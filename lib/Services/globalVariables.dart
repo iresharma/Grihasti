@@ -18,6 +18,8 @@ List<Products> Prev = [];
 
 List<Order> orders = [];
 
+List<Products> offerProduct = [];
+
 List<Category> cat = [];
 
 List<Products> hotdeals = [];

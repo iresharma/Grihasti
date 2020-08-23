@@ -32,6 +32,7 @@ class _GrihastiAppState extends State<GrihastiApp> {
 		hotDeals();
 		topProducts();
 		category();
+		offerProducts();
 		await initLA();
 		await handleDynamicLink();
 		analytics = FirebaseAnalytics();

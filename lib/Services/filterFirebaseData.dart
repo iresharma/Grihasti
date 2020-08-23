@@ -33,9 +33,9 @@ void topProducts() async {
             prices,
             element.data['Pic'],
             element.data['Hash'],
-            element.data['Category']['name'],
+            element.data['categoryParent'],
             variety,
-            element.data['Subcategory']['name']));
+            element.data['categoryId']));
       });
     }
   });
@@ -63,9 +63,39 @@ void hotDeals() async {
             prices,
             element.data['Pic'],
             element.data['Hash'],
-            element.data['Category']['name'],
+            element.data['categoryParent'],
             variety,
-            element.data['Subcategory']['name']));
+            element.data['categoryId']));
+      });
+    }
+  });
+}
+
+void offerProducts() async {
+
+  Firestore.instance.collection('products').where('offers', isEqualTo: true).snapshots().listen((event) {
+    if(event.documents.length != 0) {
+      List<DocumentSnapshot> stream = event.documents;
+      offerProduct = [];
+      List<int> prices = [];
+      List<String> variety = [];
+      stream.forEach((element) {
+        prices = [];
+        variety = [];
+        element.data['Variety'].forEach((variey) {
+          prices.add(variey['price']);
+          variety.add(variey['name']);
+        });
+        offerProduct.add(Products(
+            element.documentID,
+            element.data['Name'],
+            element.data['Desc'],
+            prices,
+            element.data['Pic'],
+            element.data['Hash'],
+            element.data['categoryParent'],
+            variety,
+            element.data['categoryId']));
       });
     }
   });
