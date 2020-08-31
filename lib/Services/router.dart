@@ -5,6 +5,8 @@ import 'package:customerappgrihasti/views/cart.dart';
 import 'package:customerappgrihasti/views/search.dart';
 import 'package:customerappgrihasti/views/splashScreen.dart';
 import 'package:customerappgrihasti/views/viewOrder.dart';
+import 'package:customerappgrihasti/views/productList.dart';
+import 'package:customerappgrihasti/views/SearchResult.dart';
 import 'package:flutter/material.dart';
 
 Map<String, Widget Function(BuildContext)> Router() {
@@ -14,7 +16,9 @@ Map<String, Widget Function(BuildContext)> Router() {
 		'/edit': (_) => Addinfo(),
 		'/orders': (_) => OrdersPage(),
 		'/search': (_) => SearchPage(),
-		'/not_serving': (_) => NotServing()
+		'/not_serving': (_) => NotServing(),
+		'/list': (_) => ProductList(),
+		'/searchResult': (_) => SearchResult()
 	};
 
 	return router;

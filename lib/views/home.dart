@@ -69,19 +69,7 @@ class _HOmeState extends State<HOme> {
                   onTap: () {
                     Provider.of<Search>(context).search('');
                     Navigator.of(context).push(
-                      new PageRouteBuilder(
-                          transitionDuration: Duration(microseconds: 250),
-                          transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child) {
-                            print(animation);
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                          pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation) {
-                            return SearchPage();
-                          }
-                      )
+                      new MaterialPageRoute(builder: (_) => SearchPage())
                     );
                   },
                   child: TextField(
@@ -115,12 +103,14 @@ class _HOmeState extends State<HOme> {
                       padding: EdgeInsets.all(0),
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 5,
+                        itemCount: offers.length,
                         itemBuilder: (context, index) {
                           return OfferBox(
-                            '500 off.',
+                            offers[index].main,
                             index,
-                            'Some more information, probably long',
+                            offers[index].fineprint,
+                            offers[index].code,
+                            offers[index].icon
                           );
                         },
                       ),
@@ -286,6 +276,41 @@ class _HOmeState extends State<HOme> {
                               'assets/svg/empty.svg',
                               width: MediaQuery.of(context).size.width - 100,
                             ),
+                          ],
+                        ),
+                      )
+                    },
+                    if(len == 1 &&  !Prevv)...{
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text(
+                              'It feels lonely here',
+                              style: TextStyle(
+                                color: primaryMain,
+                                fontWeight: FontWeight.bold,
+                                fontSize: MediaQuery.of(context).size.width * 0.06,
+                              ),
+                            ),
+                            Center(
+                              child: SvgPicture.asset(
+                                'assets/svg/alone.svg',
+                                width: MediaQuery.of(context).size.width - 150,
+                              ),
+                            ),
+                            FlatButton(
+                              child: Text(
+                                'Search for the product you looking for',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize:
+                                  MediaQuery.of(context).textScaleFactor * 15,
+                                ),
+                              ),
+                              onPressed: () => Navigator.of(context).pop(),
+                            )
                           ],
                         ),
                       )

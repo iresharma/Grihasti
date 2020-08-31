@@ -1,4 +1,5 @@
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/models/Offers.dart';
 import 'package:customerappgrihasti/models/Order.dart';
 import 'package:customerappgrihasti/models/Products.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ Color primaryMain = Color(0xFFFF3F47);
 Color primarySec = Colors.redAccent;
 Color secondaryMain = Colors.white;
 Color secondarySec = Color(0xFFF9A825);
+
+List<Offers> offers = [];
 
 List<Products> Top = [];
 

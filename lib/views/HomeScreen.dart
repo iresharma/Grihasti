@@ -36,6 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
     Timer(
 		Duration(seconds: 0), () {
 		if(Activeuser.Email == null || Activeuser.Name == null || Activeuser.Tel == null ){
+			Scaffold.of(context).showSnackBar(SnackBar(
+				elevation: 20,
+				duration: Duration(milliseconds: 200),
+				content: Text('100 coins are added to your account'),
+			));
 			showDialog(
 				context: context,
 				barrierDismissible: false,

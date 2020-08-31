@@ -33,7 +33,8 @@ class _LoginState extends State<Login> {
 					if(value.documents.length == 0) {
 						Firestore.instance.collection('users').document(aith.user.uid).setData({
 							'Tel': '+91-$Num',
-							'Noti': Noti
+							'Noti': Noti,
+							'coins': 100
 						});
 					}
 					else {
@@ -144,74 +145,80 @@ class _LoginState extends State<Login> {
 						alignment: Alignment.topCenter,
 						overflow: Overflow.visible,
 						children: <Widget>[
-							Card(
-								elevation: 2.0,
-								color: Colors.white,
-								shape: RoundedRectangleBorder(
-									borderRadius: BorderRadius.circular(8.0),
-								),
-								child: Container(
-									width: 300.0,
-									height: 190.0,
-									child: Column(
-										children: <Widget>[
-											Padding(
-												padding: EdgeInsets.only(
-													top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-												child: TextField(
-													keyboardType: TextInputType.phone,
-													style: TextStyle(
-														fontFamily: "WorkSansSemiBold",
-														fontSize: 16.0,
-														color: Colors.black),
-													decoration: InputDecoration(
-														border: InputBorder.none,
-														icon: Icon(
-															Icons.phone,
-															color: Colors.black,
-															size: 22.0,
+							AnimatedContainer(
+								duration: Duration(milliseconds: 250),
+							  height: isPressed ? 190 : 100,
+							  child: Card(
+							  	elevation: 2.0,
+							  	color: Colors.white,
+							  	shape: RoundedRectangleBorder(
+							  		borderRadius: BorderRadius.circular(8.0),
+							  	),
+							  	child: Container(
+							  		width: 300.0,
+							  		height: 190.0,
+							  		child: Column(
+							  			children: <Widget>[
+							  				Padding(
+							  					padding: EdgeInsets.only(
+							  						top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+							  					child: TextField(
+							  						keyboardType: TextInputType.phone,
+							  						style: TextStyle(
+							  							fontFamily: "WorkSansSemiBold",
+							  							fontSize: 16.0,
+							  							color: Colors.black),
+							  						decoration: InputDecoration(
+							  							border: InputBorder.none,
+							  							icon: Icon(
+							  								Icons.phone,
+							  								color: Colors.black,
+							  								size: 22.0,
+							  							),
+							  							hintText: "Phone Number without +91",
+							  							hintStyle: TextStyle(
+							  								fontFamily: "WorkSansSemiBold", fontSize: 17.0),
+							  						),
+							  						controller: _controller,
+							  					),
+							  				),
+							  				Container(
+							  					width: 250.0,
+							  					height: 1.0,
+							  					color: Colors.grey[400],
+							  				),
+							  				if(isPressed)...{
+													Padding(
+														padding: EdgeInsets.only(
+																top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+														child: TextField(
+															keyboardType: TextInputType.number,
+															style: TextStyle(
+																	fontFamily: "WorkSansSemiBold",
+																	fontSize: 16.0,
+																	color: Colors.black),
+															controller: _Otpcontroller,
+															decoration: InputDecoration(
+																border: InputBorder.none,
+																icon: Icon(
+																	Icons.security,
+																	color: Colors.black.withOpacity(0.2),
+																	size: 22.0,
+																),
+																hintText: "OTP",
+																hintStyle: TextStyle(
+																		fontFamily: "WorkSansSemiBold", fontSize: 17.0),
+															),
 														),
-														hintText: "Phone Number without +91",
-														hintStyle: TextStyle(
-															fontFamily: "WorkSansSemiBold", fontSize: 17.0),
 													),
-													controller: _controller,
-												),
-											),
-											Container(
-												width: 250.0,
-												height: 1.0,
-												color: Colors.grey[400],
-											),
-											Padding(
-												padding: EdgeInsets.only(
-													top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-												child: TextField(
-													keyboardType: TextInputType.number,
-													style: TextStyle(
-														fontFamily: "WorkSansSemiBold",
-														fontSize: 16.0,
-														color: Colors.black),
-													controller: _Otpcontroller,
-													decoration: InputDecoration(
-														border: InputBorder.none,
-														icon: Icon(
-															Icons.security,
-															color: Colors.black.withOpacity(0.2),
-															size: 22.0,
-														),
-														hintText: "OTP",
-														hintStyle: TextStyle(
-															fontFamily: "WorkSansSemiBold", fontSize: 17.0),
-													),
-												),
-											),
-										],
-									),
-								),
+												},
+							  			],
+							  		),
+							  	),
+							  ),
 							),
 							Container(
-								margin: EdgeInsets.only(top: 170.0),
+								margin: isPressed ? EdgeInsets.only(top: 170.0) : EdgeInsets.only(top: 80.0),
 								decoration: new BoxDecoration(
 									borderRadius: BorderRadius.all(Radius.circular(5.0)),
 									color: Colors.green

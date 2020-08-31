@@ -115,7 +115,9 @@ class _CategoryBoxState extends State<CategoryBox> {
                                     Text(docs[index].data['name'])
                                   ],
                                 ),
-                                onTap: () => print('hello'),
+                                onTap: () => Navigator.of(context).pushNamed('/list', arguments: {
+                                  'data': docs[index].data
+                                }),
                               );
                             }),
                       )

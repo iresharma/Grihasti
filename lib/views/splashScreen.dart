@@ -63,6 +63,7 @@ class _SplashState extends State<Splash> {
 									.then((user) {
 									print(user.data['Name']);
 									Activeuser.Uid = value.uid;
+									order();
 									Activeuser.Name = user.data['Name'];
 									Activeuser.Email = user.data['Email'];
 									Activeuser.address = user.data['Address'];

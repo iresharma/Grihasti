@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:customerappgrihasti/models/User.dart';
-import 'package:flutter_screenutil/screenutil.dart';
-import 'package:customerappgrihasti/views/Login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {
@@ -66,6 +63,10 @@ class SearchPage extends StatelessWidget {
 				itemBuilder: (BuildContext context, int index) {
 					if(Provider.of<Search>(context).len == 0) {
 						return GestureDetector(
+								onTap: () {
+									print('=================${Activeuser.recentlySearch[index].categoryId}');
+									Navigator.of(context).pushNamed('/searchResult', arguments: Activeuser.recentlySearch[index]);
+								},
 								child: Padding(
 									padding: const EdgeInsets.only(
 											left: 18,
@@ -94,10 +95,12 @@ class SearchPage extends StatelessWidget {
 					else {
 						return GestureDetector(
 							onTap: () {
-								Activeuser.recentlySearch.add(Provider.of<Search>(context).searchResult[index]);
-								Firestore.instance.collection('users').document(Activeuser.Uid).setData({
+								print('${Provider.of<Search>(context).searchResult[index].categoryId}=================');
+								Provider.of<Search>(context).addrecent(Provider.of<Search>(context).searchResult[index]);
+								Firestore.instance.collection('users').document(Activeuser.Uid).updateData({
 									'searched': Provider.of<Search>(context).deprocess(Activeuser.recentlySearch)
-								}, merge: true);
+								});
+								Navigator.of(context).pushNamed('/searchResult', arguments: Provider.of<Search>(context).searchResult[index]);
 							},
 							child: Padding(
 								padding: const EdgeInsets.only(
@@ -129,68 +132,6 @@ class SearchPage extends StatelessWidget {
 					child: Icon(FlutterIcons.search1_ant, color: secondarySec,),
 					backgroundColor: primaryMain,
 					foregroundColor: Colors.transparent,
-				),
-				drawer: Drawer(
-					child: SafeArea(
-						child: ListView(
-							children: <Widget>[
-								Container(
-									height: MediaQuery.of(context).size.height/5,
-									color: primaryMain,
-									child: Column(
-										crossAxisAlignment: CrossAxisAlignment.center,
-										mainAxisSize: MainAxisSize.max,
-										mainAxisAlignment: MainAxisAlignment.center,
-										children: <Widget>[
-											CircleAvatar(
-												child: Image.asset('assets/images/avataaars.png'),
-												radius: 50,
-											),
-											SizedBox(height: 20,),
-											Column(
-												mainAxisAlignment: MainAxisAlignment.center,
-												children: <Widget>[
-													Text(
-														Activeuser.Name ?? 'Name Sharma',
-														style: TextStyle(
-															fontSize: ScreenUtil().setSp(15),
-															fontWeight: FontWeight.w700,
-															color: secondaryMain
-														),
-													),
-													Text(
-														'Coins: ${Activeuser.coins}',
-														style: TextStyle(
-															fontSize: ScreenUtil().setSp(10),
-															fontWeight: FontWeight.w300,
-															color: secondarySec
-														),
-													)
-												],
-											)
-										],
-									),
-								),
-								Container(
-									color: Colors.white,
-									child: FlatButton(
-										child: Text('Orders'),
-										onPressed: () => Navigator.of(context).pushNamed('/orders'),
-									),
-								),
-								Container(
-									color: Colors.white,
-									child: FlatButton(
-										child: Text('Signout'),
-										onPressed: () => FirebaseAuth.instance.signOut()
-											.then((value) => Navigator.of(context).pushReplacement(new MaterialPageRoute(
-											builder: (_) => Login()
-										))),
-									),
-								)
-							],
-						),
-					),
 				),
 			),
 		),

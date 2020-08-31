@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
 import 'package:customerappgrihasti/models/Category.dart';
+import 'package:customerappgrihasti/models/Offers.dart';
 import 'package:customerappgrihasti/models/Order.dart';
 import 'package:customerappgrihasti/models/Products.dart';
 import 'package:customerappgrihasti/models/Search.dart';
@@ -106,10 +107,10 @@ List<ProductCart> processOrders(List<dynamic> items) {
   items.forEach((adds) {
     List<int> prices = [];
     List<String> variety = [];
-    Prev = [];
     Firestore.instance.collection('products').document(adds['id']).get().then((element) {
       prices = [];
       variety = [];
+      print('==============${element.data}===============');
       element.data['Variety'].forEach((variey) {
         prices.add(variey['price']);
         variety.add(variey['name']);
@@ -121,9 +122,9 @@ List<ProductCart> processOrders(List<dynamic> items) {
           prices,
           element.data['Pic'],
           element.data['Hash'],
-          element.data['Category']['name'],
+          element.data['categoryId'],
           variety,
-          element.data['Subcategory']['name']));
+          element.data['categoryName']));
     });
     temp.add(ProductCart(
         adds['id'],
@@ -177,10 +178,8 @@ void category() {
   });
 }
 
-
 void searchFire(context) {
   if(Provider.of<Search>(context).searchStore.length == 0) {
-    print('running');
     Firestore.instance.collection('searchItems').getDocuments().then((value) {
       Provider.of<Search>(context).searchStore = [];
       if(value.documents.length != 0) {
@@ -188,10 +187,31 @@ void searchFire(context) {
           Provider.of<Search>(context).add(SearchItem(
               name: element.data['name'],
               id: element.data['id'],
-              type: element.data['type']
+              type: element.data['type'],
+              categoryId: element.data['categoryId'] ?? '',
           ));
         });
       }
     });
   }
+}
+
+void offereded() {
+  Firestore.instance.collection('offers').getDocuments().then((value) {
+    if(value.documents.length != 0) {
+      offers = [];
+      value.documents.forEach((element) {
+        offers.add(Offers(
+          code: element.data['code'],
+          icon: element.data['icon'],
+          main: element.data['name'],
+          fineprint: element.data['description'],
+          maxVal: element.data['maxVal'],
+          minVal: element.data['minVal'],
+          percentage: element.data['percentage']
+        ));
+      });
+    }
+  });
+  print(offers);
 }

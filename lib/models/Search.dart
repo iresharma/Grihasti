@@ -5,8 +5,9 @@ class SearchItem {
   final String id;
   final String name;
   final String type;
+  final String categoryId;
 
-  SearchItem({this.id, this.name, this.type});
+  SearchItem({this.categoryId, this.id, this.name, this.type});
 
 }
 
@@ -17,6 +18,7 @@ class Search extends ChangeNotifier {
 
   void search(String text) {
     text = text.toLowerCase();
+    searchResult = [];
     searchResult = searchStore.where((element) => element.name.toLowerCase().startsWith(text)).toList();
     if(text == '') searchResult = [];
     print(searchResult);
@@ -50,6 +52,11 @@ class Search extends ChangeNotifier {
       });
     });
     return temp;
+  }
+
+  void addrecent(SearchItem item) {
+    Activeuser.recentlySearch.add(item);
+    Activeuser.recentlySearch = Set.of(Activeuser.recentlySearch).toList();
   }
 
   int get len => searchResult.length;
