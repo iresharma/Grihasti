@@ -214,6 +214,7 @@ class _ProductListState extends State<ProductList> {
                   fontSize: ScreenUtil().setSp(15),
                   color: Colors.red
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),

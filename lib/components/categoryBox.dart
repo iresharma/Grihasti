@@ -41,7 +41,7 @@ class _CategoryBoxState extends State<CategoryBox> {
         : docs;
     setState(() {
       docs = temp;
-      height = docs.length * 50.0;
+      height = docs.length > 3 ? docs.length/3 * 150.0 : 150.0;
       animate = !animate;
     });
     print(docs);
@@ -96,7 +96,7 @@ class _CategoryBoxState extends State<CategoryBox> {
                         thickness: 2,
                       ),
                       Container(
-                        height: height,
+                        height: height - 16,
                         child: GridView.builder(
                             itemCount: docs.length,
                             gridDelegate:

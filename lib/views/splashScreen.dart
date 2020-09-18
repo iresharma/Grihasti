@@ -44,7 +44,7 @@ class _SplashState extends State<Splash> {
 				.then((Position position) {
 				print('${position.latitude}, ${position.longitude}');
 				Geolocator().placemarkFromCoordinates(position.latitude, position.longitude, localeIdentifier: 'en').then((value) => {
-					print('${value[0].locality}, ${value[0].subLocality}'),
+					print('======${value[0].locality}, ${value[0].subLocality}======'),
 					Location = '${value[0].locality}, ${value[0].subLocality}'
 				});
 				geolocator.distanceBetween(position.latitude, position.longitude, 22.623621, 88.353856).then((loc) {

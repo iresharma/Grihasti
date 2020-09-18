@@ -24,8 +24,10 @@ void topProducts() async {
         prices = [];
         variety = [];
         element.data['Variety'].forEach((variey) {
-          prices.add(variey['price']);
-          variety.add(variey['name']);
+          if(variey['Nstock'] != 0) {
+            prices.add(variey['price']);
+            variety.add(variey['name']);
+          }
         });
         Top.add(Products(
             element.documentID,
@@ -54,8 +56,10 @@ void hotDeals() async {
         prices = [];
         variety = [];
         element.data['Variety'].forEach((variey) {
-          prices.add(variey['price']);
-          variety.add(variey['name']);
+          if(variey['Nstock'] != 0) {
+            prices.add(variey['price']);
+            variety.add(variey['name']);
+          }
         });
         hotdeals.add(Products(
             element.documentID,
@@ -84,8 +88,10 @@ void offerProducts() async {
         prices = [];
         variety = [];
         element.data['Variety'].forEach((variey) {
-          prices.add(variey['price']);
-          variety.add(variey['name']);
+          if(variey['Nstock'] != 0) {
+            prices.add(variey['price']);
+            variety.add(variey['name']);
+          }
         });
         offerProduct.add(Products(
             element.documentID,
@@ -112,8 +118,10 @@ List<ProductCart> processOrders(List<dynamic> items) {
       variety = [];
       print('==============${element.data}===============');
       element.data['Variety'].forEach((variey) {
-        prices.add(variey['price']);
-        variety.add(variey['name']);
+        if(variey['Nstock'] != 0) {
+          prices.add(variey['price']);
+          variety.add(variey['name']);
+        }
       });
       Prev.add(Products(
           element.documentID,

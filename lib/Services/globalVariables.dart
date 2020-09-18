@@ -27,6 +27,6 @@ List<Category> cat = [];
 
 List<Products> hotdeals = [];
 
-String Location = '';
+String Location = 'Sorry! could not find location';
 
 bool ordersLoaded = false;

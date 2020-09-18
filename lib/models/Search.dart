@@ -19,7 +19,7 @@ class Search extends ChangeNotifier {
   void search(String text) {
     text = text.toLowerCase();
     searchResult = [];
-    searchResult = searchStore.where((element) => element.name.toLowerCase().startsWith(text)).toList();
+    searchResult = searchStore.where((element) => element.name.toLowerCase().startsWith(text.toLowerCase())).toList();
     if(text == '') searchResult = [];
     print(searchResult);
     notifyListeners();
@@ -55,8 +55,13 @@ class Search extends ChangeNotifier {
   }
 
   void addrecent(SearchItem item) {
-    Activeuser.recentlySearch.add(item);
-    Activeuser.recentlySearch = Set.of(Activeuser.recentlySearch).toList();
+    bool check = true;
+    Activeuser.recentlySearch.forEach((element) {
+      if(item.id == element.id) check = false;
+    });
+    if(check) {
+      Activeuser.recentlySearch.add(item);
+    }
   }
 
   int get len => searchResult.length;

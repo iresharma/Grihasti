@@ -32,106 +32,109 @@ class _SearchResultState extends State<SearchResult> {
   }
 
   void loadData(SearchItem item) {
-    if(item.type == 'category') {
-      Firestore.instance.collection('products').where('categoryId', isEqualTo: item.id).limit(30).getDocuments().then((value) {
-        if(value.documents.length != 0) {
-          List<DocumentSnapshot> stream = value.documents;
-          List<Products> temp = [];
+    if(loading) {
+      if(item.type == 'category') {
+        Firestore.instance.collection('products').where('categoryId', isEqualTo: item.id).limit(30).getDocuments().then((value) {
+          if(value.documents.length != 0) {
+            List<DocumentSnapshot> stream = value.documents;
+            List<Products> temp = [];
 
-          List<int> prices = [];
-          List<String> variety = [];
-          stream.forEach((element) {
-            prices = [];
-            variety = [];
-            element.data['Variety'].forEach((variey) {
-              prices.add(variey['price']);
-              variety.add(variey['name']);
+            List<int> prices = [];
+            List<String> variety = [];
+            stream.forEach((element) {
+              prices = [];
+              variety = [];
+              element.data['Variety'].forEach((variey) {
+                prices.add(variey['price']);
+                variety.add(variey['name']);
+              });
+              temp.add(Products(
+                  element.documentID,
+                  element.data['Name'],
+                  element.data['Desc'],
+                  prices,
+                  element.data['Pic'],
+                  element.data['Hash'],
+                  element.data['categoryParent'],
+                  variety,
+                  element.data['categoryId']));
             });
-            temp.add(Products(
-                element.documentID,
-                element.data['Name'],
-                element.data['Desc'],
-                prices,
-                element.data['Pic'],
-                element.data['Hash'],
-                element.data['categoryParent'],
-                variety,
-                element.data['categoryId']));
-          });
-          setState(() {
-            list = temp;
+            print('===============');
+            print(temp);
+            setState(() {
+              list = temp;
+              loading = false;
+            });
+          } else setState(() {
+            error = true;
             loading = false;
           });
-        } else setState(() {
-//          error = true;
-          loading = false;
         });
-      });
-    } else {
-      print("=============${item.categoryId}=========");
-      Firestore.instance.collection('products').document(item.id).get().then((element) {
-        Products temp;
-        List<int> prices = [];
-        List<String> variety = [];
-        prices = [];
-        variety = [];
-        element.data['Variety'].forEach((variey) {
-          prices.add(variey['price']);
-          variety.add(variey['name']);
-        });
-        temp = Products(
-            element.documentID,
-            element.data['Name'],
-            element.data['Desc'],
-            prices,
-            element.data['Pic'],
-            element.data['Hash'],
-            element.data['categoryParent'],
-            variety,
-            element.data['categoryId']
-        );
-        setState(() {
-          product = temp;
-        });
-      });
-//      }).catchError((onError) => setState(() {
-//        error = true;
-//        loading = false;
-//      }));
-      Firestore.instance.collection('products').where('categoryId', isEqualTo: item.categoryId).limit(30).getDocuments().then((value) {
-        if(value.documents.length != 0) {
-          List<DocumentSnapshot> stream = value.documents;
-          List<Products> temp = [];
-
+      } else {
+        print("=============${item.categoryId}=========");
+        Firestore.instance.collection('products').document(item.id).get().then((element) {
+          Products temp;
           List<int> prices = [];
           List<String> variety = [];
-          stream.forEach((element) {
-            prices = [];
-            variety = [];
-            element.data['Variety'].forEach((variey) {
-              prices.add(variey['price']);
-              variety.add(variey['name']);
-            });
-            temp.add(Products(
-                element.documentID,
-                element.data['Name'],
-                element.data['Desc'],
-                prices,
-                element.data['Pic'],
-                element.data['Hash'],
-                element.data['categoryParent'],
-                variety,
-                element.data['categoryId']));
+          prices = [];
+          variety = [];
+          element.data['Variety'].forEach((variey) {
+            prices.add(variey['price']);
+            variety.add(variey['name']);
           });
+          temp = Products(
+              element.documentID,
+              element.data['Name'],
+              element.data['Desc'],
+              prices,
+              element.data['Pic'],
+              element.data['Hash'],
+              element.data['categoryParent'],
+              variety,
+              element.data['categoryId']
+          );
           setState(() {
-            list = temp;
+            product = temp;
+          });
+        }).catchError((onError) => setState(() {
+          error = true;
+          loading = false;
+        }));
+        Firestore.instance.collection('products').where('categoryId', isEqualTo: item.categoryId).limit(30).getDocuments().then((value) {
+          if(value.documents.length != 0) {
+            List<DocumentSnapshot> stream = value.documents;
+            List<Products> temp = [];
+
+            List<int> prices = [];
+            List<String> variety = [];
+            stream.forEach((element) {
+              prices = [];
+              variety = [];
+              element.data['Variety'].forEach((variey) {
+                prices.add(variey['price']);
+                variety.add(variey['name']);
+              });
+              temp.add(Products(
+                  element.documentID,
+                  element.data['Name'],
+                  element.data['Desc'],
+                  prices,
+                  element.data['Pic'],
+                  element.data['Hash'],
+                  element.data['categoryParent'],
+                  variety,
+                  element.data['categoryId']));
+            });
+            setState(() {
+              list = temp;
+              loading = false;
+            });
+          } else setState(() {
+//          error = true;
             loading = false;
           });
-        } else setState(() {
-//          error = true;
-          loading = false;
         });
-      });
+      }
     }
   }
 
@@ -316,7 +319,11 @@ class _SearchResultState extends State<SearchResult> {
               ),
               Text(
                 'Opps ! something went wrong',
-                style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(20),
+                  fontWeight: FontWeight.bold
+                ),
+                textAlign: TextAlign.center,
               ),
             ],
           ),
@@ -486,9 +493,10 @@ class _SearchResultState extends State<SearchResult> {
                 );
               } else if(index == 1) {
                 return Container(
-                  color: Colors.grey.shade500,
+                  color: Colors.grey.shade300,
+                  padding: EdgeInsets.all(10),
                   child: Text(
-                    'Similar products you make like',
+                    'Similar products you may like',
                     style: TextStyle(
                       color: Colors.red,
                       fontWeight: FontWeight.w400,
