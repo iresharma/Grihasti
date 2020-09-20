@@ -34,43 +34,45 @@ class _ProductListState extends State<ProductList> {
 
 
   void load(data) {
-    Firestore.instance.collection('products').where(
-        'categoryId', isEqualTo: data['categoryId']).orderBy(
-        'Sold', descending: true).limit(30).getDocuments().then((value) {
-      if (value.documents.length == 0) {
-        setState(() {
-          error = true;
-          loading = false;
-        });
-      } else {
-        List<DocumentSnapshot> stream = value.documents;
-        List<Products> temp = [];
-        List<int> prices = [];
-        List<String> variety = [];
-        stream.forEach((element) {
-          prices = [];
-          variety = [];
-          element.data['Variety'].forEach((variey) {
-            prices.add(variey['price']);
-            variety.add(variey['name']);
+    print(data);
+    if(loading) {
+      Firestore.instance.collection('products').where(
+          'categoryId', isEqualTo: data['id']).orderBy('Sold', descending: true).limit(30).getDocuments().then((value) {
+        if (value.documents.length == 0) {
+          setState(() {
+            error = true;
+            loading = false;
           });
-          temp.add(Products(
-              element.documentID,
-              element.data['Name'],
-              element.data['Desc'],
-              prices,
-              element.data['Pic'],
-              element.data['Hash'],
-              element.data['categoryParent'],
-              variety,
-              element.data['categoryId']));
-        });
-        setState(() {
-          list = temp;
-          loading = false;
-        });
-      }
-    });
+        } else {
+          List<DocumentSnapshot> stream = value.documents;
+          List<Products> temp = [];
+          List<int> prices = [];
+          List<String> variety = [];
+          stream.forEach((element) {
+            prices = [];
+            variety = [];
+            element.data['Variety'].forEach((variey) {
+              prices.add(variey['price']);
+              variety.add(variey['name']);
+            });
+            temp.add(Products(
+                element.documentID,
+                element.data['Name'],
+                element.data['Desc'],
+                prices,
+                element.data['Pic'],
+                element.data['Hash'],
+                element.data['categoryParent'],
+                variety,
+                element.data['categoryId']));
+          });
+          setState(() {
+            list = temp;
+            loading = false;
+          });
+        }
+      });
+    }
   }
 
   @override
@@ -223,14 +225,13 @@ class _ProductListState extends State<ProductList> {
               itemCount: list.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  return Center(
-                    child: Text(
-                      data['data']['name'] + 's',
-                      style: CupertinoTheme
-                          .of(context)
-                          .textTheme
-                          .navLargeTitleTextStyle,
+                  return Text(
+                    data['data']['name'],
+                    style: TextStyle(
+                        fontWeight: FontWeight.w200,
+                        fontSize: ScreenUtil().setSp(35)
                     ),
+                    textAlign: TextAlign.left,
                   );
                 }
                 else {

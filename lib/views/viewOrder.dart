@@ -1,3 +1,4 @@
+import 'package:customerappgrihasti/components/OrderItemBox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:customerappgrihasti/models/Order.dart';
@@ -357,62 +358,8 @@ class viewOrder extends StatelessWidget {
 											),
 										),
 									);
-									return Container(
-										color: Colors.white,
-										height: 180,
-										margin: EdgeInsets.only(
-											top: 10
-										),
-										padding: EdgeInsets.all(10),
-										child: Column(
-											crossAxisAlignment: CrossAxisAlignment.start,
-											children: <Widget>[
-												Text(
-													'${order.items[index - 1].Name}',
-													style: TextStyle(
-														fontSize: ScreenUtil().setSp(20),
-														fontWeight: FontWeight.w600
-													),
-												),
-												Divider(),
-												Row(
-													mainAxisAlignment: MainAxisAlignment.spaceBetween,
-													children: <Widget>[
-														Text('Category: ${order.items[index-1].category}'),
-														Container(
-															child: Row(
-																children: <Widget>[
-																	Text('Price			'),
-																	RawChip(
-																		backgroundColor: Colors.green,
-																		label: Text('₹${order.items[index - 1].price}'),
-																		checkmarkColor: Colors.green,
-																	)
-																],
-															),
-														)
-													],
-												),
-												Row(
-													mainAxisAlignment: MainAxisAlignment.spaceBetween,
-													children: <Widget>[
-														Text('Count: ${order.items[index-1].count}'),
-														Container(
-															child: Row(
-																children: <Widget>[
-																	Text('Variety			'),
-																	RawChip(
-																		backgroundColor: Colors.yellowAccent,
-																		label: Text('${order.items[index - 1].variety}'),
-																		checkmarkColor: Colors.green,
-																	)
-																],
-															),
-														)
-													],
-												)
-											],
-										),
+									return OrderItemBox(
+										product: order.items[index - 1],
 									);
 								}
 							),

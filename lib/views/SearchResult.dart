@@ -485,7 +485,7 @@ class _SearchResultState extends State<SearchResult> {
               ),
               preferredSize: Size.fromHeight(80.0)),
           body: ListView.builder(
-            itemCount: list.length + 2,
+            itemCount: list.length + 1,
             itemBuilder: (context, index) {
               if(index == 0) {
                 return ProductCard(
@@ -506,7 +506,7 @@ class _SearchResultState extends State<SearchResult> {
                 );
               } else {
                 return ProductCard(
-                  product: list[index - 2],
+                  product: list[index - 1],
                 );
               }
             },

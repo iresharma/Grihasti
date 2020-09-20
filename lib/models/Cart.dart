@@ -53,7 +53,7 @@ class CartItem extends ChangeNotifier {
 					adds.price,
 					adds.Pic,
 					adds.hash,
-					1,
+					adds.count ?? 1,
 					adds.category,
 					adds.variety
 				)

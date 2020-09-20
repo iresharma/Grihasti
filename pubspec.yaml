@@ -41,6 +41,7 @@ dependencies:
   timeline_list: ^0.0.3
   fluttertoast: ^7.0.2
   floating_search_bar: ^0.3.0
+  expandable: ^4.1.4
 
 dev_dependencies:
   flutter_test:
