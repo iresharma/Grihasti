@@ -42,6 +42,8 @@ dependencies:
   fluttertoast: ^7.0.2
   floating_search_bar: ^0.3.0
   expandable: ^4.1.4
+  flutter_dropdown: ^0.0.8
+  image_picker: ^0.6.7+11
 
 dev_dependencies:
   flutter_test:

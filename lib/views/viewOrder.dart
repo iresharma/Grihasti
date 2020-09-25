@@ -1,4 +1,5 @@
 import 'package:customerappgrihasti/components/OrderItemBox.dart';
+import 'package:customerappgrihasti/views/RefundPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:customerappgrihasti/models/Order.dart';
@@ -271,7 +272,7 @@ class viewOrder extends StatelessWidget {
 							height: 180.0 * (order.items.length + 1),
 							child: ListView.builder(
 								physics: NeverScrollableScrollPhysics(),
-								itemCount: order.items.length + 2,
+								itemCount: order.items.length + 3,
 								itemBuilder: (context, index) {
 									if(index == order.items.length + 1) return Container(
 										padding: EdgeInsets.all(15),
@@ -331,6 +332,18 @@ class viewOrder extends StatelessWidget {
 												);
 											},
 											color: Colors.deepOrangeAccent
+										),
+									);
+									else if(index == order.items.length + 2) return Container(
+										padding: EdgeInsets.all(15),
+										child: RaisedButton(
+												child: Text('Return/Refund', style: TextStyle(color: Colors.white),),
+												onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+													builder: (_) => RefunPage(
+														order: order,
+													)
+												)),
+												color: Colors.blueAccent
 										),
 									);
 									else if(index == 0) return Container(
