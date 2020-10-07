@@ -68,6 +68,7 @@ class _IntroScrollerState extends State<IntroScroller> {
 						fontStyle: FontStyle.italic,
 						fontFamily: 'Raleway'
 					),
+					textAlign: TextAlign.center,
 				),
 			),
 			marginDescription: EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 70.0),
@@ -109,6 +110,7 @@ class _IntroScrollerState extends State<IntroScroller> {
 						fontStyle: FontStyle.italic,
 						fontFamily: 'Raleway'
 					),
+					textAlign: TextAlign.center,
 				),
 			),
 			marginDescription: EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 70.0),
@@ -146,6 +148,7 @@ class _IntroScrollerState extends State<IntroScroller> {
 						fontStyle: FontStyle.italic,
 						fontFamily: 'Raleway'
 					),
+					textAlign: TextAlign.center,
 				),
 			),
 			marginDescription: EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 70.0),

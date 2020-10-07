@@ -29,7 +29,9 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+			onTap: () => Navigator.of(context).pushNamed('/product', arguments: widget.product.id),
+      child: Container(
 		width: ScreenUtil.defaultWidth * 1.0,
 		height: ScreenUtil.defaultHeight/11 - 10,
 		margin: EdgeInsets.all(5),
@@ -44,7 +46,7 @@ class _ProductCardState extends State<ProductCard> {
 					width: MediaQuery.of(context).size.width > 450 ? MediaQuery.of(context).size.width/3 : MediaQuery.of(context).size.width/4,
 					height: MediaQuery.of(context).size.width > 450 ? ScreenUtil.defaultHeight/11.5 : MediaQuery.of(context).size.width/4,
 					child: BlurHash(
-						image: widget.product.Pic,
+						image: widget.product.thumb,
 						hash: widget.product.hash
 					),
 				),
@@ -168,11 +170,12 @@ class _ProductCardState extends State<ProductCard> {
 												widget.product.Name,
 												widget.product.desc,
 												widget.product.price[dropDownValue],
-												widget.product.Pic,
+												widget.product.thumb,
 												widget.product.hash,
-												0,
+												1,
 												widget.product.category,
-												widget.product.variety[dropDownValue]
+												widget.product.variety[dropDownValue],
+												widget.product.pictures
 											)),
 											child: Row(
 												children: <Widget>[
@@ -214,11 +217,12 @@ class _ProductCardState extends State<ProductCard> {
 																widget.product.Name,
 																widget.product.desc,
 																widget.product.price[dropDownValue],
-																widget.product.Pic,
+																widget.product.thumb,
 																widget.product.hash,
-																0,
+																1,
 																widget.product.category,
-																widget.product.variety[dropDownValue]
+																widget.product.variety[dropDownValue],
+																widget.product.pictures
 															)),
 														),
 													),
@@ -263,11 +267,12 @@ class _ProductCardState extends State<ProductCard> {
 															widget.product.Name,
 															widget.product.desc,
 															widget.product.price[dropDownValue],
-															widget.product.Pic,
+															widget.product.thumb,
 															widget.product.hash,
 															0,
 															widget.product.category,
-															widget.product.variety[dropDownValue]
+															widget.product.variety[dropDownValue],
+															widget.product.pictures
 														)),
 													),
 												),
@@ -304,11 +309,12 @@ class _ProductCardState extends State<ProductCard> {
 															widget.product.Name,
 															widget.product.desc,
 															widget.product.price[dropDownValue],
-															widget.product.Pic,
+															widget.product.thumb,
 															widget.product.hash,
 															0,
 															widget.product.category,
-															widget.product.variety[dropDownValue]
+															widget.product.variety[dropDownValue],
+															widget.product.pictures
 														)),
 													),
 												),
@@ -323,7 +329,8 @@ class _ProductCardState extends State<ProductCard> {
 				)
 			],
 		),
-	);
+	),
+    );
   }
 }
 

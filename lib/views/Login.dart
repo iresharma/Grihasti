@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:customerappgrihasti/Services/auth.dart';
 import 'package:customerappgrihasti/Services/freebaseCloudMessaging.dart';
-import 'package:customerappgrihasti/components/btnWithIcon.dart';
 import 'package:customerappgrihasti/models/User.dart';
+import 'package:customerappgrihasti/views/splashScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'HomeScreen.dart';
@@ -48,11 +46,9 @@ class _LoginState extends State<Login> {
 				});
 				Activeuser.Tel = _controller.text.trim();
 				Activeuser.Noti = Noti;
-				Navigator.of(context).pushReplacement(
-					new MaterialPageRoute(
-						builder: (_) => HomeScreen()
-					)
-				);
+				Navigator.of(context).push(new MaterialPageRoute(
+					builder: (_) => Splash()
+				));
 			}),
 			verificationFailed: (AuthException ex) {
 				Scaffold.of(context).showSnackBar(new SnackBar(content: Text('An error occured')));

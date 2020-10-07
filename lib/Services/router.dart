@@ -7,6 +7,7 @@ import 'package:customerappgrihasti/views/splashScreen.dart';
 import 'package:customerappgrihasti/views/viewOrder.dart';
 import 'package:customerappgrihasti/views/productList.dart';
 import 'package:customerappgrihasti/views/SearchResult.dart';
+import 'package:customerappgrihasti/views/productPAge.dart';
 import 'package:flutter/material.dart';
 
 Map<String, Widget Function(BuildContext)> Router() {
@@ -18,7 +19,8 @@ Map<String, Widget Function(BuildContext)> Router() {
 		'/search': (_) => SearchPage(),
 		'/not_serving': (_) => NotServing(),
 		'/list': (_) => ProductList(),
-		'/searchResult': (_) => SearchResult()
+		'/searchResult': (_) => SearchResult(),
+		'/product': (_) => ProductPage()
 	};
 
 	return router;

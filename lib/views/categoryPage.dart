@@ -14,7 +14,6 @@ class _CategoryPageState extends State<CategoryPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     animate = true;
   }

@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'package:after_layout/after_layout.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:customerappgrihasti/Services/dynamicLinks.dart';
 import 'package:customerappgrihasti/Services/filterFirebaseData.dart';
+import 'package:customerappgrihasti/Services/freebaseCloudMessaging.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
+import 'package:customerappgrihasti/Services/localAuth.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
 import 'package:customerappgrihasti/models/Search.dart';
@@ -22,7 +26,7 @@ class Splash extends StatefulWidget {
   _SplashState createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> {
+class _SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
 
 	List<Color> colors = [
 		Colors.blue,
@@ -62,20 +66,30 @@ class _SplashState extends State<Splash> {
 								Firestore.instance.collection('users').document(value.uid).get()
 									.then((user) {
 									print(user.data['Name']);
-									Activeuser.Uid = value.uid;
-									order();
-									Activeuser.Name = user.data['Name'];
-									Activeuser.Email = user.data['Email'];
-									Activeuser.address = user.data['Address'];
-									Activeuser.Tel = value.phoneNumber;
-									Activeuser.coins = user.data['coins'] ?? 0;
-									Provider.of<CartItem>(context).deProcess(user.data['Cart']);
-									Provider.of<Search>(context).process(user.data['searched'] ?? []);
-									Navigator.of(context).pushReplacement(
-										new MaterialPageRoute(
-											builder: (_) => HomeScreen()
-										)
-									);
+									if(user.data['Name'] != null) {
+										Activeuser.Uid = value.uid;
+										order();
+										Activeuser.Name = user.data['Name'];
+										Activeuser.Email = user.data['Email'];
+										Activeuser.address = user.data['Address'];
+										Activeuser.Tel = value.phoneNumber;
+										Activeuser.coins = user.data['coins'] ?? 0;
+										Provider.of<CartItem>(context).deProcess(user.data['Cart']);
+										Provider.of<Search>(context).process(user.data['searched'] ?? []);
+										startup().then((data) => Navigator.of(context).pushReplacement(
+												new MaterialPageRoute(
+														builder: (_) => HomeScreen()
+												)
+										));
+									} else {
+										Activeuser.Name = user.data['Name'];
+										startup().then((data) => Navigator.of(context).pushReplacement(
+												new MaterialPageRoute(
+														builder: (_) => HomeScreen()
+												)
+										));
+									}
+									Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (_) => HomeScreen()));
 								});
 							}
 						});
@@ -98,11 +112,27 @@ class _SplashState extends State<Splash> {
 		}
 	);
   }
+
+	Future<void> startup() async {
+		initFCM();
+		await hotDeals();
+		await topProducts();
+		await category();
+		await offerProducts();
+		await offereded();
+		initLA();
+		await handleDynamicLink();
+	}
+
+  @override
+	void afterFirstLayout(BuildContext context) {
+		searchFire(context);
+	}
+
   @override
   Widget build(BuildContext context) {
-		
+
 		ScreenUtil.init(context, height: 712, width: 360, allowFontScaling: false);
-		searchFire(context);
 	  return Scaffold(
 		  backgroundColor: primaryMain,
 		  body: Center(

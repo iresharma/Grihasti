@@ -27,7 +27,6 @@ dependencies:
   flare_flutter: ^2.0.3
   flutter_svg: 0.18.0
   url_launcher: ^5.4.10
-  carousel_slider: ^2.1.0
   flutter_badged: ^1.0.1
   provider: 3.0.0+1
   flutter_blurhash: ^0.5.0
@@ -44,6 +43,7 @@ dependencies:
   expandable: ^4.1.4
   flutter_dropdown: ^0.0.8
   image_picker: ^0.6.7+11
+  after_layout: ^1.0.7+2
 
 dev_dependencies:
   flutter_test:

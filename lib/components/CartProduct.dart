@@ -1,5 +1,6 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
+import 'package:customerappgrihasti/models/Products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,9 @@ class CartProduct extends StatefulWidget {
 class _CartProductState extends State<CartProduct> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+			onTap: () => Navigator.of(context).pushNamed('/product', arguments: widget.product.id),
+      child: Container(
 		width: ScreenUtil.defaultWidth * 1.0,
 		height: ScreenUtil.defaultHeight/11 - 10,
 		margin: EdgeInsets.all(5),
@@ -156,7 +159,8 @@ class _CartProductState extends State<CartProduct> {
 														widget.product.hash,
 														0,
 														widget.product.category,
-														widget.product.variety
+														widget.product.variety,
+														widget.product.pictures
 													)),
 												),
 											),
@@ -197,7 +201,8 @@ class _CartProductState extends State<CartProduct> {
 														widget.product.hash,
 														0,
 														widget.product.category,
-														widget.product.variety
+														widget.product.variety,
+														widget.product.pictures
 													)),
 												),
 											),
@@ -211,6 +216,7 @@ class _CartProductState extends State<CartProduct> {
 				)
 			],
 		),
-	);
+	),
+    );
   }
 }

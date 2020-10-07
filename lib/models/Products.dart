@@ -4,11 +4,12 @@ class Products {
 	final String Name;
 	final String desc;
 	final List<int> price;
-	final String Pic;
+	final String thumb;
+	final List<dynamic> pictures;
 	final String hash;
 	final String category;
 	final List<String> variety;
 	final String SubCategory;
 
-  	Products(this.id, this.Name, this.desc, this.price, this.Pic, this.hash, this.category, this.variety, this.SubCategory);
+  	Products({this.id, this.Name, this.desc, this.price, this.hash, this.category, this.variety, this.SubCategory, this.thumb, this.pictures});
 }

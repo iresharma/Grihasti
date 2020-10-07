@@ -12,8 +12,9 @@ class ProductCart {
 	int count;
 	final String category;
 	final String variety;
+	final List<dynamic> pictures;
 
-	ProductCart(this.id, this.Name, this.desc, this.price, this.Pic, this.hash, this.count, this.category, this.variety);
+	ProductCart(this.id, this.Name, this.desc, this.price, this.Pic, this.hash, this.count, this.category, this.variety, this.pictures);
 }
 
 class CartItem extends ChangeNotifier {
@@ -55,7 +56,8 @@ class CartItem extends ChangeNotifier {
 					adds.hash,
 					adds.count ?? 1,
 					adds.category,
-					adds.variety
+					adds.variety,
+					adds.pictures
 				)
 			);
 		}
@@ -106,7 +108,8 @@ class CartItem extends ChangeNotifier {
 				element['hash'],
 				element['count'],
 				element['category'],
-				element['variety']
+				element['variety'],
+				element['pictures']
 			));
 		});
 		notifyListeners();

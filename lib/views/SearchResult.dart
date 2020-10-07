@@ -1,3 +1,4 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/components/ProductCard.dart';
 import 'package:customerappgrihasti/components/colorLoader.dart';
@@ -17,7 +18,7 @@ class SearchResult extends StatefulWidget {
   _SearchResultState createState() => _SearchResultState();
 }
 
-class _SearchResultState extends State<SearchResult> {
+class _SearchResultState extends State<SearchResult> with AfterLayoutMixin<SearchResult> {
 
   List<Products> list;
   Products product;
@@ -30,122 +31,119 @@ class _SearchResultState extends State<SearchResult> {
     loading = true;
     error = false;
   }
+  @override
+  void afterFirstLayout(BuildContext context) {
+    SearchItem item = ModalRoute.of(context).settings.arguments;
+    if(item.type == 'category') {
+      Firestore.instance.collection('products').where('categoryId', isEqualTo: item.id).limit(30).getDocuments().then((value) {
+        if(value.documents.length != 0) {
+          List<DocumentSnapshot> stream = value.documents;
+          List<Products> temp = [];
 
-  void loadData(SearchItem item) {
-    if(loading) {
-      if(item.type == 'category') {
-        Firestore.instance.collection('products').where('categoryId', isEqualTo: item.id).limit(30).getDocuments().then((value) {
-          if(value.documents.length != 0) {
-            List<DocumentSnapshot> stream = value.documents;
-            List<Products> temp = [];
-
-            List<int> prices = [];
-            List<String> variety = [];
-            stream.forEach((element) {
-              prices = [];
-              variety = [];
-              element.data['Variety'].forEach((variey) {
-                prices.add(variey['price']);
-                variety.add(variey['name']);
-              });
-              temp.add(Products(
-                  element.documentID,
-                  element.data['Name'],
-                  element.data['Desc'],
-                  prices,
-                  element.data['Pic'],
-                  element.data['Hash'],
-                  element.data['categoryParent'],
-                  variety,
-                  element.data['categoryId']));
-            });
-            print('===============');
-            print(temp);
-            setState(() {
-              list = temp;
-              loading = false;
-            });
-          } else setState(() {
-            error = true;
-            loading = false;
-          });
-        });
-      } else {
-        print("=============${item.categoryId}=========");
-        Firestore.instance.collection('products').document(item.id).get().then((element) {
-          Products temp;
           List<int> prices = [];
           List<String> variety = [];
-          prices = [];
-          variety = [];
-          element.data['Variety'].forEach((variey) {
-            prices.add(variey['price']);
-            variety.add(variey['name']);
+          stream.forEach((element) {
+            prices = [];
+            variety = [];
+            element.data['Variety'].forEach((variey) {
+              prices.add(variey['price']);
+              variety.add(variey['name']);
+            });
+            temp.add(Products(
+                id:element.documentID,
+                Name: element.data['Name'],
+                desc: element.data['desc'],
+                thumb: element.data['thumb'],
+                price: prices,
+                pictures: element.data['Pic'],
+                hash: element.data['Hash'],
+                category: element.data['categoryParent'],
+                variety: variety,
+                SubCategory: element.data['categoryId']));
           });
-          temp = Products(
-              element.documentID,
-              element.data['Name'],
-              element.data['Desc'],
-              prices,
-              element.data['Pic'],
-              element.data['Hash'],
-              element.data['categoryParent'],
-              variety,
-              element.data['categoryId']
-          );
+          print('===============');
+          print(temp);
           setState(() {
-            product = temp;
-          });
-        }).catchError((onError) => setState(() {
-          error = true;
-          loading = false;
-        }));
-        Firestore.instance.collection('products').where('categoryId', isEqualTo: item.categoryId).limit(30).getDocuments().then((value) {
-          if(value.documents.length != 0) {
-            List<DocumentSnapshot> stream = value.documents;
-            List<Products> temp = [];
-
-            List<int> prices = [];
-            List<String> variety = [];
-            stream.forEach((element) {
-              prices = [];
-              variety = [];
-              element.data['Variety'].forEach((variey) {
-                prices.add(variey['price']);
-                variety.add(variey['name']);
-              });
-              temp.add(Products(
-                  element.documentID,
-                  element.data['Name'],
-                  element.data['Desc'],
-                  prices,
-                  element.data['Pic'],
-                  element.data['Hash'],
-                  element.data['categoryParent'],
-                  variety,
-                  element.data['categoryId']));
-            });
-            setState(() {
-              list = temp;
-              loading = false;
-            });
-          } else setState(() {
-//          error = true;
+            list = temp;
             loading = false;
           });
+        } else setState(() {
+          error = true;
+          loading = false;
         });
-      }
+      });
+    } else {
+      print("=============${item.categoryId}=========");
+      Firestore.instance.collection('products').document(item.id).get().then((element) {
+        Products temp;
+        List<int> prices = [];
+        List<String> variety = [];
+        prices = [];
+        variety = [];
+        element.data['Variety'].forEach((variey) {
+          prices.add(variey['price']);
+          variety.add(variey['name']);
+        });
+        temp = Products(
+            id:element.documentID,
+            Name: element.data['Name'],
+            desc: element.data['desc'],
+            thumb: element.data['thumb'],
+            price: prices,
+            pictures: element.data['Pic'],
+            hash: element.data['Hash'],
+            category: element.data['categoryParent'],
+            variety: variety,
+            SubCategory: element.data['categoryId']
+        );
+        setState(() {
+          product = temp;
+        });
+      }).catchError((onError) => setState(() {
+        error = true;
+        loading = false;
+      }));
+      Firestore.instance.collection('products').where('categoryId', isEqualTo: item.categoryId).limit(30).getDocuments().then((value) {
+        if(value.documents.length != 0) {
+          List<DocumentSnapshot> stream = value.documents;
+          List<Products> temp = [];
+
+          List<int> prices = [];
+          List<String> variety = [];
+          stream.forEach((element) {
+            prices = [];
+            variety = [];
+            element.data['Variety'].forEach((variey) {
+              prices.add(variey['price']);
+              variety.add(variey['name']);
+            });
+            temp.add(Products(
+                id:element.documentID,
+                Name: element.data['Name'],
+                desc: element.data['desc'],
+                thumb: element.data['thumb'],
+                price: prices,
+                pictures: element.data['Pic'],
+                hash: element.data['Hash'],
+                category: element.data['categoryParent'],
+                variety: variety,
+                SubCategory: element.data['categoryId']));
+          });
+          setState(() {
+            list = temp;
+            loading = false;
+          });
+        } else setState(() {
+//          error = true;
+          loading = false;
+        });
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     SearchItem data = ModalRoute.of(context).settings.arguments;
-    print(data.id);
-    print(data.type);
-    print(data.categoryId);
-    print(data.name);
-    loadData(data);
     if(loading) {
         return Scaffold(
           backgroundColor: Colors.grey.shade200,

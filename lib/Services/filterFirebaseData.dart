@@ -11,8 +11,8 @@ import 'dart:core';
 
 import 'package:provider/provider.dart';
 
-void topProducts() async {
-
+Future<void> topProducts() async {
+  print('topproduct');
   Firestore.instance.collection('products').where('featured', isEqualTo: true).snapshots().listen((event) {
     if(event.documents.length != 0) {
       List<DocumentSnapshot> stream = event.documents;
@@ -30,22 +30,23 @@ void topProducts() async {
           }
         });
         Top.add(Products(
-            element.documentID,
-            element.data['Name'],
-            element.data['Desc'],
-            prices,
-            element.data['Pic'],
-            element.data['Hash'],
-            element.data['categoryParent'],
-            variety,
-            element.data['categoryId']));
+            id:element.documentID,
+            Name: element.data['Name'],
+            desc: element.data['desc'],
+            thumb: element.data['thumb'],
+            price: prices,
+            pictures: element.data['Pic'],
+            hash: element.data['Hash'],
+            category: element.data['categoryParent'],
+            variety: variety,
+            SubCategory: element.data['categoryId']));
       });
     }
   });
 }
 
-void hotDeals() async {
-
+Future<void> hotDeals() async {
+  print('hotDeal');
   Firestore.instance.collection('products').where('hotdeals', isEqualTo: true).snapshots().listen((event) {
     if(event.documents.length != 0) {
       List<DocumentSnapshot> stream = event.documents;
@@ -62,22 +63,23 @@ void hotDeals() async {
           }
         });
         hotdeals.add(Products(
-            element.documentID,
-            element.data['Name'],
-            element.data['Desc'],
-            prices,
-            element.data['Pic'],
-            element.data['Hash'],
-            element.data['categoryParent'],
-            variety,
-            element.data['categoryId']));
+            id:element.documentID,
+            Name: element.data['Name'],
+            desc: element.data['desc'],
+            thumb: element.data['thumb'],
+            price: prices,
+            pictures: element.data['Pic'],
+            hash: element.data['Hash'],
+            category: element.data['categoryParent'],
+            variety: variety,
+            SubCategory: element.data['categoryId']));
       });
     }
   });
 }
 
-void offerProducts() async {
-
+Future<void> offerProducts() async {
+  print('offer products');
   Firestore.instance.collection('products').where('offers', isEqualTo: true).snapshots().listen((event) {
     if(event.documents.length != 0) {
       List<DocumentSnapshot> stream = event.documents;
@@ -94,15 +96,16 @@ void offerProducts() async {
           }
         });
         offerProduct.add(Products(
-            element.documentID,
-            element.data['Name'],
-            element.data['Desc'],
-            prices,
-            element.data['Pic'],
-            element.data['Hash'],
-            element.data['categoryParent'],
-            variety,
-            element.data['categoryId']));
+            id:element.documentID,
+            Name: element.data['Name'],
+            desc: element.data['desc'],
+            thumb: element.data['thumb'],
+            price: prices,
+            pictures: element.data['Pic'],
+            hash: element.data['Hash'],
+            category: element.data['categoryParent'],
+            variety: variety,
+            SubCategory: element.data['categoryId']));
       });
     }
   });
@@ -124,15 +127,16 @@ List<ProductCart> processOrders(List<dynamic> items) {
         }
       });
       Prev.add(Products(
-          element.documentID,
-          element.data['Name'],
-          element.data['Desc'],
-          prices,
-          element.data['Pic'],
-          element.data['Hash'],
-          element.data['categoryId'],
-          variety,
-          element.data['categoryName']));
+          id:element.documentID,
+          Name: element.data['Name'],
+          desc: element.data['desc'],
+          thumb: element.data['thumb'],
+          price: prices,
+          pictures: element.data['Pic'],
+          hash: element.data['Hash'],
+          category: element.data['categoryParent'],
+          variety: variety,
+          SubCategory: element.data['categoryId']));
     });
     temp.add(ProductCart(
         adds['id'],
@@ -143,12 +147,15 @@ List<ProductCart> processOrders(List<dynamic> items) {
         adds['hash'],
         adds['count'],
         adds['category'],
-        adds['variety']));
+        adds['variety'],
+        adds['pictures']
+    ));
   });
   return temp;
 }
 
 bool order() {
+  print('order');
   if(orders.length == 0) {
     Firestore.instance
         .collection('orders')
@@ -175,7 +182,8 @@ bool order() {
   } else return true;
 }
 
-void category() {
+Future<void> category() async {
+  print('category');
   Firestore.instance.collection('categories').where('parent', isEqualTo: '').getDocuments().then((value) {
     cat = [];
     value.documents.forEach((element) {
@@ -204,7 +212,7 @@ void searchFire(context) {
   }
 }
 
-void offereded() {
+Future<void> offereded() {
   Firestore.instance.collection('offers').getDocuments().then((value) {
     if(value.documents.length != 0) {
       offers = [];

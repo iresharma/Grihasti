@@ -1,3 +1,4 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/components/ProductCard.dart';
 import 'package:customerappgrihasti/components/colorLoader.dart';
@@ -18,7 +19,7 @@ class ProductList extends StatefulWidget {
   _ProductListState createState() => _ProductListState();
 }
 
-class _ProductListState extends State<ProductList> {
+class _ProductListState extends State<ProductList> with AfterLayoutMixin<ProductList> {
 
   List<Products> list;
   bool loading;
@@ -32,47 +33,49 @@ class _ProductListState extends State<ProductList> {
     error = false;
   }
 
-
-  void load(data) {
-    print(data);
-    if(loading) {
-      Firestore.instance.collection('products').where(
-          'categoryId', isEqualTo: data['id']).orderBy('Sold', descending: true).limit(30).getDocuments().then((value) {
-        if (value.documents.length == 0) {
-          setState(() {
-            error = true;
-            loading = false;
+  @override
+  void afterFirstLayout(BuildContext context) {
+    Map<String, dynamic> data = ModalRoute
+        .of(context)
+        .settings
+        .arguments;
+    Firestore.instance.collection('products').where(
+        'categoryId', isEqualTo: data['id']).orderBy('Sold', descending: true).limit(30).getDocuments().then((value) {
+      if (value.documents.length == 0) {
+        setState(() {
+          error = true;
+          loading = false;
+        });
+      } else {
+        List<DocumentSnapshot> stream = value.documents;
+        List<Products> temp = [];
+        List<int> prices = [];
+        List<String> variety = [];
+        stream.forEach((element) {
+          prices = [];
+          variety = [];
+          element.data['Variety'].forEach((variey) {
+            prices.add(variey['price']);
+            variety.add(variey['name']);
           });
-        } else {
-          List<DocumentSnapshot> stream = value.documents;
-          List<Products> temp = [];
-          List<int> prices = [];
-          List<String> variety = [];
-          stream.forEach((element) {
-            prices = [];
-            variety = [];
-            element.data['Variety'].forEach((variey) {
-              prices.add(variey['price']);
-              variety.add(variey['name']);
-            });
-            temp.add(Products(
-                element.documentID,
-                element.data['Name'],
-                element.data['Desc'],
-                prices,
-                element.data['Pic'],
-                element.data['Hash'],
-                element.data['categoryParent'],
-                variety,
-                element.data['categoryId']));
-          });
-          setState(() {
-            list = temp;
-            loading = false;
-          });
-        }
-      });
-    }
+          temp.add(Products(
+              id:element.documentID,
+              Name: element.data['Name'],
+              desc: element.data['desc'],
+              thumb: element.data['thumb'],
+              price: prices,
+              pictures: element.data['Pic'],
+              hash: element.data['Hash'],
+              category: element.data['categoryParent'],
+              variety: variety,
+              SubCategory: element.data['categoryId']));
+        });
+        setState(() {
+          list = temp;
+          loading = false;
+        });
+      }
+    });
   }
 
   @override
@@ -81,7 +84,6 @@ class _ProductListState extends State<ProductList> {
         .of(context)
         .settings
         .arguments;
-    load(data['data']);
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: PreferredSize(
