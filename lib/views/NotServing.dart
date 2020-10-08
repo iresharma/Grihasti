@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:customerappgrihasti/Services/dynamicLinks.dart';
+import 'package:customerappgrihasti/Services/filterFirebaseData.dart';
+import 'package:customerappgrihasti/Services/freebaseCloudMessaging.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
+import 'package:customerappgrihasti/Services/localAuth.dart';
 import 'package:customerappgrihasti/models/User.dart';
 import 'package:customerappgrihasti/views/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +19,19 @@ import 'HomeScreen.dart';
 import 'introScroll.dart';
 
 class NotServing extends StatelessWidget {
+
+	Future<void> startup(BuildContext context) async {
+		initFCM();
+		await hotDeals();
+		await topProducts();
+		await category();
+		await offerProducts();
+		await offereded();
+		initLA();
+		await handleDynamicLink();
+		searchFire(context);
+	}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,11 +126,12 @@ class NotServing extends StatelessWidget {
 										color: primaryMain
 									),
 								),
-								content: Text('Any ordered placed with the address outside our service area will be immediately cancelled'),
+								content: Text('Any orders placed with the address outside our service area will be immediately cancelled'),
 								actions: <Widget>[
 									FlatButton(
 										child: Text('Proceed'),
 										onPressed: () => FirebaseAuth.instance.currentUser().then((value) {
+											startup(context);
 											if( value == null) {
 												Navigator.of(context).pushReplacement(
 														new MaterialPageRoute(

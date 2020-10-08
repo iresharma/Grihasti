@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:after_layout/after_layout.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customerappgrihasti/Services/dynamicLinks.dart';
@@ -26,7 +25,7 @@ class Splash extends StatefulWidget {
   _SplashState createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
+class _SplashState extends State<Splash> {
 
 	List<Color> colors = [
 		Colors.blue,
@@ -122,10 +121,6 @@ class _SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
 		await offereded();
 		initLA();
 		await handleDynamicLink();
-	}
-
-  @override
-	void afterFirstLayout(BuildContext context) {
 		searchFire(context);
 	}
 
