@@ -119,7 +119,6 @@ List<ProductCart> processOrders(List<dynamic> items) {
     Firestore.instance.collection('products').document(adds['id']).get().then((element) {
       prices = [];
       variety = [];
-      print('==============${element.data}===============');
       element.data['Variety'].forEach((variey) {
         if(variey['Nstock'] != 0) {
           prices.add(variey['price']);

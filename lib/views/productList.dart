@@ -40,7 +40,7 @@ class _ProductListState extends State<ProductList> with AfterLayoutMixin<Product
         .settings
         .arguments;
     Firestore.instance.collection('products').where(
-        'categoryId', isEqualTo: data['id']).orderBy('Sold', descending: true).limit(30).getDocuments().then((value) {
+        'categoryId', isEqualTo: data['data']['id']).orderBy('Sold', descending: true).limit(30).getDocuments().then((value) {
       if (value.documents.length == 0) {
         setState(() {
           error = true;

@@ -21,7 +21,7 @@ class RPayOptions {
   RPayOptions({this.amount, this.name, this.desc, this.prefill});
 }
 
-Future<dynamic> doPayment(RPayOptions options, BuildContext context, BuildContext context1, double coinVal) async {
+Future<dynamic> doPayment(RPayOptions options, BuildContext context, BuildContext context1, double coinVal, String place) async {
 
 	var razorPay = new Razorpay();
 
@@ -66,11 +66,17 @@ Future<dynamic> doPayment(RPayOptions options, BuildContext context, BuildContex
 		});
 
 		Activeuser.coins = Activeuser.coins - coinVal.round();
-		await Firestore.instance.collection('users').document(uid).updateData({
-			'Cart': [],
-			'coins': Activeuser.coins
-		});
-		Provider.of<CartItem>(context).empty();
+		if(place == 'Cart') {
+			await Firestore.instance.collection('users').document(uid).updateData({
+				'Cart': [],
+				'coins': Activeuser.coins
+			});
+			Provider.of<CartItem>(context).empty();
+		} else {
+			await Firestore.instance.collection('users').document(uid).updateData({
+				'coins': Activeuser.coins
+			});
+		}
 		Navigator.of(context).pop();
 		Scaffold.of(context1).showSnackBar(SnackBar(
 			content: Text(

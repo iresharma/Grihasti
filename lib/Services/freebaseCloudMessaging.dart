@@ -7,13 +7,13 @@ var Noti = '';
 void initFCM() async {
 	FCM.configure(
 		onMessage: (Map<String, dynamic> message) async{
-			print(message);
+			print(message['data']['offerCode']);
 		},
 		onLaunch: (Map<String, dynamic> message) async{
-			print(message);
+			print(message['data']['offerCode']);
 		},
 		onResume: (Map<String, dynamic> message) async{
-			print(message);
+			print(message['data']['offerCode']);
 		},
 	);
 	FCM.requestNotificationPermissions(
