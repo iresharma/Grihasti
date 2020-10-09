@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:customerappgrihasti/Services/freebaseCloudMessaging.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/Services/razorPay.dart';
 import 'package:customerappgrihasti/components/CartProduct.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:customerappgrihasti/views/Login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:customerappgrihasti/components/colorCircleLoader.dart';
 
@@ -396,7 +398,8 @@ class _CartPageState extends State<CartPage> {
                                                       'price': Provider.of<CartItem>(context).totalPrice - coinVal - offerVal,
                                                       'uid': uid,
                                                       'status': 'ordered',
-                                                      'ordered_on': DateTime.now().microsecondsSinceEpoch
+                                                      'ordered_on': DateTime.now().microsecondsSinceEpoch,
+                                                      'notificationToken': Noti
                                                     });
                                                     Activeuser.coins = Activeuser.coins - coinVal.round();
                                                     await Firestore.instance.collection('users').document(uid).updateData({
@@ -405,14 +408,12 @@ class _CartPageState extends State<CartPage> {
                                                     });
                                                     Provider.of<CartItem>(context).empty();
                                                     Navigator.of(context).pop();
-                                                    Scaffold.of(context).showSnackBar(SnackBar(
-                                                      content: Text('Order placed'),
-                                                      duration: Duration(seconds: 2),
-                                                      action: SnackBarAction(
-                                                        label: 'Check orders',
-                                                        onPressed: () => Navigator.of(context).pushNamed('/orders'),
-                                                      ),
-                                                    ));
+                                                    Fluttertoast.showToast(
+                                                      msg: 'Order placed',
+                                                      toastLength: Toast.LENGTH_LONG,
+                                                      gravity: ToastGravity.TOP,
+                                                      backgroundColor: Colors.green
+                                                    );
                                                   }
                                                   else {
                                                     await doPayment(RPayOptions(

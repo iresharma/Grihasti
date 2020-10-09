@@ -5,6 +5,7 @@ import 'package:customerappgrihasti/views/splashScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'HomeScreen.dart';
 
@@ -51,7 +52,12 @@ class _LoginState extends State<Login> {
 				));
 			}),
 			verificationFailed: (AuthException ex) {
-				Scaffold.of(context).showSnackBar(new SnackBar(content: Text('An error occured')));
+				Fluttertoast.showToast(
+          msg: 'An error occured',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          backgroundColor: Colors.red
+        );
 			},
 			codeSent: (String verificationId, [int forceResendingToken]) async {
 				setState(() {

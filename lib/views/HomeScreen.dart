@@ -17,6 +17,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'home.dart';
 
@@ -39,11 +40,12 @@ class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScree
   @override
 	void afterFirstLayout(BuildContext context) {
 		if(Activeuser.Email == null || Activeuser.Name == null || Activeuser.Tel == null ){
-//			Scaffold.of(context).showSnackBar(SnackBar(
-//				elevation: 20,
-//				duration: Duration(milliseconds: 200),
-//				content: Text('100 coins are added to your account'),
-//			));
+      Fluttertoast.showToast(
+        msg: '100 coins have been added to your account',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        backgroundColor: Colors.green
+      );
 			showDialog(
 					context: context,
 					barrierDismissible: false,

@@ -8,9 +8,12 @@ import 'package:customerappgrihasti/models/User.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:http/http.dart' as http;
+
+import 'freebaseCloudMessaging.dart';
 
 class RPayOptions {
 	final int amount;
@@ -62,7 +65,8 @@ Future<dynamic> doPayment(RPayOptions options, BuildContext context, BuildContex
 			'uid': uid,
 			'orderId': jsonDecode(reponse.body)['id'],
 			'status': 'ordered',
-			'ordered_on': DateTime.now().microsecondsSinceEpoch
+			'ordered_on': DateTime.now().microsecondsSinceEpoch,
+      'notificationToken': Noti
 		});
 
 		Activeuser.coins = Activeuser.coins - coinVal.round();
@@ -78,37 +82,22 @@ Future<dynamic> doPayment(RPayOptions options, BuildContext context, BuildContex
 			});
 		}
 		Navigator.of(context).pop();
-		Scaffold.of(context1).showSnackBar(SnackBar(
-			content: Text(
-				'Order Placed',
-				style: TextStyle(
-					fontSize: ScreenUtil().setSp(12)
-				),
-			),
-			duration: Duration(seconds: 2),
-			action: SnackBarAction(
-				label: 'Check orders',
-				onPressed: () => Navigator.of(context1).pushNamed('/orders'),
-			),
-		));
+		Fluttertoast.showToast(
+      msg: 'Order Placed',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.TOP,
+      backgroundColor: Colors.green
+    );
 	});
 
 	razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, (PaymentFailureResponse response) {
 		Navigator.of(context).pop();
-		Scaffold.of(context1).showSnackBar(SnackBar(
-			content: Text(
-				'Order could not be placed, please try again later',
-				style: TextStyle(
-					fontSize: ScreenUtil().setSp(12),
-					color: primaryMain
-				),
-			),
-			duration: Duration(seconds: 2),
-			action: SnackBarAction(
-				label: 'Check orders',
-				onPressed: () => Navigator.of(context1).pushNamed('/orders'),
-			),
-		));
+    Fluttertoast.showToast(
+      msg: 'Order could not be placed, please try again later',
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.TOP,
+      backgroundColor: Colors.red
+    );
 	});
 
 	razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, (ExternalWalletResponse response) => print(response.walletName));

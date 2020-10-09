@@ -30,7 +30,7 @@ class OfferBox extends StatelessWidget {
 					msg: 'Coupon code \'${code}\', copied to your clipbosrd',
 					toastLength: Toast.LENGTH_LONG,
 					gravity: ToastGravity.TOP,
-					backgroundColor: Colors.grey
+					backgroundColor: Colors.green
 				);
 			},
       child: Container(
@@ -47,12 +47,16 @@ class OfferBox extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text(
-                  '${main}',
-                  style: TextStyle(
-                      fontSize: ScreenUtil().setSp(20),
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white),
+                Container(
+                  width: MediaQuery.of(context).size.width / 2 -
+                      MediaQuery.of(context).size.width / 5,
+                  child: Text(
+                    '${main}',
+                    style: TextStyle(
+                        fontSize: ScreenUtil().setSp(20),
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
+                  ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 2 -
