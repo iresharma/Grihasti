@@ -1,8 +1,10 @@
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/components/appBar.dart';
+import 'package:customerappgrihasti/models/Order.dart';
 import 'package:customerappgrihasti/views/HomeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:customerappgrihasti/components/OrdersBox.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +15,17 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
+
+  bool filter;
+  List<Order> filtered;
+
+  @override
+  void initState() {
+    super.initState();
+    filter = false;
+    filtered = [];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +62,8 @@ class _OrdersPageState extends State<OrdersPage> {
         ),
             )
             : ListView.separated(
-          itemCount: orders.length + 1,
-          itemBuilder: (context, index) => index == 0 ? Container(
+          itemCount: filter ? filtered.length + 1 : orders.length + 1,
+          itemBuilder: (context, index) => index == 0 ? filter ? Container(
             height: 70,
             child: Padding(
               padding: const EdgeInsets.only(
@@ -59,15 +72,100 @@ class _OrdersPageState extends State<OrdersPage> {
                   left: 30.0,
                   right: 30.0
               ),
-              child: RaisedButton(
-                elevation: 5,
-                child: Text(
-                  'Filter',
-                  style: TextStyle(
-                      fontSize: ScreenUtil().setSp(13)
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width/2 - MediaQuery.of(context).size.width/7,
+                    child: OutlineButton.icon(
+                      icon: Icon(FlutterIcons.cross_ent),
+                      label: Text('Clear'),
+                      color: primaryMain,
+                      textColor: Colors.grey.shade500,
+                      highlightedBorderColor: primaryMain,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      onPressed: () => setState(() => filter = false),
+                    ),
                   ),
-                ),
+                  Container(
+                    width: MediaQuery.of(context).size.width/2 - MediaQuery.of(context).size.width/7,
+                    child: OutlineButton.icon(
+                      icon: Icon(FlutterIcons.ios_options_ion),
+                      label: Text('Filter'),
+                      color: primaryMain,
+                      textColor: primaryMain,
+                      highlightedBorderColor: primaryMain,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      onPressed: () => showCupertinoModalPopup(
+                          context: context,
+                          builder: (_) => CupertinoActionSheet(
+                            actions: [
+                              CupertinoActionSheetAction(
+                                child: Text(
+                                  'Delivered',
+                                  style: TextStyle(
+                                      color: Colors.green
+                                  ),
+                                ),
+                                onPressed: () => print('hi'),
+                              ),
+                              CupertinoActionSheetAction(
+                                child: Text(
+                                  'Active',
+                                  style: TextStyle(
+                                      color: Colors.blue
+                                  ),
+                                ),
+                                onPressed: () => print('hi'),
+                              ),
+                              CupertinoActionSheetAction(
+                                child: Text(
+                                  'Placed',
+                                  style: TextStyle(
+                                      color: Colors.deepOrangeAccent
+                                  ),
+                                ),
+                                onPressed: () => print('hi'),
+                              ),
+                            ],
+                            cancelButton: CupertinoActionSheetAction(
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(
+                                    color: Colors.red
+                                ),
+                              ),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          )
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ) : Container(
+            height: 70,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 15.0,
+                  bottom:15.0,
+                  left: 30.0,
+                  right: 30.0
+              ),
+              child: OutlineButton.icon(
+                icon: Icon(FlutterIcons.ios_options_ion),
+                label: Text('Filter'),
                 color: primaryMain,
+                textColor: primaryMain,
+                highlightedBorderColor: primaryMain,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
+                ),
                 onPressed: () => showCupertinoModalPopup(
                     context: context,
                     builder: (_) => CupertinoActionSheet(
@@ -79,7 +177,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                 color: Colors.green
                             ),
                           ),
-                          onPressed: () => print('hi'),
+                          onPressed: () => setState(() => filter = true),
                         ),
                         CupertinoActionSheetAction(
                           child: Text(
@@ -111,7 +209,6 @@ class _OrdersPageState extends State<OrdersPage> {
                       ),
                     )
                 ),
-                textColor: Colors.white,
               ),
             ),
           ) : Container(

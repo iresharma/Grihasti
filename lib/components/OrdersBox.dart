@@ -122,22 +122,46 @@ class OrdersBox extends StatelessWidget {
                                 ),
 
                                 Text(
-                                  'Order ID: ${order.id}',
+                                  '${order.items.length} item(s) ordered',
                                   style: TextStyle(
                                       fontSize: ScreenUtil().setSp(12),
                                       fontWeight: FontWeight.w200
                                   ),
                                 ),
-                                Row(
-                                  children: <Widget>[
-                                    Icon(FlutterIcons.check_circle_fea, color: Colors.green,),
-                                    SizedBox(width: 10,),
-                                    Text('Delivered', style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(10),
-                                      color: Colors.green
-                                    ),)
-                                  ],
-                                ),
+                                if(order.status == 'delivered')...{
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(FlutterIcons.check_circle_fea, color: Colors.green,),
+                                      SizedBox(width: 10,),
+                                      Text('Delivered', style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(10),
+                                          color: Colors.green
+                                      ),)
+                                    ],
+                                  ),
+                                } else if(order.status == 'ordered')...{
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(FlutterIcons.clock_ent, color: Colors.blue,),
+                                      SizedBox(width: 10,),
+                                      Text('Ordered', style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(10),
+                                          color: Colors.blue
+                                      ),)
+                                    ],
+                                  ),
+                                } else...{
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(FlutterIcons.cross_ent, color: Colors.red,),
+                                      SizedBox(width: 10,),
+                                      Text('Canceled', style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(10),
+                                          color: Colors.red
+                                      ),)
+                                    ],
+                                  )
+                                }
                               ],
                             ),
                             Column(
@@ -151,13 +175,6 @@ class OrdersBox extends StatelessWidget {
                                         fontSize: ScreenUtil().setSp(12)
                                     ),
                                   ),
-                                  Text(
-                                    'Discount amount',
-                                    style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(10),
-                                      color: primaryMain
-                                    ),
-                                  ),
                                 ]
                             )
                           ],
@@ -168,9 +185,13 @@ class OrdersBox extends StatelessWidget {
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.95,
-                  child: RaisedButton(
+                  child: FlatButton.icon(
                     color: Colors.deepOrangeAccent,
-                    child: Text('View Order', style: TextStyle(color: Colors.white),),
+                    icon: Icon(FlutterIcons.eye_ant, color: Colors.white,),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    label: Text('View Order', style: TextStyle(color: Colors.white),),
                     onPressed: () => Navigator.of(context).push(new MaterialPageRoute(builder: (_) => viewOrder(order: order,))),
                   ),
                 )

@@ -32,7 +32,7 @@ class ProfilePage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        Activeuser.Name ?? 'Name Sharma',
+                        Activeuser.Name ?? 'Your name',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -89,7 +89,7 @@ class ProfilePage extends StatelessWidget {
                             IconButton(
                               icon: Image.asset('assets/icons/wallet.png'),
                               onPressed: () =>
-                                  print('Coins ${Activeuser.coins}'),
+                                  print('Coins ${Activeuser.coins ?? 0}'),
                             ),
                             Text(
                               'Coins ${Activeuser.coins}',
