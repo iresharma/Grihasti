@@ -50,6 +50,249 @@ class _ProductPageState extends State<ProductPage> with AfterLayoutMixin<Product
     subCat = '';
   }
 
+  VoidCallback _showBottom(coinVal) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context1) => StatefulBuilder(
+        builder: (BuildContext context, StateSetter stater) => SingleChildScrollView(
+          child: Card(
+            elevation: 200,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20))),
+            margin: EdgeInsets.only(left: 10, right: 10),
+            child: Container(
+              padding: EdgeInsets.only(
+                  left: 20, right: 20, top: 10),
+              height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height/3 + 100 : MediaQuery.of(context).size.height/3 + 300,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(
+                    'Checkout',
+                    style: CupertinoTheme.of(context)
+                        .textTheme
+                        .navTitleTextStyle,
+                  ),
+                  Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius:
+                        BorderRadius.circular(5)),
+                    padding: EdgeInsets.only(left: 10),
+                    margin: EdgeInsets.all(20),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: Icon(
+                              FlutterIcons.search1_ant),
+                          floatingLabelBehavior:
+                          FloatingLabelBehavior.never,
+                          labelText: 'Coupon code',
+                          suffixIcon: IconButton(
+                            icon: Icon(FlutterIcons.check_ant),
+                            onPressed: () {
+                              Map<String, dynamic> got = checkOffer(Provider.of<CartItem>(context).count(product.id, product.variety[option])*product.price[option] - coinVal.toInt());
+                              stater(() {
+                                offerVal = got['offerVal'];
+                                offerapp = got['offerapp'] ?? false;
+                                offerErr = got['offerErr'] ?? false;
+                                offerMessage = got['offerMessage'] ?? '';
+                              });
+                            },
+                          )
+                      ),
+                      enabled: true,
+                      controller: _controller,
+                    ),
+                  ),
+                  if(offerErr)...{
+                    Text(
+                      offerMessage,
+                      style: TextStyle(
+                          fontSize: ScreenUtil().setSp(10),
+                          color: Colors.red
+                      ),
+                    ),
+                  },
+                  ToggleButtons(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context)
+                            .size
+                            .width /
+                            4,
+                        child: Center(child: Text('COD', style: TextStyle(
+                            fontWeight: FontWeight.w400
+                        ),)),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context)
+                            .size
+                            .width /
+                            4,
+                        child:
+                        Center(child: Text('Pay Now')),
+                      ),
+                    ],
+                    isSelected: _selected,
+                    selectedBorderColor: secondarySec,
+                    highlightColor: secondarySec,
+                    fillColor: Colors.yellow.shade50,
+                    onPressed: (index) {
+                      stater(() {
+                        _selected = List.generate(
+                            2, (index) => false);
+                        _selected[index] = true;
+                      });
+                      print(_selected);
+                    },
+                    selectedColor: Colors.black,
+                  ),
+                  Container(
+                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Tooltip(
+                            height: 40,
+                            waitDuration: Duration(microseconds: 1),
+                            showDuration: Duration(seconds: 5),
+                            message: 'A maximum 20% of the final price can be availed as coin bonus',
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Coins Applied',
+                                  style: TextStyle(
+                                    fontSize:
+                                    MediaQuery.of(context).textScaleFactor *
+                                        17,
+                                  ),
+                                ),
+                                Icon(FlutterIcons.info_outline_mdi, size: MediaQuery.of(context).textScaleFactor * 17,),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            '- ₹ $coinVal',
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
+                          )
+                        ],
+                      )
+                  ),
+                  if(offerapp)...{
+                    Container(
+                        margin: EdgeInsets.all(20),
+                        padding: EdgeInsets.all(5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Coupon ${_controller.text}',
+                              style: TextStyle(
+                                fontSize:
+                                MediaQuery.of(context).textScaleFactor *
+                                    17,
+                              ),
+                            ),
+                            Text(
+                              '- ₹ $offerVal',
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
+                            )
+                          ],
+                        )
+                    ),
+                  },
+                  Divider(thickness: 2,),
+                  Container(
+                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Final Price',
+                            style: TextStyle(
+                              fontSize:
+                              MediaQuery.of(context).textScaleFactor *
+                                  17,
+                            ),
+                          ),
+                          Text(
+                            '₹ ${Provider.of<CartItem>(context).count(product.id, product.variety[option])*product.price[option] - coinVal.toInt() - offerVal.toInt()}',
+                            style: TextStyle(
+                              fontSize: 25,
+                            ),
+                          )
+                        ],
+                      )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width/10,
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text('Checkout', style: TextStyle(color: Colors.white),),
+                        color: primaryMain,
+                        onPressed: () async {
+                          if(_selected[0]) {
+                            var uid = Activeuser.Uid;
+                            await Firestore.instance.collection('orders').document().setData({
+                              'items': [process(product)],
+                              'price': Provider.of<CartItem>(context).count(product.id, product.variety[option])*product.price[option] - coinVal - offerVal,
+                              'uid': uid,
+                              'status': 'ordered',
+                              'ordered_on': DateTime.now().microsecondsSinceEpoch,
+                              'notificationToken': Noti,
+                              'discount': coinVal + offerVal,
+                            });
+                            Activeuser.coins = Activeuser.coins - coinVal.round();
+                            await Firestore.instance.collection('users').document(uid).updateData({
+                              'coins': Activeuser.coins
+                            });
+                            Provider.of<CartItem>(context).empty();
+                            Navigator.of(context).pop();
+                            Fluttertoast.showToast(
+                                msg: 'Order placed',
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.TOP,
+                                backgroundColor: Colors.green
+                            );
+                          }
+                          else {
+                            await doPayment(RPayOptions(
+                                amount: ((Provider.of<CartItem>(context).count(product.id, product.variety[option])*product.price[option] - coinVal - offerVal) * 100).round(),
+                                name: Activeuser.Name,
+                                desc: 'Checkout with ${Provider.of<CartItem>(context).count(product.id, product.variety[option])} item(s)',
+                                prefill: {
+                                  'email': Activeuser.Email,
+                                  'contact': Activeuser.Tel.toString()
+                                }
+                            ), context1, context, coinVal, 'propage', discount: coinVal + offerVal);
+                          }
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Map<String, dynamic> process(Products element) {
     Map<String, dynamic> temp = {
       'id': element.id,
@@ -429,245 +672,7 @@ class _ProductPageState extends State<ProductPage> with AfterLayoutMixin<Product
               ),
               child: FlatButton.icon(
                   onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context1) => StatefulBuilder(
-                        builder: (BuildContext context, StateSetter stater) => SingleChildScrollView(
-                          child: Card(
-                            elevation: 200,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20))),
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  left: 20, right: 20, top: 10),
-                              height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height/3 + 100 : MediaQuery.of(context).size.height/3 + 300,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Text(
-                                    'Checkout',
-                                    style: CupertinoTheme.of(context)
-                                        .textTheme
-                                        .navTitleTextStyle,
-                                  ),
-                                  Container(
-                                    height: 45,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.shade200,
-                                        borderRadius:
-                                        BorderRadius.circular(5)),
-                                    padding: EdgeInsets.only(left: 10),
-                                    margin: EdgeInsets.all(20),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          icon: Icon(
-                                              FlutterIcons.search1_ant),
-                                          floatingLabelBehavior:
-                                          FloatingLabelBehavior.never,
-                                          labelText: 'Coupon code',
-                                          suffixIcon: IconButton(
-                                            icon: Icon(FlutterIcons.check_ant),
-                                            onPressed: () {
-                                              Map<String, dynamic> got = checkOffer(Provider.of<CartItem>(context).count(product.id, product.variety[option])*product.price[option] - coinVal.toInt());
-                                              stater(() {
-                                                offerVal = got['offerVal'];
-                                                offerapp = got['offerapp'] ?? false;
-                                                offerErr = got['offerErr'] ?? false;
-                                                offerMessage = got['offerMessage'] ?? '';
-                                              });
-                                            },
-                                          )
-                                      ),
-                                      enabled: true,
-                                      controller: _controller,
-                                    ),
-                                  ),
-                                  if(offerErr)...{
-                                    Text(
-                                      offerMessage,
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(10),
-                                          color: Colors.red
-                                      ),
-                                    ),
-                                  },
-                                  ToggleButtons(
-                                    children: [
-                                      Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width /
-                                            4,
-                                        child: Center(child: Text('COD', style: TextStyle(
-                                            fontWeight: FontWeight.w400
-                                        ),)),
-                                      ),
-                                      Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width /
-                                            4,
-                                        child:
-                                        Center(child: Text('Pay Now')),
-                                      ),
-                                    ],
-                                    isSelected: _selected,
-                                    selectedBorderColor: secondarySec,
-                                    highlightColor: secondarySec,
-                                    fillColor: Colors.yellow.shade50,
-                                    onPressed: (index) {
-                                      stater(() {
-                                        _selected = List.generate(
-                                            2, (index) => false);
-                                        _selected[index] = true;
-                                      });
-                                      print(_selected);
-                                    },
-                                    selectedColor: Colors.black,
-                                  ),
-                                  Container(
-                                      margin: EdgeInsets.all(20),
-                                      padding: EdgeInsets.all(5),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Tooltip(
-                                            height: 40,
-                                            waitDuration: Duration(microseconds: 1),
-                                            showDuration: Duration(seconds: 5),
-                                            message: 'A maximum 20% of the final price can be availed as coin bonus',
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  'Coins Applied',
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                    MediaQuery.of(context).textScaleFactor *
-                                                        17,
-                                                  ),
-                                                ),
-                                                Icon(FlutterIcons.info_outline_mdi, size: MediaQuery.of(context).textScaleFactor * 17,),
-                                              ],
-                                            ),
-                                          ),
-                                          Text(
-                                            '- ₹ $coinVal',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                  ),
-                                  if(offerapp)...{
-                                    Container(
-                                        margin: EdgeInsets.all(20),
-                                        padding: EdgeInsets.all(5),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Text(
-                                              'Coupon ${_controller.text}',
-                                              style: TextStyle(
-                                                fontSize:
-                                                MediaQuery.of(context).textScaleFactor *
-                                                    17,
-                                              ),
-                                            ),
-                                            Text(
-                                              '- ₹ $offerVal',
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                    ),
-                                  },
-                                  Divider(thickness: 2,),
-                                  Container(
-                                      margin: EdgeInsets.all(20),
-                                      padding: EdgeInsets.all(5),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            'Final Price',
-                                            style: TextStyle(
-                                              fontSize:
-                                              MediaQuery.of(context).textScaleFactor *
-                                                  17,
-                                            ),
-                                          ),
-                                          Text(
-                                            '₹ ${Provider.of<CartItem>(context).count(product.id, product.variety[option])*product.price[option] - coinVal.toInt() - offerVal.toInt()}',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(18.0),
-                                    child: SizedBox(
-                                      width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width/10,
-                                      child: FlatButton(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        child: Text('Checkout', style: TextStyle(color: Colors.white),),
-                                        color: primaryMain,
-                                        onPressed: () async {
-                                          if(_selected[0]) {
-                                            var uid = Activeuser.Uid;
-                                            await Firestore.instance.collection('orders').document().setData({
-                                              'items': [process(product)],
-                                              'price': Provider.of<CartItem>(context).count(product.id, product.variety[option])*product.price[option] - coinVal - offerVal,
-                                              'uid': uid,
-                                              'status': 'ordered',
-                                              'ordered_on': DateTime.now().microsecondsSinceEpoch,
-                                              'notificationToken': Noti
-                                            });
-                                            Activeuser.coins = Activeuser.coins - coinVal.round();
-                                            await Firestore.instance.collection('users').document(uid).updateData({
-                                              'coins': Activeuser.coins
-                                            });
-                                            Provider.of<CartItem>(context).empty();
-                                            Navigator.of(context).pop();
-                                            Fluttertoast.showToast(
-                                              msg: 'Order placed',
-                                              toastLength: Toast.LENGTH_LONG,
-                                              gravity: ToastGravity.TOP,
-                                              backgroundColor: Colors.green
-                                            );
-                                          }
-                                          else {
-                                            await doPayment(RPayOptions(
-                                                amount: ((Provider.of<CartItem>(context).count(product.id, product.variety[option])*product.price[option] - coinVal - offerVal) * 100).round(),
-                                                name: Activeuser.Name,
-                                                desc: 'Checkout with ${Provider.of<CartItem>(context).count(product.id, product.variety[option])} item(s)',
-                                                prefill: {
-                                                  'email': Activeuser.Email,
-                                                  'contact': Activeuser.Tel.toString()
-                                                }
-                                            ), context1, context, coinVal, 'propage');
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
+
                   },
                   icon: Icon(FlutterIcons.basket_mco),
                   label: Text('Buy now'),

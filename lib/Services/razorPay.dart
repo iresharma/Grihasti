@@ -24,7 +24,7 @@ class RPayOptions {
   RPayOptions({this.amount, this.name, this.desc, this.prefill});
 }
 
-Future<dynamic> doPayment(RPayOptions options, BuildContext context, BuildContext context1, double coinVal, String place) async {
+Future<dynamic> doPayment(RPayOptions options, BuildContext context, BuildContext context1, double coinVal, String place, {double discount=0}) async {
 
 	var razorPay = new Razorpay();
 
@@ -61,7 +61,8 @@ Future<dynamic> doPayment(RPayOptions options, BuildContext context, BuildContex
 		await Firestore.instance.collection('orders').document().setData({
 			'items': Provider.of<CartItem>(context).process,
 			'paymentId': response.paymentId,
-			'price': Provider.of<CartItem>(context).totalPrice,
+			'price': options.amount / 100,
+			'discount': place == 'Cart' ? Provider.of<CartItem>(context).totalPrice - options.amount / 100 : discount,
 			'uid': uid,
 			'orderId': jsonDecode(reponse.body)['id'],
 			'status': 'ordered',

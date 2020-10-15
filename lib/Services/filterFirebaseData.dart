@@ -173,7 +173,9 @@ bool order() {
               element.data['paymentId'] ?? 'COD',
               element.data['uid'],
               element.data['ordered_on'].toString(),
-              element.data['status']));
+              element.data['status'],
+              element.data['discount'] ?? 40
+          ));
         });
       }
       return true;

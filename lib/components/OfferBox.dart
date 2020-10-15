@@ -27,7 +27,7 @@ class OfferBox extends StatelessWidget {
 			onTap: () {
 				Clipboard.setData(new ClipboardData(text: code));
 				Fluttertoast.showToast(
-					msg: 'Coupon code \'${code}\', copied to your clipbosrd',
+					msg: 'Coupon code \'${code}\', copied to your clipboard',
 					toastLength: Toast.LENGTH_LONG,
 					gravity: ToastGravity.TOP,
 					backgroundColor: Colors.green

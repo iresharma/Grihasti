@@ -175,6 +175,14 @@ class OrdersBox extends StatelessWidget {
                                         fontSize: ScreenUtil().setSp(12)
                                     ),
                                   ),
+                                  Text(
+                                    '₹ -${order.discount}',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: ScreenUtil().setSp(12),
+                                        color: Colors.green
+                                    ),
+                                  ),
                                 ]
                             )
                           ],

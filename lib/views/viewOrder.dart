@@ -210,7 +210,7 @@ class viewOrder extends StatelessWidget {
 											]
 										),
 									),
-									Divider(thickness: 2, height: 16,),
+									Divider(thickness: 2, height: 10,),
 									RichText(
 										text: TextSpan(
 											children: <TextSpan>[
@@ -218,7 +218,7 @@ class viewOrder extends StatelessWidget {
 													text: 'Number of items: ${order.items.length.toString()}',
 													style: TextStyle(
 														color: Colors.black,
-														fontSize: ScreenUtil().setSp(10)
+														fontSize: ScreenUtil().setSp(13)
 													)
 												)
 											]
@@ -231,7 +231,7 @@ class viewOrder extends StatelessWidget {
 													text: 'Payment mode: ${order.paymentId == 'COD' ? 'COD' : 'Online (' + order.paymentId + ')'}',
 													style: TextStyle(
 														color: Colors.black,
-														fontSize: ScreenUtil().setSp(10)
+														fontSize: ScreenUtil().setSp(13)
 													)
 												)
 											]
@@ -244,7 +244,7 @@ class viewOrder extends StatelessWidget {
 													text: 'Amount: ${order.price}',
 													style: TextStyle(
 														color: Colors.black,
-														fontSize: ScreenUtil().setSp(10)
+														fontSize: ScreenUtil().setSp(13)
 													)
 												)
 											]
@@ -272,8 +272,12 @@ class viewOrder extends StatelessWidget {
 								itemBuilder: (context, index) {
 									if(index == order.items.length + 1) return Container(
 										padding: EdgeInsets.all(15),
-										child: RaisedButton(
-											child: Text('Order Again', style: TextStyle(color: Colors.white),),
+										child: FlatButton.icon(
+											icon: Icon(FlutterIcons.shopping_cart_fea, color: Colors.white),
+											label: Text('Order Again', style: TextStyle(color: Colors.white),),
+											shape: RoundedRectangleBorder(
+													borderRadius: BorderRadius.circular(10)
+											),
 											onPressed: () {
 												if(Provider.of<CartItem>(context).len == 0) {
 													order.items.forEach((element) {
@@ -286,7 +290,7 @@ class viewOrder extends StatelessWidget {
 																elevation: 10,
 																title: Text(
 																	'Cart already has items',
-																	style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+																	style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
 																),
 																content: Text(
 																		'The already has ${Provider.of<CartItem>(context).len} item(s)'
@@ -332,14 +336,18 @@ class viewOrder extends StatelessWidget {
 									);
 									else if(index == order.items.length + 2) return Container(
 										padding: EdgeInsets.all(15),
-										child: RaisedButton(
-												child: Text('Return/Refund', style: TextStyle(color: Colors.white),),
+										child: FlatButton.icon(
+												icon: Icon(FlutterIcons.assignment_return_mdi, color: Colors.white,),
+												label: Text('Return/Refund', style: TextStyle(color: Colors.white),),
 												onPressed: () => Navigator.of(context).push(MaterialPageRoute(
 													builder: (_) => RefunPage(
 														order: order,
 													)
 												)),
-												color: Colors.blueAccent
+												color: Colors.blueAccent,
+												shape: RoundedRectangleBorder(
+													borderRadius: BorderRadius.circular(10)
+												),
 										),
 									);
 									else if(index == 0) return Container(
