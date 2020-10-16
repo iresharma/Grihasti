@@ -4,6 +4,7 @@ import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
 import 'package:customerappgrihasti/models/Order.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_badged/flutter_badge.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:path/path.dart' as path;
 
 class RefunPage extends StatefulWidget {
 
@@ -30,10 +32,14 @@ class _RefunPageState extends State<RefunPage> {
   String explain = '';
   final picker = ImagePicker();
   List<File> images = [];
+  final GlobalKey<ScaffoldState> _key = new GlobalKey<ScaffoldState>();
+
+  final FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://grihasti-nirmal.appspot.com/');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
       backgroundColor: Colors.white,
       appBar: PreferredSize(
           child: Builder(
@@ -212,7 +218,7 @@ class _RefunPageState extends State<RefunPage> {
                     ),
                   ),
                   Container(
-                    height: images.length > 3 ? (150.0 * (images.length/3).floor()) + 150 : 150,
+                    height: images.length + 1 > 3 ? (150.0 * ((images.length + 1)/3).floor()) + 150 : 150,
                     child: GridView.builder(
                         padding: EdgeInsets.all(15),
                         physics: NeverScrollableScrollPhysics(),
@@ -300,7 +306,35 @@ class _RefunPageState extends State<RefunPage> {
                               ),
                             ),
                           );
-                          else return Image.file(images[index - 1]);
+                          else return CupertinoContextMenu(
+                              actions: <CupertinoContextMenuAction>[
+                                CupertinoContextMenuAction(
+                                  child: Row(
+                                    children: [
+                                      Icon(FlutterIcons.crop_fea),
+                                      SizedBox(width: ScreenUtil().setSp(15),),
+                                      Text('Crop')
+                                    ],
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                  ),
+                                ),
+                                CupertinoContextMenuAction(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(FlutterIcons.delete_fea, color: Colors.red,),
+                                      SizedBox(width: ScreenUtil().setSp(15),),
+                                      Text('Remove', style: TextStyle(color: Colors.red),)
+                                    ],
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    setState(() => images.removeAt(index - 1));
+                                  },
+                                )
+                              ],
+                              child: Image.file(images[index - 1])
+                          );
                         }
                     ),
                   ),
@@ -310,7 +344,7 @@ class _RefunPageState extends State<RefunPage> {
                       ),
                       color: Colors.green,
                       textColor: Colors.white,
-                      onPressed: () => print('requested'),
+                      onPressed: () => upload(),
                       icon: Icon(FlutterIcons.assignment_return_mdi, color: Colors.white,),
                       label: Text('Send request')
                   )
@@ -322,5 +356,31 @@ class _RefunPageState extends State<RefunPage> {
       )
     );
   }
+
+  Future<void> upload() async {
+    if(images.length == 0) {
+      _key.currentState.showSnackBar(SnackBar(
+        content: Text('Upload images of products'),
+      ));
+    } else {
+      final List<StorageReference> ref = List.generate(
+          images.length,
+              (index) => _storage.ref().child('refunds').child('${widget.order.id}').child(path.basename(images[index].path))
+      );
+      print('list made');
+      List<StorageUploadTask> uploads = [];
+      int ind = 0;
+      for(StorageReference i in ref){
+        print('Creating task $ind');
+        uploads.add(
+            i.putFile(images[ind])
+        );
+        ind ++;
+      }
+      print('task started');
+      print(uploads[0].lastSnapshot.bytesTransferred);
+    }
+  }
+
 }
 
