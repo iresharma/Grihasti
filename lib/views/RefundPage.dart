@@ -243,64 +243,12 @@ class _RefunPageState extends State<RefunPage> {
                               dashPattern: [6, 4],
                               borderType: BorderType.RRect,
                               child: GestureDetector(
-                                onTap: () => showCupertinoModalPopup(context: context, builder: (_) => CupertinoActionSheet(
-                                  actions: [
-                                    CupertinoActionSheetAction(
-                                      child: Row(
-                                        children: [
-                                          Icon(CupertinoIcons.photo_camera),
-                                          Text('Capture Photo')
-                                        ],
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                      ),
-                                      onPressed: () async {
-                                        final pickedFile = await picker.getImage(source: ImageSource.camera);
-                                        if(pickedFile != null) {
-                                          setState(() {
-                                            images.add(File(pickedFile.path));
-                                          });
-                                        } else {
-                                          Fluttertoast.showToast(msg: 'No photo Selected');
-                                        }
-                                      },
-                                    ),
-                                    CupertinoActionSheetAction(
-                                      child: Row(
-                                        children: [
-                                          Icon(CupertinoIcons.collections),
-                                          Text('Select Photo')
-                                        ],
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                      ),
-                                      onPressed: ()  async {
-                                        final pickedFile = await picker.getImage(source: ImageSource.gallery);
-                                        if(pickedFile != null) {
-                                          setState(() {
-                                            images.add(File(pickedFile.path));
-                                          });
-                                        } else {
-                                          Fluttertoast.showToast(msg: 'No photo Selected');
-                                        }
-                                      },
-                                    )
-                                  ],
-                                  cancelButton: CupertinoActionSheetAction(
-                                    child: Text(
-                                      'Cancel',
-                                      style: TextStyle(
-                                          color: Colors.red
-                                      ),
-                                    ),
-                                    onPressed: () => Navigator.of(context).pop(),
-                                  ),
-                                )),
+                                onTap: () => showAction(),
                                 child: Container(
                                   height: 150,
                                   color: Colors.transparent,
                                   child: Center(
-                                    child: Icon(FlutterIcons.camera_faw, color: Colors.grey.shade600, size: ScreenUtil().setSp(30),),
+                                    child: Icon(FlutterIcons.camera_fea, color: Colors.grey.shade600, size: ScreenUtil().setSp(30),),
                                   ),
                                 ),
                               ),
@@ -338,6 +286,21 @@ class _RefunPageState extends State<RefunPage> {
                         }
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Row(
+                      children: [
+                        Icon(FlutterIcons.info_fea, size: 15,),
+                        SizedBox(width: 10,),
+                        Text(
+                            'Long press on the images to see more options',
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(10)
+                            ),
+                        )
+                      ],
+                    ),
+                  ),
                   FlatButton.icon(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)
@@ -355,6 +318,68 @@ class _RefunPageState extends State<RefunPage> {
         ),
       )
     );
+  }
+
+  VoidCallback showAction() {
+    showCupertinoModalPopup(context: context, builder: (_) => CupertinoActionSheet(
+      actions: [
+        CupertinoActionSheetAction(
+          child: Center(
+            child: Row(
+              children: [
+                Icon(CupertinoIcons.photo_camera),
+                SizedBox(width: 10,),
+                Text('Capture Photo')
+              ],
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+            ),
+          ),
+          onPressed: () async {
+            final pickedFile = await picker.getImage(source: ImageSource.camera);
+            if(pickedFile != null) {
+              setState(() {
+                images.add(File(pickedFile.path));
+              });
+            } else {
+              Fluttertoast.showToast(msg: 'No photo Selected');
+            }
+          },
+        ),
+        CupertinoActionSheetAction(
+          child: Center(
+            child: Row(
+              children: [
+                Icon(CupertinoIcons.collections),
+                SizedBox(width: 10,),
+                Text('Select Photo')
+              ],
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+            ),
+          ),
+          onPressed: ()  async {
+            final pickedFile = await picker.getImage(source: ImageSource.gallery);
+            if(pickedFile != null) {
+              setState(() {
+                images.add(File(pickedFile.path));
+              });
+            } else {
+              Fluttertoast.showToast(msg: 'No photo Selected');
+            }
+          },
+        )
+      ],
+      cancelButton: CupertinoActionSheetAction(
+        child: Text(
+          'Cancel',
+          style: TextStyle(
+              color: Colors.red
+          ),
+        ),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+    ));
   }
 
   Future<void> upload() async {

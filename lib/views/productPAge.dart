@@ -715,6 +715,7 @@ class _ProductPageState extends State<ProductPage> with AfterLayoutMixin<Product
               Container(
                 height: ScreenUtil.defaultHeight/11 * list.length + 100,
                 child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: list.length + 1,
                     itemBuilder: (context, index) {
                       if(index == list.length) return Container(

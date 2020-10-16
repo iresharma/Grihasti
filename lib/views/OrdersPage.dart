@@ -26,6 +26,68 @@ class _OrdersPageState extends State<OrdersPage> {
     filtered = [];
   }
 
+  VoidCallback showAction() {
+    showCupertinoModalPopup(
+        context: context,
+        builder: (_) => CupertinoActionSheet(
+          actions: [
+            CupertinoActionSheetAction(
+              child: Text(
+                'Delivered',
+                style: TextStyle(
+                    color: Colors.green
+                ),
+              ),
+              onPressed: () {
+                setState(() => filter = true);
+                filterOrders('delivered');
+              },
+            ),
+            CupertinoActionSheetAction(
+              child: Text(
+                'Ordered',
+                style: TextStyle(
+                    color: Colors.blue
+                ),
+              ),
+              onPressed: () {
+                setState(() => filter = true);
+                filterOrders('ordered');
+              },
+            ),
+            CupertinoActionSheetAction(
+              child: Text(
+                'Canceled',
+                style: TextStyle(
+                    color: Colors.deepOrangeAccent
+                ),
+              ),
+              onPressed: () {
+                setState(() => filter = true);
+                filterOrders('canceled');
+              },
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                  color: Colors.red
+              ),
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        )
+    );
+  }
+
+  void filterOrders(String state) {
+    setState(() {
+      filtered = orders.where((element) => element.status == state).toList();
+    });
+    print(filtered);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +96,7 @@ class _OrdersPageState extends State<OrdersPage> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: orders.length == 0
-            ? Center(
+            ? Center( // No orders logic is here
               child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,51 +162,9 @@ class _OrdersPageState extends State<OrdersPage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)
                       ),
-                      onPressed: () => showCupertinoModalPopup(
-                          context: context,
-                          builder: (_) => CupertinoActionSheet(
-                            actions: [
-                              CupertinoActionSheetAction(
-                                child: Text(
-                                  'Delivered',
-                                  style: TextStyle(
-                                      color: Colors.green
-                                  ),
-                                ),
-                                onPressed: () => print('hi'),
-                              ),
-                              CupertinoActionSheetAction(
-                                child: Text(
-                                  'Active',
-                                  style: TextStyle(
-                                      color: Colors.blue
-                                  ),
-                                ),
-                                onPressed: () => print('hi'),
-                              ),
-                              CupertinoActionSheetAction(
-                                child: Text(
-                                  'Placed',
-                                  style: TextStyle(
-                                      color: Colors.deepOrangeAccent
-                                  ),
-                                ),
-                                onPressed: () => print('hi'),
-                              ),
-                            ],
-                            cancelButton: CupertinoActionSheetAction(
-                              child: Text(
-                                'Cancel',
-                                style: TextStyle(
-                                    color: Colors.red
-                                ),
-                              ),
-                              onPressed: () => Navigator.of(context).pop(),
-                            ),
-                          )
-                      ),
+                      onPressed: () => showAction(),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -166,56 +186,14 @@ class _OrdersPageState extends State<OrdersPage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 ),
-                onPressed: () => showCupertinoModalPopup(
-                    context: context,
-                    builder: (_) => CupertinoActionSheet(
-                      actions: [
-                        CupertinoActionSheetAction(
-                          child: Text(
-                            'Delivered',
-                            style: TextStyle(
-                                color: Colors.green
-                            ),
-                          ),
-                          onPressed: () => setState(() => filter = true),
-                        ),
-                        CupertinoActionSheetAction(
-                          child: Text(
-                            'Active',
-                            style: TextStyle(
-                                color: Colors.blue
-                            ),
-                          ),
-                          onPressed: () => print('hi'),
-                        ),
-                        CupertinoActionSheetAction(
-                          child: Text(
-                            'Placed',
-                            style: TextStyle(
-                                color: Colors.deepOrangeAccent
-                            ),
-                          ),
-                          onPressed: () => print('hi'),
-                        ),
-                      ],
-                      cancelButton: CupertinoActionSheetAction(
-                        child: Text(
-                          'Cancel',
-                          style: TextStyle(
-                              color: Colors.red
-                          ),
-                        ),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                    )
-                ),
+                onPressed: () => showAction(),
               ),
             ),
           ) : Container(
             margin:
             EdgeInsets.only(top: 5, bottom: 0),
             child: OrdersBox(
-              order: orders[index - 1],
+              order: filter ? filtered[index - 1 ] : orders[index - 1],
             ),
           ),
           separatorBuilder: (context, index) {
