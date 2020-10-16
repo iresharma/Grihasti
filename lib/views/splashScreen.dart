@@ -129,56 +129,70 @@ class _SplashState extends State<Splash> {
 
 		ScreenUtil.init(context, height: 712, width: 360, allowFontScaling: false);
 	  return Scaffold(
-		  backgroundColor: primaryMain,
-		  body: Center(
-			  child: Column(
-				  mainAxisAlignment: MainAxisAlignment.center,
-				  mainAxisSize: MainAxisSize.max,
-				  children: <Widget>[
-					  Row(
-						  crossAxisAlignment: CrossAxisAlignment.start,
-						  mainAxisAlignment: MainAxisAlignment.center,
-						  children: <Widget>[
-							  Text(
-								  'G',
-								  style: TextStyle(
-									  color: secondaryMain,
-									  fontSize: MediaQuery.of(context).size.width * 0.3,
-									  fontWeight: FontWeight.w400,
-									  fontFamily: 'Calli2'
-								  )
-							  ),
-							  Text(
-								  'rihasti',
-								  style: TextStyle(
-									  color: secondaryMain,
-									  fontSize: MediaQuery.of(context).size.width * 0.2,
-									  fontWeight: FontWeight.w400,
-									  fontFamily: 'Calli'
-								  )
-							  )
-						  ],
+		  body: Stack(
+				fit: StackFit.expand,
+				children: [
+					Image.asset(
+							'assets/images/SplashBack.jpg',
+							fit: BoxFit.cover,
+					),
+					Transform.translate(
+						offset: Offset(0, ScreenUtil().setSp(150)),
+					  child: Container(
+							padding: EdgeInsets.all(15),
+					    child: Center(
+					    	child: Column(
+					    		mainAxisAlignment: MainAxisAlignment.center,
+					    		mainAxisSize: MainAxisSize.max,
+					    		children: <Widget>[
+					    			Row(
+					    				crossAxisAlignment: CrossAxisAlignment.start,
+					    				mainAxisAlignment: MainAxisAlignment.center,
+					    				children: <Widget>[
+					    					Text(
+					    							'G',
+					    							style: TextStyle(
+					    									color: secondaryMain,
+					    									fontSize: MediaQuery.of(context).size.width * 0.3,
+					    									fontWeight: FontWeight.w400,
+					    									fontFamily: 'Calli2'
+					    							)
+					    					),
+					    					Text(
+					    							'rihasti',
+					    							style: TextStyle(
+					    									color: secondaryMain,
+					    									fontSize: MediaQuery.of(context).size.width * 0.2,
+					    									fontWeight: FontWeight.w400,
+					    									fontFamily: 'Calli'
+					    							)
+					    					)
+					    				],
+					    			),
+					    			Text(
+					    				'आपका सामान, आपकी दुकान',
+					    				style: TextStyle(
+					    					color: primaryMain,
+					    					fontSize: 25.0,
+					    					fontStyle: FontStyle.italic,
+					    					fontFamily: 'Raleway',
+					    				),
+					    				textAlign: TextAlign.right,
+					    			),
+					    			Padding(
+					    				padding: EdgeInsets.only(top: 20),
+					    				child: ColorLoader(
+					    					colors: colors,
+					    					duration: Duration(milliseconds: 500),
+					    				),
+					    			)
+					    		],
+					    	),
+					    ),
 					  ),
-					  Text(
-						  'आपका सामान, आपकी दुकान',
-						  style: TextStyle(
-							  color: secondarySec,
-							  fontSize: 25.0,
-							  fontStyle: FontStyle.italic,
-							  fontFamily: 'Raleway',
-						  ),
-						  textAlign: TextAlign.right,
-					  ),
-					  Padding(
-						  padding: EdgeInsets.only(top: 20),
-						  child: ColorLoader(
-							  colors: colors,
-							  duration: Duration(milliseconds: 500),
-						  ),
-					  )
-				  ],
-			  ),
-		  ),
+					)
+				],
+			),
 	  );
   }
 }

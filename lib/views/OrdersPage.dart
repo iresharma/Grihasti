@@ -39,6 +39,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 ),
               ),
               onPressed: () {
+                Navigator.of(context).pop();
                 setState(() => filter = true);
                 filterOrders('delivered');
               },
@@ -51,6 +52,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 ),
               ),
               onPressed: () {
+                Navigator.of(context).pop();
                 setState(() => filter = true);
                 filterOrders('ordered');
               },
@@ -63,6 +65,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 ),
               ),
               onPressed: () {
+                Navigator.of(context).pop();
                 setState(() => filter = true);
                 filterOrders('canceled');
               },

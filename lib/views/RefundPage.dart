@@ -397,13 +397,11 @@ class _RefunPageState extends State<RefunPage> {
       int ind = 0;
       for(StorageReference i in ref){
         print('Creating task $ind');
-        uploads.add(
-            i.putFile(images[ind])
-        );
+        var temp = i.putFile(images[ind]);
+        await temp.onComplete;
         ind ++;
       }
-      print('task started');
-      print(uploads[0].lastSnapshot.bytesTransferred);
+      print('task ended');
     }
   }
 

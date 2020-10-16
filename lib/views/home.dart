@@ -115,7 +115,7 @@ class _HOmeState extends State<HOme> {
                         },
                       ),
                     ),
-                    if (orders.length != 0) ...{
+                    if (orders.where((element) => element.status == 'ordered').toList().length != 0) ...{
                       FeelingBox(
                         text: 'Happiness is on it\'s way',
                         asset: 'assets/svg/deliver.svg',
