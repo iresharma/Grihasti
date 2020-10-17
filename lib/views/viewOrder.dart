@@ -254,14 +254,15 @@ class viewOrder extends StatelessWidget {
 							)
 						),
 						Container(
-							height: MediaQuery.of(context).size.height/3,
+							height: ScreenUtil().setSp(300),
 							padding: EdgeInsets.only(
 								left: 25
 							),
 							child: Timeline(children: items, position: TimelinePosition.Left,),
 						),
+						Divider(),
 						Container(
-							color: Colors.grey.shade200,
+							color: Colors.white,
 							padding: EdgeInsets.only(
 								top: 10
 							),
@@ -271,6 +272,7 @@ class viewOrder extends StatelessWidget {
 								itemCount: order.items.length + 3,
 								itemBuilder: (context, index) {
 									if(index == order.items.length + 1) return Container(
+										color: Colors.grey.shade200,
 										padding: EdgeInsets.all(15),
 										child: FlatButton.icon(
 											icon: Icon(FlutterIcons.shopping_cart_fea, color: Colors.white),
@@ -336,6 +338,7 @@ class viewOrder extends StatelessWidget {
 									);
 									else if(index == order.items.length + 2) return Container(
 										padding: EdgeInsets.all(15),
+										color: Colors.grey.shade200,
 										child: FlatButton.icon(
 												icon: Icon(FlutterIcons.assignment_return_mdi, color: Colors.white,),
 												label: Text('Return/Refund', style: TextStyle(color: Colors.white),),

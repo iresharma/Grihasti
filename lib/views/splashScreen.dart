@@ -137,7 +137,7 @@ class _SplashState extends State<Splash> {
 							fit: BoxFit.cover,
 					),
 					Transform.translate(
-						offset: Offset(0, ScreenUtil().setSp(150)),
+						offset: Offset(0, ScreenUtil().setSp(200)),
 					  child: Container(
 							padding: EdgeInsets.all(15),
 					    child: Center(
