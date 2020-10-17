@@ -25,7 +25,6 @@ class _CategoryBoxState extends State<CategoryBox> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     animate = false;
     height = 0;
@@ -67,7 +66,7 @@ class _CategoryBoxState extends State<CategoryBox> {
                 ),
             ),
             hasIcon: true,
-            collapsed: Text('Click to view all subcategories'),
+            collapsed: Text('Click to view all ${docs.length} subcategories'),
             expanded: Container(
               height: docs.length > 1 ? (docs.length/3 - 1).round() * 190.0 : 190,
               child: GridView.builder(
