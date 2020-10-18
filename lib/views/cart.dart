@@ -3,6 +3,7 @@ import 'package:customerappgrihasti/Services/freebaseCloudMessaging.dart';
 import 'package:customerappgrihasti/Services/globalVariables.dart';
 import 'package:customerappgrihasti/Services/razorPay.dart';
 import 'package:customerappgrihasti/components/CartProduct.dart';
+import 'package:customerappgrihasti/components/appBar.dart';
 import 'package:customerappgrihasti/models/Cart.dart';
 import 'package:customerappgrihasti/models/Offers.dart';
 import 'package:customerappgrihasti/models/User.dart';
@@ -317,71 +318,7 @@ class _CartPageState extends State<CartPage> {
     double coinVal = Activeuser.coins > 0 ? (Provider.of<CartItem>(context).totalPrice * 0.2 >= Activeuser.coins ? double.parse(Activeuser.coins.toString()) : Provider.of<CartItem>(context).totalPrice * 0.2) : 0;
     return Scaffold(
         backgroundColor: Colors.grey.shade200,
-        appBar: PreferredSize(
-            child: AppBar(
-              backgroundColor: Colors.transparent,
-              leading: Hero(
-                child: IconButton(
-                  icon: Icon(
-                    FlutterIcons.ios_arrow_back_ion,
-                    color: Colors.black38,
-                  ),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                tag: 'Drawer',
-              ),
-              elevation: 0,
-              flexibleSpace: SafeArea(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('G',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: MediaQuery.of(context).size.width * 0.15,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'Calli2',
-                        )),
-                    Text('rihasti',
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: MediaQuery.of(context).size.width * 0.13,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Calli'))
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                Hero(
-                  child: IconButton(
-                    icon: Icon(
-                      FlutterIcons.search1_ant,
-                      color: Colors.black38,
-                    ),
-                    onPressed: () => print('search'),
-                  ),
-                  tag: 'Search',
-                ),
-                Hero(
-                  child: IconButton(
-                    icon: FlutterBadge(
-                      itemCount: Provider.of<CartItem>(context).len,
-                      badgeColor: Colors.greenAccent,
-                      icon: Icon(
-                        FlutterIcons.cart_evi,
-                        size: 35,
-                        color: Colors.black38,
-                      ),
-                      badgeTextColor: Colors.black38,
-                      contentPadding: EdgeInsets.all(7),
-                    ),
-                  ),
-                  tag: 'Cart',
-                )
-              ],
-            ),
-            preferredSize: Size.fromHeight(80.0)),
+        appBar: CustAppBar(),
         body: Builder(
           builder: (context) => Provider.of<CartItem>(context).len == 0
               ? Container(

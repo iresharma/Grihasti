@@ -152,7 +152,7 @@ class _SplashState extends State<Splash> {
 					    					Text(
 					    							'G',
 					    							style: TextStyle(
-					    									color: secondaryMain,
+					    									color: Colors.black,
 					    									fontSize: MediaQuery.of(context).size.width * 0.3,
 					    									fontWeight: FontWeight.w400,
 					    									fontFamily: 'Calli2'
