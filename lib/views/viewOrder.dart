@@ -189,7 +189,7 @@ class viewOrder extends StatelessWidget {
 							)
 						),
 						Container(
-							height: ScreenUtil().setSp(300),
+							height: ScreenUtil().setSp(260),
 							padding: EdgeInsets.only(
 								left: 25
 							),

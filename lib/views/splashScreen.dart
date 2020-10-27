@@ -161,7 +161,7 @@ class _SplashState extends State<Splash> {
 					    					Text(
 					    							'rihasti',
 					    							style: TextStyle(
-					    									color: secondaryMain,
+					    									color: Colors.black,
 					    									fontSize: MediaQuery.of(context).size.width * 0.2,
 					    									fontWeight: FontWeight.w400,
 					    									fontFamily: 'Calli'

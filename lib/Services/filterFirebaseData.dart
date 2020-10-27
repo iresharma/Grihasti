@@ -205,7 +205,7 @@ void searchFire(context) {
               name: element.data['name'],
               id: element.data['id'],
               type: element.data['type'],
-              categoryId: element.data['categoryId'] ?? '',
+              categoryId: element.data['type'] == 'category' ? element.data['id'] : element.data['categoryId'],
           ));
         });
       }

@@ -42,7 +42,14 @@ class _SearchResultState extends State<SearchResult> with AfterLayoutMixin<Searc
     });
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   void lazyCallback(DocumentSnapshot last) {
+    print('======LAZYCALLED========');
     Firestore.instance.collection('products').where('categoryId', isEqualTo: item.id).startAfterDocument(last).limit(30).getDocuments().then((value) {
       if (value.documents.length != 0) {
         List<DocumentSnapshot> stream = value.documents;
