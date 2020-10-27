@@ -11,41 +11,38 @@ import 'models/Search.dart';
 FirebaseAnalytics analytics;
 
 void main() => runApp(ChangeNotifierProvider(
-	builder: (context) => CartItem(),
-	child: GrihastiApp(),
-));
+      builder: (context) => CartItem(),
+      child: GrihastiApp(),
+    ));
 
 class GrihastiApp extends StatefulWidget {
-	@override
-	_GrihastiAppState createState() => _GrihastiAppState();
+  @override
+  _GrihastiAppState createState() => _GrihastiAppState();
 }
 
 class _GrihastiAppState extends State<GrihastiApp> {
-
-	@override
-	Widget build(BuildContext context) {
-		return LifeCycleManager(
-			cart: Provider.of<CartItem>(context).process,
-			child: ChangeNotifierProvider(
-				builder: (context) => Search(),
-				child: MaterialApp(
-					title: 'Grihasti',
-					initialRoute: '/',
-					routes: Router(),
-					theme: ThemeData(
-							brightness: Brightness.light,
-							primaryColor: Color(0xFFFF3F47),
-							accentColor: Colors.redAccent,
-							canvasColor: Colors.transparent
-					),
-					darkTheme: ThemeData(
-							brightness: Brightness.light,
-							primaryColor: Color(0xFFFF3F47),
-							accentColor: Colors.redAccent,
-							canvasColor: Colors.transparent
-					),
-				),
-			),
-		);
-	}
+  @override
+  Widget build(BuildContext context) {
+    return LifeCycleManager(
+      cart: Provider.of<CartItem>(context).process,
+      child: ChangeNotifierProvider(
+        builder: (context) => Search(),
+        child: MaterialApp(
+          title: 'Grihasti',
+          initialRoute: '/',
+          routes: Router(),
+          theme: ThemeData(
+              brightness: Brightness.light,
+              primaryColor: Color(0xFFFF3F47),
+              accentColor: Colors.redAccent,
+              canvasColor: Colors.transparent),
+          darkTheme: ThemeData(
+              brightness: Brightness.light,
+              primaryColor: Color(0xFFFF3F47),
+              accentColor: Colors.redAccent,
+              canvasColor: Colors.transparent),
+        ),
+      ),
+    );
+  }
 }
