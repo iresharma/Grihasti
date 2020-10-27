@@ -25,22 +25,75 @@ class _SearchResultState extends State<SearchResult> with AfterLayoutMixin<Searc
   Products product;
   bool loading;
   bool error;
+  DocumentSnapshot last;
+  SearchItem item;
+
+  ScrollController _scrollController = new ScrollController();
 
   @override
   void initState() {
     super.initState();
     loading = true;
     error = false;
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        lazyCallback(last);
+      }
+    });
   }
+
+  void lazyCallback(DocumentSnapshot last) {
+    Firestore.instance.collection('products').where('categoryId', isEqualTo: item.id).startAfterDocument(last).limit(30).getDocuments().then((value) {
+      if (value.documents.length != 0) {
+        List<DocumentSnapshot> stream = value.documents;
+        List<Products> temp = [];
+        setState(() {
+          last = stream[stream.length - 1];
+        });
+        List<int> prices = [];
+        List<String> variety = [];
+        stream.forEach((element) {
+          prices = [];
+          variety = [];
+          element.data['Variety'].forEach((variey) {
+            prices.add(variey['price']);
+            variety.add(variey['name']);
+          });
+          temp.add(Products(
+              id: element.documentID,
+              Name: element.data['Name'],
+              desc: element.data['desc'],
+              thumb: element.data['thumb'],
+              price: prices,
+              pictures: element.data['Pic'],
+              hash: element.data['Hash'],
+              category: element.data['categoryParent'],
+              variety: variety,
+              SubCategory: element.data['categoryId']));
+        });
+        print('===============');
+        print(temp);
+        setState(() {
+          list.addAll(temp);
+          loading = false;
+        });
+      }
+    });
+  }
+
   @override
   void afterFirstLayout(BuildContext context) {
-    SearchItem item = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      item = ModalRoute.of(context).settings.arguments;
+    });
     if(item.type == 'category') {
       Firestore.instance.collection('products').where('categoryId', isEqualTo: item.id).limit(30).getDocuments().then((value) {
         if(value.documents.length != 0) {
           List<DocumentSnapshot> stream = value.documents;
           List<Products> temp = [];
-
+          setState(() {
+            last = stream[stream.length - 1];
+          });
           List<int> prices = [];
           List<String> variety = [];
           stream.forEach((element) {
@@ -108,7 +161,9 @@ class _SearchResultState extends State<SearchResult> with AfterLayoutMixin<Searc
         if(value.documents.length != 0) {
           List<DocumentSnapshot> stream = value.documents;
           List<Products> temp = [];
-
+          setState(() {
+            last = stream[stream.length - 1];
+          });
           List<int> prices = [];
           List<String> variety = [];
           stream.forEach((element) {
@@ -266,6 +321,7 @@ class _SearchResultState extends State<SearchResult> with AfterLayoutMixin<Searc
           backgroundColor: Colors.grey.shade200,
           appBar: CustAppBar(),
           body: ListView.builder(
+            controller: _scrollController,
             itemCount: list.length,
             itemBuilder: (context, index) {
               return ProductCard(
@@ -280,6 +336,7 @@ class _SearchResultState extends State<SearchResult> with AfterLayoutMixin<Searc
           backgroundColor: Colors.grey.shade200,
           appBar: CustAppBar(),
           body: ListView.builder(
+            controller: _scrollController,
             itemCount: list.length + 1,
             itemBuilder: (context, index) {
               if(index == 0) {

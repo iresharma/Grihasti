@@ -4,6 +4,7 @@ import 'package:customerappgrihasti/views/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -143,14 +144,19 @@ class ProfilePage extends StatelessWidget {
 									onTap: () => showSupport(context),
                 ),
                 Divider(),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: FlatButton(
-                      child: Text('Developed with ♥️ by iresharma and team'),
-                      onPressed: () => launch('https://iresharma.me'),
+                SizedBox(
+                  height: 30,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: FlatButton(
+                    child: Text(
+                      'Developed with ♥️ by iresharma and team',
+                      style: TextStyle(
+                          fontSize: ScreenUtil().setSp(10)
+                      ),
                     ),
+                    onPressed: () => launch('https://iresharma.me'),
                   ),
                 )
               ],

@@ -70,6 +70,7 @@ class _CategoryBoxState extends State<CategoryBox> {
             expanded: Container(
               height: docs.length > 1 ? (docs.length/3 - 1).round() * 190.0 : 190,
               child: GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 10,
@@ -87,7 +88,7 @@ class _CategoryBoxState extends State<CategoryBox> {
                             height: ScreenUtil().setSp(60),
                             child: Image.network(docs[index].data['icon']),
                           ),
-                          SizedBox(height: 20,),
+                          SizedBox(height: 10,),
                           Text(
                               docs[index].data['name'],
                               overflow: TextOverflow.ellipsis,

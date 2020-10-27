@@ -2,6 +2,7 @@ import 'package:customerappgrihasti/models/Cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_badged/flutter_badge.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class CustAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -28,15 +29,14 @@ class CustAppBar extends StatelessWidget with PreferredSizeWidget {
             Text('G',
                 style: TextStyle(
                   color: Colors.black54,
-                  fontSize: MediaQuery.of(context).size.width * 0.15,
+                  fontSize: ScreenUtil().setSp(60),
                   fontWeight: FontWeight.w400,
                   fontFamily: 'Calli2',
                 )),
             Text('rihasti',
                 style: TextStyle(
                     color: Colors.black54,
-                    fontSize:
-                    MediaQuery.of(context).size.width * 0.13,
+                    fontSize: ScreenUtil().setSp(40),
                     fontWeight: FontWeight.w400,
                     fontFamily: 'Calli'))
           ],
@@ -75,5 +75,5 @@ class CustAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(100);
+  Size get preferredSize => Size.fromHeight(ScreenUtil().setSp(65));
 }

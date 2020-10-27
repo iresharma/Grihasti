@@ -64,7 +64,7 @@ class _SplashState extends State<Splash> {
 							else {
 								Firestore.instance.collection('users').document(value.uid).get()
 									.then((user) {
-									print(user.data['Name']);
+									print(user.data);
 									if(user.data['Name'] != null) {
 										Activeuser.Uid = value.uid;
 										order();

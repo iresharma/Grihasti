@@ -189,6 +189,10 @@ class CarouselState extends State<Carousel> {
             child: widget.overlayShadow
                 ? Container(
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(50),
+                    bottomRight: Radius.circular(50)
+                ),
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.center,
@@ -210,11 +214,10 @@ class CarouselState extends State<Carousel> {
           );
         } else if (netImage is FadeInImage) {
           return ClipRRect(
-            borderRadius: widget.borderRadius
-                ? BorderRadius.all(widget.radius != null
-                ? widget.radius
-                : Radius.circular(8.0))
-                : null,
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(50),
+                bottomRight: Radius.circular(50)
+            ),
             child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -242,11 +245,10 @@ class CarouselState extends State<Carousel> {
       widget.defaultImage is ImageProvider
           ? Container(
         decoration: BoxDecoration(
-          borderRadius: widget.borderRadius
-              ? BorderRadius.all(widget.radius != null
-              ? widget.radius
-              : Radius.circular(8.0))
-              : null,
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(50),
+              bottomRight: Radius.circular(50)
+          ),
           image: DecorationImage(
             //colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
             image: widget.defaultImage,

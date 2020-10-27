@@ -256,7 +256,7 @@ class _ProductCardState extends State<ProductCard> {
 															style: TextStyle(
 																color: primaryMain,
 																fontSize: MediaQuery.of(context).textScaleFactor * 27,
-																fontWeight: FontWeight.w300
+																fontWeight: FontWeight.w400
 															),
 															textAlign: TextAlign.center,
 														),
