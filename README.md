@@ -54,6 +54,7 @@ It's a freelance project, Flutter app with firebase backend. I am bad at writing
 ### Profile Page
 
 <img src="./readMeFiles/ProfilePage.jpg" height="400px">
+
 ## For more info
 
 #### Insta video coming soon
