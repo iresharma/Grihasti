@@ -54,3 +54,16 @@ It's a freelance project, Flutter app with firebase backend. I am bad at writing
 ### Profile Page
 
 <img src="./readMeFiles/ProfilePage.jpg" height="400px">
+## For more info
+
+#### Insta video coming soon
+
+
+### Connect with me on -
+
+[<img src="https://img.shields.io/badge/twitter-%231DA1F2.svg?&style=for-the-badge&logo=twitter&logoColor=white" />](https://twitter.com/iresharma)
+[<img src="https://img.shields.io/badge/linkedin-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white" />](https://www.linkedin.com/in/iresh-sharma-17b899194/)
+[<img src = "https://img.shields.io/badge/instagram-%23E4405F.svg?&style=for-the-badge&logo=instagram&logoColor=white">](https://www.instagram.com/iresharma.py/)
+[<img src = "https://img.shields.io/badge/instagram-%23E4405F.svg?&style=for-the-badge&logo=instagram&logoColor=white">](https://www.instagram.com/watchireshstruggle/)
+[<img src ="https://img.shields.io/badge/Email-Here-%23E4405F.svg?&style=for-the-badge&logo=&logoColor=white%22">](mailto:iresh.sharma8@gmail.com)
+[<img src ="https://img.shields.io/badge/Website-AD-%231877F2.svg?&style=for-the-badge&logo=&logoColor=white%22">](https://iresharma.me/)
